@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.gamehub2</groupId>
-    <artifactId>GameHub_v2</artifactId>
+    <artifactId>GameHub</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>GameHub_v2</name>
+    <name>GameHub</name>
     <packaging>war</packaging>
 
     <properties>
@@ -35,6 +35,12 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+            <scope>compileOnly</scope>
         </dependency>
     </dependencies>
 
