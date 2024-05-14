@@ -6,6 +6,7 @@ import com.gamehub2.gamehub.common.Others.FollowDto;
 import com.gamehub2.gamehub.common.Users.UserDetailsDto;
 import com.gamehub2.gamehub.ejb.Other.FollowBean;
 import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
+import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -15,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -37,8 +39,11 @@ public class OtherProfile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.info("\n** Entered OtherProfile.doGet " + request.getParameter("username") + " **\n");
 
+        HttpSession session = request.getSession();
+        User logUser = (User) session.getAttribute("user");
+
         String username = request.getParameter("username");
-        String logUser=request.getRemoteUser();
+
 
         List<UserDetailsDto> allUserDetails = userDetailsBean.findAllUserDetails();
         UserDetailsDto thisUser = userDetailsBean.getUserDetailsByUsername(username, allUserDetails);
@@ -46,12 +51,11 @@ public class OtherProfile extends HttpServlet {
         request.setAttribute("user", thisUser);
 
         List<FollowDto> allFollowers = followBean.findAllFollows();
-        List<FollowDto> followersList = followBean.findFollowsByUser(logUser, allFollowers);
+        List<FollowDto> followersList = followBean.findFollowsByUser(logUser.getUsername(), allFollowers);
         request.setAttribute("followersList", followersList);
 
 
         boolean isFollower = false;
-        request.setAttribute("isFollower", isFollower);
         for (FollowDto follower : followersList) {
             if (follower.getFollowed().getUsername().equals(username)) {
                 isFollower = true;

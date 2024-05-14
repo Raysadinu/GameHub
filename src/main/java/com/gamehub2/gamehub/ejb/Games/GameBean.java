@@ -3,6 +3,7 @@ package com.gamehub2.gamehub.ejb.Games;
 import com.gamehub2.gamehub.common.Games.GameDto;
 import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Games.GameDetails;
+import com.gamehub2.gamehub.entities.Games.PriceDetails;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -35,6 +36,7 @@ public class GameBean {
 
     public GameDto findGameByName(String name, List<GameDto> allGames) {
         LOG.info("\n** Entered findGameByName method for the gameName: " + name + "**\n");
+
         GameDto gameToReturn = null;
         for (GameDto g : allGames) {
             if (g.getGameName().equals(name)) {
@@ -69,13 +71,22 @@ public class GameBean {
         try {
             Game game = entityManager.find(Game.class, gameId);
             if (game != null) {
-                // Find and delete related GameDetails entry
-                TypedQuery<GameDetails> query = entityManager.createQuery("SELECT gd FROM GameDetails gd WHERE gd.game.gameId = :gameId", GameDetails.class);
-                query.setParameter("gameId", gameId);
-                List<GameDetails> gameDetailsList = query.getResultList();
+
+                TypedQuery<GameDetails> queryGameDetails = entityManager.createQuery("SELECT gd FROM GameDetails gd WHERE gd.game.gameId = :gameId", GameDetails.class);
+                queryGameDetails.setParameter("gameId", gameId);
+                List<GameDetails> gameDetailsList = queryGameDetails.getResultList();
                 for (GameDetails gameDetails : gameDetailsList) {
                     entityManager.remove(gameDetails);
                 }
+
+
+                TypedQuery<PriceDetails> queryPriceDetails = entityManager.createQuery("SELECT pd FROM PriceDetails pd WHERE pd.gameId = :gameId", PriceDetails.class);
+                queryPriceDetails.setParameter("gameId", gameId);
+                List<PriceDetails> priceDetailsList = queryPriceDetails.getResultList();
+                for (PriceDetails priceDetails : priceDetailsList) {
+                    entityManager.remove(priceDetails);
+                }
+
 
                 entityManager.remove(game);
                 LOG.info("\n** Deleted game entry with ID " + gameId + " from Game table **\n");

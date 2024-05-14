@@ -1,3 +1,4 @@
+<%@ page import="java.util.Map" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="gd" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -9,6 +10,9 @@
         <div class="card">
           <div class="card-body">
             <a href="${pageContext.request.contextPath}/GameProfile?gameId=${game.gameId}">${game.gameName}</a>
+
+            <p>Price: $${gamePrices[game.gameId]}</p>
+
             <form action="${pageContext.request.contextPath}/AddToWishlist" method="post">
 
               <input type="hidden" name="gameId" value="${game.gameId}">
@@ -26,7 +30,4 @@
       </div>
     </div>
   </gd:forEach>
-
-
-
 </t:template>

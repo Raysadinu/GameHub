@@ -3,8 +3,10 @@ package com.gamehub2.gamehub.servlets.Admins;
 import java.io.IOException;
 
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
+import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.common.SystemReq.*;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
+import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.SystemReq.*;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
@@ -28,6 +30,8 @@ public class EditGame extends HttpServlet {
     @Inject
     GameDetailsBean gameDetailsBean;
     @Inject
+    PriceDetailsBean priceDetailsBean;
+    @Inject
     MemoryBean memoryBean;
     @Inject
     PlatformBean platformBean;
@@ -46,17 +50,21 @@ public class EditGame extends HttpServlet {
         LOG.info("Entering doGet method.");
 
         List<GameDetailsDto> gameList = gameDetailsBean.findAllGameDetails();
+        List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
+
         List<MemoryDto> memory = memoryBean.findAllMemory();
         List<PlatformDto> platform=platformBean.findAllPlatforms();
         List<ProcessorDto> processor = processorBean.findAllProcessors();
         List<VideoCardDto> videoCard = videoCardBean.findAllVideoCards();
         List<SystemRequirementsDto> systemRequirements=systemRequirementsBean.findAllSystemRequirements();
-        GameDetailsDto selectedGame = gameDetailsBean.getGameDetailsByGameId(gameId, gameList);
 
+        GameDetailsDto selectedGame = gameDetailsBean.getGameDetailsByGameId(gameId, gameList);
+        PriceDetailsDto seletedPrice=priceDetailsBean.getPriceDetailsByGameId(gameId, priceList);
         LOG.info("Forwarding to editGame.jsp.");
 
         request.setAttribute("memory", memory);
         request.setAttribute("game", selectedGame);
+        request.setAttribute("price", seletedPrice);
         request.getRequestDispatcher("/WEB-INF/adminPages/editGame.jsp").forward(request, response);
     }
 
@@ -68,6 +76,10 @@ public class EditGame extends HttpServlet {
         String description = request.getParameter("description");
         String releaseDateString = request.getParameter("releaseDate");
         LocalDate releaseDate = null;
+        double price= Double.parseDouble(request.getParameter("price"));
+        double discount = Double.parseDouble(request.getParameter("discount"));
+        double discountPrice = price - (price * discount / 100);
+
 
         LOG.info("Entering doPost method.");
 
@@ -82,11 +94,12 @@ public class EditGame extends HttpServlet {
         long gameId = Long.parseLong(gameIdString);
 
         GameDetailsDto newGameDetails = new GameDetailsDto(gameId, request.getParameter("gameName"), releaseDate, publisher, developer, description,storage);
+        PriceDetailsDto newPriceDetails = new PriceDetailsDto(gameId,price,discount,discountPrice);
 
         LOG.info("Updating game details.");
 
         gameDetailsBean.updateGameDetails(newGameDetails);
-
+        priceDetailsBean.updatePriceDetails(newPriceDetails);
         LOG.info("Exited doPost method.");
 
         response.sendRedirect(request.getContextPath() + "/Games");

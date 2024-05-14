@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
 import com.gamehub2.gamehub.common.Games.GameDto;
+import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.ejb.Games.GameBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
+import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -17,7 +19,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -27,6 +31,8 @@ import java.util.logging.Logger;
 public class Home extends HttpServlet {
     @Inject
     GameDetailsBean gameDetailsBean;
+    @Inject
+    PriceDetailsBean priceDetailsBean;
     /* @Inject
      WishlistBean wishlistBean;
      @Inject
@@ -49,16 +55,29 @@ public class Home extends HttpServlet {
 
 
         //List<GameDto> gamesOnWishlist = gameBean.copyGamesToDto(wishlist.getGames());
-
-
         List<GameDetailsDto> gameDetailsOnWishlist = new ArrayList<>();
-
-
         List<GameDetailsDto> gameDetailsNotOnWishlist = new ArrayList<>();
-
         List<GameDetailsDto> games = gameDetailsBean.findAllGameDetails();
-
         List<Long> gameIdList = new ArrayList<>();
+        List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
+
+
+        Map<Long, Double> gamePrices = new HashMap<>();
+
+
+        for (GameDetailsDto gameDetail : games) {
+            Long gameId = gameDetail.getGameId();
+
+
+            for (PriceDetailsDto priceDetail : priceList) {
+                if (priceDetail.getGameId().equals(gameId)) {
+
+                    gamePrices.put(gameId, priceDetail.getPrice());
+                    break;
+                }
+            }
+        }
+
 
         //Wishlist
         /*for (GameDto game : gamesOnWishlist) {
@@ -72,7 +91,7 @@ public class Home extends HttpServlet {
             }
         }
 
-
+        request.setAttribute("gamePrices", gamePrices);
         request.setAttribute("games", gameDetailsNotOnWishlist);
         //request.setAttribute("wishlist", gameDetailsOnWishlist);
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.gamehub2.gamehub.common.Others.FollowDto;
 import com.gamehub2.gamehub.ejb.Other.FollowBean;
+import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -13,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -27,9 +29,12 @@ public class Following extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String currentUser=request.getRemoteUser();
+
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("user");
+
         List<FollowDto> allFollowings =followBean.findAllFollows();
-        List<FollowDto> userFollowings=followBean.findFollowsByUser(currentUser,allFollowings);
+        List<FollowDto> userFollowings=followBean.findFollowsByUser(currentUser.getUsername(),allFollowings);
         request.setAttribute("user",currentUser);
         request.setAttribute("followings", userFollowings);
         request.getRequestDispatcher("/WEB-INF/userPages/following.jsp").forward(request, response);

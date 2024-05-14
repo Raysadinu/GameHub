@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<c:set var="userRole" value="${sessionScope.user != null ? sessionScope.user.role : ''}" />
+<c:set var="userRole" value="${sessionScope.isAdmin == true ? 'Admin' : 'User'}" />
+
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
@@ -37,23 +38,18 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/Cart">Cart</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin Settings
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Admins">Admins</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Games">Games</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/PaymentRequests">Payment requests</a></li>
-                        </ul>
-                    </li>
+                        <c:if test="${userRole eq 'Admin'}">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin Settings
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Admins">Admins</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Games">Games</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/PaymentRequests">Payment requests</a></li>
+                            </ul>
+                        </c:if>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/Logout">Log out</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/Login">Sign In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/Register">Register</a>
                     </li>
                 </ul>
             </div>

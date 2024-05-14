@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<%@taglib prefix="g" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="g" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template pageTitle="Games">
     <div class="container text-center">
         <h1>Games</h1>

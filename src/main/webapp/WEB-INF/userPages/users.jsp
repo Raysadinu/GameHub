@@ -28,7 +28,7 @@
                     <td>${loop.index + 1}</td>
                     <td>
                         <c:choose>
-                            <c:when test="${pageContext.request.remoteUser == user.username}">
+                            <c:when test="${sessionScope.user.username == user.username}">
                                 <a href="${pageContext.request.contextPath}/Profile">${user.username}</a>
                             </c:when>
                             <c:otherwise>

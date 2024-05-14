@@ -3,6 +3,7 @@ package com.gamehub2.gamehub.servlets.Others;
 import java.io.IOException;
 
 import com.gamehub2.gamehub.ejb.Other.FollowBean;
+import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.logging.Logger;
 
@@ -25,10 +27,13 @@ public class FollowUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String followedUser = request.getParameter("followed");
-        String followerUser =request.getRemoteUser();
+        HttpSession session = request.getSession();
 
-        followBean.addFollow(followerUser, followedUser);
+        User followerUser = (User) session.getAttribute("user");
+        String followedUser = request.getParameter("followed");
+
+
+        followBean.addFollow(followerUser.getUsername(), followedUser);
         response.sendRedirect(request.getContextPath()+"/OtherProfile?username=" + followedUser);
 
     }

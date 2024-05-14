@@ -14,10 +14,13 @@
         <div>
             <h3>${game.gameName}</h3>
         </div>
+        <p>Price: ${price.price}</p>
         <p> Publisher: ${game.publisher} </p>
         <p> Developer: ${game.developer} </p>
         <p> Release Date: ${game.releaseDate} </p>
         <p> Description: ${game.description} </p>
-        <div><a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditGame?gameId=${game.gameId}">Edit Game</a></div>
+        <c:if test="${isAdmin}">
+            <div><a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditGame?gameId=${game.gameId}">Edit Game</a></div>
+        </c:if>
     </div>
 </t:template>

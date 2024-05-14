@@ -14,7 +14,6 @@ public class Game {
     private boolean inCart;
     private boolean inLibrary;
 
-
     /*@ManyToMany(mappedBy = "games")
     private List<Wishlist> wishlists;
 

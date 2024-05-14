@@ -27,8 +27,6 @@ public class Profile extends HttpServlet {
     UserDetailsBean userDetailsBean;
 
     /*@Inject
-    FollowerBean followerBean;
-    @Inject
     AdminBean adminBean;*/
 
 
@@ -37,7 +35,7 @@ public class Profile extends HttpServlet {
         LOG.info("\n** Entered Profile.doGet " + request.getParameter("username") + " **\n");
 
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user"); // Get the username of the logged-in user
+        User user = (User) session.getAttribute("user");
 
 
         List<UserDetailsDto> allUserDetails = userDetailsBean.findAllUserDetails();
