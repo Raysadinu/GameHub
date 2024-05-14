@@ -1,4 +1,4 @@
-package com.gamehub2.gamehub.servlets.Games;
+package com.gamehub2.gamehub.servlets.Admins;
 
 import java.io.IOException;
 
@@ -15,8 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.logging.Logger;
 
-@DeclareRoles({"ADMIN"})
-@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"ADMIN"}))
+
 @WebServlet(name = "AddGame", value = "/AddGame")
 public class AddGame extends HttpServlet {
     @Inject

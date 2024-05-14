@@ -2,6 +2,10 @@ package com.gamehub2.gamehub.servlets.Authentication;
 
 import java.io.IOException;
 
+import com.gamehub2.gamehub.ejb.Users.AuthenticationBean;
+import com.gamehub2.gamehub.ejb.Users.UserBean;
+import com.gamehub2.gamehub.entities.Users.User;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +16,11 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "Login", value = "/Login")
 public class Login extends HttpServlet {
+    @Inject
+    UserBean userBean;
 
+    @Inject
+    AuthenticationBean authenticationBean;
     private static final Logger LOG = Logger.getLogger(Login.class.getName());
 
     @Override
@@ -27,21 +35,24 @@ public class Login extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Simulate credential validation - replace this part with actual credential validation
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        LOG.info("\n Entered Login.doPost method \n");
 
-        if (isValid(username, password)) {
-            // If credentials are valid, store the username in the session
-            request.getSession().setAttribute("username", username);
+        String username = request.getParameter("j_username");
+        String password = request.getParameter("j_password");
+
+        User user = authenticationBean.login(username, password);
+
+        if (user != null) {
+            // Authentication successful, store user in session
+            request.getSession().setAttribute("user", user);
+            LOG.info("User logged in - Username: " + user.getUsername() + ", Role: " + user.getRole());
             response.sendRedirect(request.getContextPath() + "/Home");
         } else {
-            // If credentials are not valid, display an error message
+            LOG.info("\n Authentication failed -> credentials invalid (returning to login) \n");
             request.setAttribute("message", "Username or password incorrect");
-            request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
+            request.setAttribute("j_username", username);
+            request.getRequestDispatcher("/WEB-INF/components/forms/login.jsp").forward(request, response);
         }
     }
-    private boolean isValid(String username, String password) {
-        return username != null && !username.isEmpty() && password != null && !password.isEmpty();
-    }
+
 }

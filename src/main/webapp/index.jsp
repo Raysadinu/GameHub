@@ -2,6 +2,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<t:template pageTitle="Login">
+<t:generalTemplate pageTitle="Index">
     <h1>Welcome!</h1>
-</t:template>
+</t:generalTemplate>

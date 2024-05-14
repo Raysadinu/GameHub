@@ -1,9 +1,6 @@
 package com.gamehub2.gamehub.entities.Games;
 
-import com.gamehub2.gamehub.entities.SystemReq.SystemRequirements;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 public class Game {
@@ -16,16 +13,7 @@ public class Game {
     private boolean inWishlist;
     private boolean inCart;
     private boolean inLibrary;
-    @OneToOne(mappedBy = "games")
-    private SystemRequirements systemRequirements;
 
-    public SystemRequirements getSystemRequirements() {
-        return systemRequirements;
-    }
-
-    public void setSystemRequirements(SystemRequirements systemRequirements) {
-        this.systemRequirements = systemRequirements;
-    }
 
     /*@ManyToMany(mappedBy = "games")
     private List<Wishlist> wishlists;

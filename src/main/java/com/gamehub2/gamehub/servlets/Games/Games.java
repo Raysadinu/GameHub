@@ -17,8 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.logging.Logger;
 
-@DeclareRoles({"ADMIN"})
-@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"ADMIN"}))
+
 @WebServlet(name = "Games", value = "/Games")
 public class Games extends HttpServlet {
     @Inject

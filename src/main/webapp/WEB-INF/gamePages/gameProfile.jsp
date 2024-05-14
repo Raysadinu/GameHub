@@ -18,6 +18,6 @@
         <p> Developer: ${game.developer} </p>
         <p> Release Date: ${game.releaseDate} </p>
         <p> Description: ${game.description} </p>
-        <div><a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditGame?gameId=${game.gameId}">Add Details</a></div>
+        <div><a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditGame?gameId=${game.gameId}">Edit Game</a></div>
     </div>
 </t:template>

@@ -1,5 +1,6 @@
 package com.gamehub2.gamehub.entities.Games;
 
+import com.gamehub2.gamehub.entities.SystemReq.SystemRequirements;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -26,9 +27,12 @@ public class GameDetails {
     @Basic
     @Lob
     private String description;
-
     @Basic
     private String gameName;
+    @Basic
+    private String storage;
+    @Basic
+    private double min_req;
 
     public Long getGameId() {
         return gameId;
@@ -86,4 +90,15 @@ public class GameDetails {
         this.gameName = gameName;
     }
 
+    public String getStorage() {return storage;}
+
+    public void setStorage(String storage) {this.storage = storage;}
+
+    public double getMin_req() {
+        return min_req;
+    }
+
+    public void setMin_req(double min_req) {
+        this.min_req = min_req;
+    }
 }

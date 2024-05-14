@@ -7,6 +7,10 @@
         <h3>Edit your profile</h3>
         <form method="POST" action="${pageContext.request.contextPath}/EditProfile">
           <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="" value="${user.username}" disabled>
+          </div>
+          <div class="form-group">
             <label for="nickname">Nickname</label>
             <input type="text" class="form-control" id="nickname" name="nickname" placeholder="" value="${user.nickname}">
           </div>

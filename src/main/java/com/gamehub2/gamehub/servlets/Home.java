@@ -21,8 +21,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-@DeclareRoles({"USER","ADMIN"})
-@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"USER","ADMIN"}))
+
 @WebServlet(name = "Home", value = "/Home")
 
 public class Home extends HttpServlet {
@@ -75,7 +74,7 @@ public class Home extends HttpServlet {
 
 
         request.setAttribute("games", gameDetailsNotOnWishlist);
-        request.setAttribute("wishlist", gameDetailsOnWishlist);
+        //request.setAttribute("wishlist", gameDetailsOnWishlist);
 
 
         LOG.info("\n** Exit Home .doGet **\n");

@@ -41,7 +41,7 @@ public class GameDetailsBean {
         List<GameDetailsDto> listToReturn = new ArrayList<>();
 
         for (GameDetails gd : gameDetailsList) {
-            GameDetailsDto gameDetailsDtoTemp = new GameDetailsDto(gd.getGameId(), gd.getGame().getGameName(),gd.getReleaseDate(), gd.getPublisher(), gd.getDeveloper(), gd.getDescription());
+            GameDetailsDto gameDetailsDtoTemp = new GameDetailsDto(gd.getGameId(), gd.getGame().getGameName(),gd.getReleaseDate(), gd.getPublisher(), gd.getDeveloper(), gd.getDescription(), gd.getStorage(),gd.getMin_req());
             listToReturn.add(gameDetailsDtoTemp);
         }
 
@@ -62,7 +62,7 @@ public class GameDetailsBean {
 
         if (gameToReturn == null) {
             LOG.info("\n** No game returning NULL GAME **\n");
-            gameToReturn = new GameDetailsDto(Long.parseLong("-1"),null,LocalDate.now(),null,null,null);
+            gameToReturn = new GameDetailsDto(Long.parseLong("-1"),null,LocalDate.now(),null,null,null,null,0);
         }
 
         LOG.info("\n** Exited getGameDetailsByGameId method. **\n");
@@ -81,6 +81,7 @@ public class GameDetailsBean {
         gameDetails.setPublisher(newGameDetails.getPublisher());
         gameDetails.setDeveloper(newGameDetails.getDeveloper());
         gameDetails.setDescription(newGameDetails.getDescription());
+        gameDetails.setStorage(newGameDetails.getStorage());
 
         LOG.info("\n** Exited updateGameDetails method. **\n");
     }

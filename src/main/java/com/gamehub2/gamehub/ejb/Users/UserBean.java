@@ -45,7 +45,7 @@ public class UserBean {
         List<UserDto> listToReturn = new ArrayList<>();
 
         for(User currentUser : users) {
-            UserDto userDtoTemp = new UserDto(currentUser.getUsername(), currentUser.getEmail(), currentUser.getPassword(),currentUser.getDateJoined());
+            UserDto userDtoTemp = new UserDto(currentUser.getUsername(), currentUser.getEmail(), currentUser.getPassword(),currentUser.getDateJoined(),currentUser.getRole());
             listToReturn.add(userDtoTemp);
         }
 
@@ -110,22 +110,22 @@ public class UserBean {
         return allUsernames;
 
     }
-    public void createUser(String username, String email, String password, Collection<String> groups, UserDetails userDetails) {
+    public void createUser(String username, String email, String hashedPassword) {
         LOG.info("\n** Entered createUser method for username: " + username + " **\n");
         User newUser = new User();
+
         newUser.setUsername(username);
         newUser.setEmail(email);
-        newUser.setPassword(PasswordBean.convertToSha256(password));
+        newUser.setPassword(hashedPassword);
         newUser.setDateJoined(LocalDate.now());
+        newUser.setRole("user");
+
         entityManager.persist(newUser);
 
-        userDetails.setUser(newUser);
-        entityManager.persist(userDetails);
+        UserDetails ud=new UserDetails();
+        ud.setUser(newUser);
+        entityManager.persist(ud);
 
-        UserGroup userGroup = new UserGroup();
-        userGroup.setUsername(username);
-        userGroup.setUserGroup("USER");
-        entityManager.persist(userGroup);
         LOG.info("\n** Exited createUser method. **\n");
     }
 }

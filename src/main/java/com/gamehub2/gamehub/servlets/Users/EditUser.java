@@ -16,8 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
 import java.util.logging.Logger;
-@DeclareRoles({"USER","ADMIN"})
-@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"USER","ADMIN"}))
+
 @WebServlet(name = "EditUser", value = "/EditUser")
 public class EditUser extends HttpServlet {
 

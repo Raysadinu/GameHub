@@ -19,8 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.logging.Logger;
-@DeclareRoles({"USER","ADMIN"})
-@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"USER","ADMIN"}))
+
 @WebServlet(name = "EditProfile", value = "/EditProfile")
 public class EditProfile extends HttpServlet {
 

@@ -19,8 +19,7 @@ import jakarta.inject.Inject;
 import java.util.List;
 import java.util.logging.Logger;
 
-@DeclareRoles({"ADMIN"})
-@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"ADMIN"}))
+
 @WebServlet(name = "Users", value = "/Users")
 public class Users extends HttpServlet {
     @Inject
@@ -28,13 +27,16 @@ public class Users extends HttpServlet {
     private static final Logger LOG = Logger.getLogger(Games.class.getName());
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Log entry
+
         LOG.info("Entering doGet method of Users servlet");
+
+        boolean isAdmin = request.getUserPrincipal() != null && request.isUserInRole("ADMIN");
+        request.setAttribute("isAdmin", isAdmin);
 
         try {
             List<UserDto> users = userBean.findAllUsers();
             request.setAttribute("users", users);
-            request.getRequestDispatcher("/WEB-INF/adminPages/users.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/userPages/users.jsp").forward(request, response);
         } catch (Exception e) {
             // Log any exceptions that occur
             LOG.severe("An error occurred while processing doGet: " + e.getMessage());

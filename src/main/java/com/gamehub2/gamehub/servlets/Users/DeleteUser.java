@@ -14,8 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.logging.Logger;
-@DeclareRoles({"USER","ADMIN"})
-@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"USER","ADMIN"}))
+
 @WebServlet(name = "DeleteUser", value = "/DeleteUser")
 public class DeleteUser extends HttpServlet {
 

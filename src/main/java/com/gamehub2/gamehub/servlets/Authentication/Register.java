@@ -2,6 +2,7 @@ package com.gamehub2.gamehub.servlets.Authentication;
 
 import java.io.IOException;
 
+import com.gamehub2.gamehub.ejb.Users.AuthenticationBean;
 import com.gamehub2.gamehub.ejb.Users.UserBean;
 import com.gamehub2.gamehub.entities.Users.UserDetails;
 import jakarta.inject.Inject;
@@ -24,12 +25,13 @@ public class Register extends HttpServlet {
     private static final Logger LOG = Logger.getLogger(Register.class.getName());
     @Inject
     UserBean userBean;
-
+    @Inject
+    AuthenticationBean authenticationBean;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         LOG.info("\n Entered Register.doGet method \n");
-        request.setAttribute("userGroups", new String[] {"USER","ADMIN"});
+       
         LOG.info("\n Exited Register.doGet method, redirecting to register.jsp \n");
         request.getRequestDispatcher("/WEB-INF/components/forms/register.jsp").forward(request, response);
     }
@@ -38,18 +40,34 @@ public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         LOG.info("\n Entered Register.doPost method \n");
-        String username = request.getParameter("username");
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String[] userGroups = request.getParameterValues("user_groups");
-        if (userGroups == null) {
-            userGroups = new String[0];
-        }
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUsername(username);
-        userBean.createUser(username, email, password, Arrays.asList(userGroups),userDetails);
+        String username = request.getParameter("username");
+        String confirmPassword = request.getParameter("confirmPassword");
 
-        request.login(username, password);
-        request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
+        List<String> existingUsernames = userBean.getExistingUsernames();
+        if(password.equals(confirmPassword)) {
+            password=authenticationBean.encryptPassword(password);
+        } else{
+            LOG.info("\n Password mismatch! Exiting Register.doPost method. \n");
+            request.setAttribute("username", username);
+            request.setAttribute("email", email);
+            request.setAttribute("errorMessage", "Password mismatch, please make sure fill in the same password in both password fields.");
+            request.getRequestDispatcher("/WEB-INF/components/forms/register.jsp").forward(request, response);
+        }
+
+        if(!existingUsernames.contains(username)) {
+            userBean.createUser(username, email, password);
+            LOG.info("\n Created user " + username + " successfully. Exiting Register.doPost method. \n");
+            response.sendRedirect(request.getContextPath() + "/Login");
+        }else{
+            LOG.info("\n User already exists. Exiting Register.doPost method. \n");
+            request.setAttribute("username", username);
+            request.setAttribute("email", email);
+            request.setAttribute("errorMessage", "Username already exists. Please provide a new username...");
+            request.getRequestDispatcher("/WEB-INF/components/forms/register.jsp").forward(request, response);
+        }
     }
 }
+

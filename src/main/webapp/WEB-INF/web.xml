@@ -11,7 +11,5 @@
             <form-error-page>/Login</form-error-page>
         </form-login-config>
     </login-config>
-    <welcome-file-list>
-        <welcome-file>Home</welcome-file>
-    </welcome-file-list>
+
 </web-app>

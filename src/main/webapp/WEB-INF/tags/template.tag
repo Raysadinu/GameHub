@@ -14,8 +14,9 @@
 <jsp:include page="/WEB-INF/components/menus/menu.jsp"/>
 <main class="container-fluid mt-5">
     <jsp:doBody/>
+    <script src="${pageContext.request.contextPath}/scripts/validateForm.js"></script>
 </main>
-<script src="${pageContext.request.contextPath}/scripts/validateForm.js"></script>
+
 </body>
 <footer>
     <jsp:include page="/WEB-INF/components/footer.jsp"/>

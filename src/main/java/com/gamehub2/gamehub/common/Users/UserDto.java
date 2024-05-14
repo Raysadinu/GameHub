@@ -8,6 +8,7 @@ public class UserDto {
     String email;
     String password;
     LocalDate dateJoined;
+    String role;
     public UserDto(String username, String email, String password) {
         this.username = username;
         this.email = email;
@@ -19,6 +20,14 @@ public class UserDto {
         this.email = email;
         this.password = password;
         this.dateJoined = dateJoined;
+    }
+
+    public UserDto(String username, String email, String password, LocalDate dateJoined, String role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.dateJoined = dateJoined;
+        this.role = role;
     }
 
     public UserDto() {
@@ -38,5 +47,9 @@ public class UserDto {
 
     public LocalDate getDateJoined() {
         return dateJoined;
+    }
+
+    public String getRole() {
+        return role;
     }
 }

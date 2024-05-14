@@ -17,8 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.logging.Logger;
 
-@DeclareRoles({"USER", "ADMIN"})
-@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"USER", "ADMIN"}))
+
 @WebServlet(name = "GameProfile", value = "/GameProfile")
 public class GameProfile extends HttpServlet {
     @Inject
@@ -32,6 +31,9 @@ public class GameProfile extends HttpServlet {
 
         List<GameDetailsDto> allGameDetails = gameDetailsBean.findAllGameDetails();
         GameDetailsDto thisGame = gameDetailsBean.getGameDetailsByGameId(gameId, allGameDetails);
+
+
+
 
         if (thisGame != null) {
             LOG.info("Game details retrieved: " + thisGame.toString());
