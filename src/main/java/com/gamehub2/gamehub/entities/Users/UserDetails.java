@@ -8,9 +8,9 @@ import java.time.LocalDate;
 @Entity
 public class UserDetails {
     @Id
-    private String username; // Use username as the primary key
-    @OneToOne
-    @MapsId //Leaga cheia primara din User cu cea din UserDetails
+    private String username;
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
     @JoinColumn(name = "username", referencedColumnName = "username")
     private User user;
 

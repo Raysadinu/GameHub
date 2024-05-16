@@ -12,7 +12,7 @@ public class Admin {
     @Id
     @Column(unique = true)
     private String username; // Use username as the primary key
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "username", referencedColumnName = "username")
     private User user;

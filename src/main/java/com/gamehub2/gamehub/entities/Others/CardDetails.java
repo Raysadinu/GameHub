@@ -10,7 +10,7 @@ public class CardDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cardId;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
     private List<User> user;
 

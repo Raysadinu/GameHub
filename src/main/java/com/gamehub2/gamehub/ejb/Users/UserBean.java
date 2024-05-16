@@ -1,7 +1,10 @@
 package com.gamehub2.gamehub.ejb.Users;
 
-import com.gamehub2.gamehub.common.Users.UserDetailsDto;
 import com.gamehub2.gamehub.common.Users.UserDto;
+import com.gamehub2.gamehub.entities.Others.Cart;
+import com.gamehub2.gamehub.entities.Others.Follow;
+import com.gamehub2.gamehub.entities.Others.Library;
+import com.gamehub2.gamehub.entities.Others.Wishlist;
 import com.gamehub2.gamehub.entities.Users.User;
 import com.gamehub2.gamehub.entities.Users.UserDetails;
 import jakarta.ejb.EJBException;
@@ -13,7 +16,6 @@ import jakarta.persistence.TypedQuery;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -79,12 +81,19 @@ public class UserBean {
         try {
             User user = entityManager.find(User.class, username);
             if (user != null) {
-                // Delete related entry from UserDetails table
+                List<Follow> userFollows = entityManager.createQuery("SELECT f FROM Follow f WHERE f.user = :user", Follow.class)
+                        .setParameter("user", user)
+                        .getResultList();
+                for (Follow follow : userFollows) {
+                    entityManager.remove(follow);
+                    LOG.info("\n** Deleted associated follow with id " + follow.getId() + " **\n");
+                }
                 UserDetails userDetails = entityManager.find(UserDetails.class, username);
                 if (userDetails != null) {
                     entityManager.remove(userDetails);
                     LOG.info("\n** Deleted related entry from UserDetails table **\n");
                 }
+
 
                 entityManager.remove(user);
                 LOG.info("\n** Deleted user entry with username " + username + " from User table **\n");
@@ -126,6 +135,17 @@ public class UserBean {
         ud.setUser(newUser);
         entityManager.persist(ud);
 
+        Wishlist wishlist = new Wishlist();
+        wishlist.setUser(newUser);
+        entityManager.persist(wishlist);
+
+        Cart cart = new Cart();
+        cart.setUser(newUser);
+        entityManager.persist(cart);
+
+        Library library = new Library();
+        library.setUser(newUser);
+        entityManager.persist(library);
         LOG.info("\n** Exited createUser method. **\n");
     }
 }

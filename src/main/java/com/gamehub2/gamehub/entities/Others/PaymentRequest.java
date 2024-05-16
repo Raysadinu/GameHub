@@ -5,6 +5,8 @@ import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -25,6 +27,9 @@ public class PaymentRequest {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private CardDetails card;
 
+    @Column(name = "totalPrice")
+    private double totalPrice;
+    private LocalDateTime paymentDate;
     @ManyToOne
     private User user;
     @Enumerated(EnumType.STRING)
@@ -81,5 +86,21 @@ public class PaymentRequest {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public LocalDateTime getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(LocalDateTime paymentDate) {
+        this.paymentDate = paymentDate;
     }
 }

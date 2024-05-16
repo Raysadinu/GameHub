@@ -1,6 +1,11 @@
 package com.gamehub2.gamehub.entities.Games;
 
+import com.gamehub2.gamehub.entities.Others.Cart;
+import com.gamehub2.gamehub.entities.Others.Wishlist;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Game {
@@ -10,18 +15,18 @@ public class Game {
     private Long gameId;
     @Basic
     private String gameName;
-    private boolean inWishlist;
-    private boolean inCart;
-    private boolean inLibrary;
 
-    /*@ManyToMany(mappedBy = "games")
-    private List<Wishlist> wishlists;
+    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
+    private PriceDetails priceDetails;
 
     @ManyToMany(mappedBy = "games")
-    private List<Library> libraries;
-
+    private List<Wishlist> wishlists;
     @ManyToMany(mappedBy = "games")
     private List<Cart> carts;
+
+   /* @ManyToMany(mappedBy = "games")
+    private List<Library> libraries;
+
 
     @ManyToMany(mappedBy = "games")
     private List<PaymentRequest> paymentRequests;
@@ -44,23 +49,9 @@ public class Game {
         this.libraries = libraries;
     }
 
-    public List<Wishlist> getWishlists() {
 
-        return wishlists;
-    }
+   */
 
-    public void setWishlists(List<Wishlist> wishlists) {
-
-        this.wishlists = wishlists;
-    }
-
-    public List<Cart> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(List<Cart> carts) {
-        this.carts = carts;
-    }*/
 
     public Long getGameId() {
 
@@ -82,28 +73,27 @@ public class Game {
         this.gameName = gameName;
     }
 
-    public boolean isInWishlist() {
-        return inWishlist;
+    public PriceDetails getPriceDetails() {
+        return priceDetails;
     }
 
-    public void setInWishlist(boolean inWishlist) {
-        this.inWishlist = inWishlist;
+    public void setPriceDetails(PriceDetails priceDetails) {
+        this.priceDetails = priceDetails;
     }
 
-    public boolean isInCart() {
-        return inCart;
+    public List<Wishlist> getWishlists() {
+        return wishlists;
     }
 
-    public void setInCart(boolean inCart) {
-        this.inCart = inCart;
+    public void setWishlists(List<Wishlist> wishlists) {
+        this.wishlists = wishlists;
+    }
+    public List<Cart> getCarts() {
+        return carts;
     }
 
-    public boolean isInLibrary() {
-        return inLibrary;
-    }
-
-    public void setInLibrary(boolean inLibrary) {
-        this.inLibrary = inLibrary;
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
 }
 

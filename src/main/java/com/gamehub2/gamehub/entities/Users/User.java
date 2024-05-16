@@ -1,7 +1,6 @@
 package com.gamehub2.gamehub.entities.Users;
 
-import com.gamehub2.gamehub.entities.Others.CardDetails;
-import com.gamehub2.gamehub.entities.Others.Follow;
+import com.gamehub2.gamehub.entities.Others.*;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -20,20 +19,26 @@ public class User {
     @Basic
     public String role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Follow> follower;
-
-   /* @OneToOne(mappedBy = "user")
-    private Wishlist wishlists;
-    @OneToOne(mappedBy = "user")
-    private Cart carts;
-    @OneToOne(mappedBy = "user")
-    private Library libraries;
-    @OneToMany(mappedBy = "user")
-    private List<PaymentRequest> paymentRequests;*/
-    @ManyToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CardDetails> cardDetails;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Wishlist wishlists;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart carts;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Library libraries;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PaymentRequest> paymentRequests;
 
+    public List<Follow> getFollower() {
+        return follower;
+    }
+
+    public void setFollower(List<Follow> follower) {
+        this.follower = follower;
+    }
 
     public List<CardDetails> getCardDetails() {
         return cardDetails;
@@ -43,7 +48,21 @@ public class User {
         this.cardDetails = cardDetails;
     }
 
-    /*public List<PaymentRequest> getPaymentRequests() {
+    public Wishlist getWishlists() {
+        return wishlists;
+    }
+
+    public void setWishlists(Wishlist wishlists) {
+        this.wishlists = wishlists;
+    }
+    public Cart getCarts() {
+        return carts;
+    }
+
+    public void setCarts(Cart carts) {
+        this.carts = carts;
+    }
+    public List<PaymentRequest> getPaymentRequests() {
         return paymentRequests;
     }
 
@@ -57,32 +76,6 @@ public class User {
 
     public void setLibraries(Library libraries) {
         this.libraries = libraries;
-    }
-
-    public Wishlist getWishlists() {
-
-        return wishlists;
-    }
-
-    public void setWishlists(Wishlist wishlists) {
-
-        this.wishlists = wishlists;
-    }
-
-    public Cart getCarts() {
-        return carts;
-    }
-
-    public void setCarts(Cart carts) {
-        this.carts = carts;
-    }*/
-
-    public List<Follow> getFollower() {
-        return follower;
-    }
-
-    public void setFollower(List<Follow> follower) {
-        this.follower = follower;
     }
 
     public String getUsername() {
@@ -129,4 +122,6 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 }

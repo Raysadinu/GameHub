@@ -4,17 +4,8 @@ public class GameDto {
 
     Long gameId;
     String gameName;
-    boolean inWishlist;
-    boolean inCart;
-    boolean inLibrary;
 
-    public GameDto(Long gameId, String gameName, boolean inWishlist, boolean inCart, boolean inLibrary) {
-        this.gameId = gameId;
-        this.gameName = gameName;
-        this.inWishlist = inWishlist;
-        this.inCart = inCart;
-        this.inLibrary = inLibrary;
-    }
+
 
     public GameDto(Long gameId, String gameName) {
         this.gameId = gameId;
@@ -32,15 +23,5 @@ public class GameDto {
         return gameName;
     }
 
-    public boolean isInWishlist() {
-        return inWishlist;
-    }
 
-    public boolean isInCart() {
-        return inCart;
-    }
-
-    public boolean isInLibrary() {
-        return inLibrary;
-    }
 }

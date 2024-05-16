@@ -20,10 +20,10 @@
                     <td>${following.followed.username}</td>
                     <td>${following.dateCreated}</td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/Unfollow" method="post">
-                            <input type="hidden" name="friendId" value="${following.followed.username}" />
-                            <button type="submit" class="btn btn-danger">Unfollow</button>
-                            <input type="hidden" name="fromPage" value="friends" />
+                        <form action="${pageContext.request.contextPath}/UnfollowUser" method="post">
+                            <input type="hidden" name="followed" value="${following.followed.username}" />
+                            <input type="submit" value="Unfollow" class="btn btn-danger"/>
+                            <input type="hidden" name="fromPage" value="following" />
                         </form>
                     </td>
                 </tr>

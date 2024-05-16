@@ -5,6 +5,8 @@ import com.gamehub2.gamehub.entities.Admins.Admin;
 import com.gamehub2.gamehub.entities.Others.CardDetails;
 import com.gamehub2.gamehub.entities.Users.User;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PaymentRequestDto {
@@ -15,6 +17,19 @@ public class PaymentRequestDto {
     private CardDetails card;
     private User user;
     private String status;
+    private double totalPrice;
+    private LocalDateTime paymentDate;
+
+    public PaymentRequestDto(Long paymentReqId, List<Admin> admins, List<Game> games, CardDetails card, User user, String status, double totalPrice, LocalDateTime paymentDate) {
+        this.paymentReqId = paymentReqId;
+        this.admins = admins;
+        this.games = games;
+        this.card = card;
+        this.user = user;
+        this.status = status;
+        this.totalPrice = totalPrice;
+        this.paymentDate = paymentDate;
+    }
 
     public PaymentRequestDto(Long paymentReqId, List<Admin> admins, List<Game> games, CardDetails card, User user, String status) {
         this.paymentReqId = paymentReqId;
@@ -58,5 +73,13 @@ public class PaymentRequestDto {
 
     public String getStatus() {
         return status;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public LocalDateTime getPaymentDate() {
+        return paymentDate;
     }
 }

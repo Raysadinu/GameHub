@@ -19,6 +19,7 @@ public class PriceDetails {
     @Basic
     private double discount_price;
 
+
     public Long getGameId() {
         return gameId;
     }

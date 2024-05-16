@@ -101,4 +101,5 @@ public class FollowBean {
             throw new EJBException(ex);
         }
     }
+
 }

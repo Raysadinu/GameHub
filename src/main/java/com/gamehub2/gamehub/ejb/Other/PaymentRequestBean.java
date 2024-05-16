@@ -9,9 +9,11 @@ import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -53,7 +55,9 @@ public class PaymentRequestBean {
                     paymentRequest.getGames(),
                     paymentRequest.getCard(),
                     paymentRequest.getUser(),
-                    paymentRequest.getStatus().toString()
+                    paymentRequest.getStatus().toString(),
+                    paymentRequest.getTotalPrice(),
+                    paymentRequest.getPaymentDate()
             );
             dtos.add(dto);
         }
@@ -76,20 +80,34 @@ public class PaymentRequestBean {
         LOG.info("** Exited findPaymentRequestsByUsername method with the list size of: " + paymentRequests.size() + " **");
         return paymentRequests;
     }
-    public  PaymentRequest createPaymentRequest(List<Long> gamesIdInCart, String username, String cardNumber, String expirationDate) {
+    public  PaymentRequest createPaymentRequest(List<Long> gamesIdInCart, String username, String cardNumber, String expirationDate,double totalPrice) {
         PaymentRequest pr = new PaymentRequest();
         pr.setUser(entityManager.find(User.class,username));
         pr.setStatus(PaymentRequest.RequestStatus.PENDING);
         pr.setAdmins(new ArrayList<Admin>());
-        CardDetails c = new CardDetails();
-        c.setCardNumber(cardNumber);
-        c.setExpirationDate(expirationDate);
+
+        CardDetails c;
+        try {
+            c = entityManager.createQuery("SELECT c FROM CardDetails c WHERE c.cardNumber = :cardNumber", CardDetails.class)
+                    .setParameter("cardNumber", cardNumber)
+                    .getSingleResult();
+        } catch (NoResultException ex) {
+            // Card not found, create a new one
+            c = new CardDetails();
+            c.setCardNumber(cardNumber);
+            c.setExpirationDate(expirationDate);
+            entityManager.persist(c);
+        }
+
         pr.setCard(c);
         List<Game> games = new ArrayList<Game>();
         for(Long Id : gamesIdInCart){
             games.add(entityManager.find(Game.class,Id));
         }
         pr.setGames(games);
+        pr.setTotalPrice(totalPrice);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        pr.setPaymentDate(currentDateTime);
         entityManager.persist(pr);
         return pr;
     }
