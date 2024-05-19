@@ -42,7 +42,14 @@
                                     </c:choose>
                                 </c:otherwise>
                             </c:choose>
-                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/DeleteFromWishlist?gameId=${game.gameId}&wishlistId=${wishlist.wishlistId}">Remove</a>
+
+                            <form action="${pageContext.request.contextPath}/DeleteFromWishlist" method="post">
+                                <input type="hidden" name="gameId" value="${game.gameId}">
+                                <input type="hidden" name="wishlistId" value="${wishlist.wishlistId}">
+                                <input type="hidden" name="page" value="wishlist">
+                                <button type="submit" class="btn btn-danger mr-4">Remove</button>
+                            </form>
+
                             <div class="btn-group" role="group">
                                 <c:choose>
                                     <c:when test="${cart.contains(game)}">

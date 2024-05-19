@@ -72,6 +72,12 @@ public class Wishlist extends HttpServlet {
                 gameDetailsForGamesOnWishlist.add(game);
             }
         }
+        for (GameDetailsDto game : gameDetailsList) {
+            boolean inCart = cartBean.inCart(user.getUsername(), game.getGameId());
+            if (inCart) {
+                gameDetailsInCart.add(game);
+            }
+        }
         List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
 
 

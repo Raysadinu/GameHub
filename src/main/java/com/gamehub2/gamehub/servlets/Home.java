@@ -2,10 +2,12 @@ package com.gamehub2.gamehub.servlets;
 
 import java.io.IOException;
 
+import com.gamehub2.gamehub.common.Games.CategoryDto;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
 import com.gamehub2.gamehub.common.Games.GameDto;
 import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.common.Others.WishlistDto;
+import com.gamehub2.gamehub.ejb.Games.CategoryBean;
 import com.gamehub2.gamehub.ejb.Games.GameBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
@@ -21,10 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 
@@ -42,6 +41,8 @@ public class Home extends HttpServlet {
     CartBean cartBean;
     @Inject
     LibraryBean libraryBean;
+    @Inject
+    CategoryBean categoryBean;
     private static final Logger LOG = Logger.getLogger(Home.class.getName());
 
     @Override
@@ -62,6 +63,8 @@ public class Home extends HttpServlet {
         List<GameDetailsDto> games = gameDetailsBean.findAllGameDetails();
 
         List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
+        List<CategoryDto> categories = categoryBean.findAllCategories();
+        categories.sort((c1, c2) -> c1.getCategoryName().compareToIgnoreCase(c2.getCategoryName()));
 
         Map<Long, Double[]> gamePrices = new HashMap<>();
 
@@ -102,7 +105,7 @@ public class Home extends HttpServlet {
                 gameDetailsInLibrary.add(game);
             }
         }
-
+        request.setAttribute("categories", categories);
         request.setAttribute("user", user);
         request.setAttribute("gamePrices", gamePrices);
         request.setAttribute("games", gameDetails);

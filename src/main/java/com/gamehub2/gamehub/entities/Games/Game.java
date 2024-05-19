@@ -1,11 +1,15 @@
 package com.gamehub2.gamehub.entities.Games;
 
 import com.gamehub2.gamehub.entities.Others.Cart;
+import com.gamehub2.gamehub.entities.Others.Library;
+import com.gamehub2.gamehub.entities.Others.PaymentRequest;
 import com.gamehub2.gamehub.entities.Others.Wishlist;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Game {
@@ -18,20 +22,24 @@ public class Game {
 
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     private PriceDetails priceDetails;
-
     @ManyToMany(mappedBy = "games")
     private List<Wishlist> wishlists;
     @ManyToMany(mappedBy = "games")
     private List<Cart> carts;
-
-   /* @ManyToMany(mappedBy = "games")
+    @ManyToMany(mappedBy = "games")
     private List<Library> libraries;
-
-
     @ManyToMany(mappedBy = "games")
     private List<PaymentRequest> paymentRequests;
+    @ManyToMany(mappedBy = "games")
+    private List<Category> categories;
 
+    public List<Category> getCategories() {
+        return categories;
+    }
 
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 
     public List<PaymentRequest> getPaymentRequests() {
         return paymentRequests;
@@ -48,10 +56,6 @@ public class Game {
     public void setLibraries(List<Library> libraries) {
         this.libraries = libraries;
     }
-
-
-   */
-
 
     public Long getGameId() {
 

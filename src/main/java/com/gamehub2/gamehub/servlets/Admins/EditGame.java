@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
 import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.common.SystemReq.*;
+import com.gamehub2.gamehub.ejb.Games.CategoryBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.SystemReq.*;
@@ -31,6 +32,8 @@ public class EditGame extends HttpServlet {
     GameDetailsBean gameDetailsBean;
     @Inject
     PriceDetailsBean priceDetailsBean;
+    @Inject
+    CategoryBean categoryBean;
     @Inject
     MemoryBean memoryBean;
     @Inject
