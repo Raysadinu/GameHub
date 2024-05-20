@@ -2,6 +2,7 @@ package com.gamehub2.gamehub.servlets.Admins;
 
 import java.io.IOException;
 
+import com.gamehub2.gamehub.common.Games.CategoryDto;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
 import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.common.SystemReq.*;
@@ -22,6 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -44,6 +46,7 @@ public class EditGame extends HttpServlet {
     VideoCardBean videoCardBean;
     @Inject
     SystemRequirementsBean systemRequirementsBean;
+
     private static final Logger LOG = Logger.getLogger(EditGame.class.getName());
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,8 +66,12 @@ public class EditGame extends HttpServlet {
 
         GameDetailsDto selectedGame = gameDetailsBean.getGameDetailsByGameId(gameId, gameList);
         PriceDetailsDto seletedPrice=priceDetailsBean.getPriceDetailsByGameId(gameId, priceList);
-        LOG.info("Forwarding to editGame.jsp.");
 
+        List<CategoryDto> allCategories = categoryBean.findAllCategories();
+        List<CategoryDto> gameCategories = categoryBean.getCategoriesByGameId(gameId);
+        LOG.info("Forwarding to editGame.jsp.");
+        request.setAttribute("allCategories", allCategories);
+        request.setAttribute("gameCategories", gameCategories);
         request.setAttribute("memory", memory);
         request.setAttribute("game", selectedGame);
         request.setAttribute("price", seletedPrice);
@@ -99,10 +106,19 @@ public class EditGame extends HttpServlet {
         GameDetailsDto newGameDetails = new GameDetailsDto(gameId, request.getParameter("gameName"), releaseDate, publisher, developer, description,storage);
         PriceDetailsDto newPriceDetails = new PriceDetailsDto(gameId,price,discount,discountPrice);
 
+
         LOG.info("Updating game details.");
 
         gameDetailsBean.updateGameDetails(newGameDetails);
         priceDetailsBean.updatePriceDetails(newPriceDetails);
+        String[] categoryIds = request.getParameterValues("categoryIds");
+        if (categoryIds != null) {
+            for (String categoryIdStr : categoryIds) {
+                Long categoryId = Long.parseLong(categoryIdStr);
+                categoryBean.addCategoryToGame(categoryId, gameId);
+            }
+        }
+
         LOG.info("Exited doPost method.");
 
         response.sendRedirect(request.getContextPath() + "/Games");

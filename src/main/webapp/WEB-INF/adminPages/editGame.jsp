@@ -12,7 +12,7 @@
                         <input type="number" class="form-control" id="price" name="price" placeholder="" value="${price.price}">
                     </div>
                     <div class="form-group">
-                        <label for="discount">Discount</label>
+                        <label for="discount">Discount (%)</label>
                         <input type="number" class="form-control" id="discount" name="discount" placeholder="" value="${price.discount}">
                     </div>
                     <div class="form-group">
@@ -35,12 +35,71 @@
                         <label for="description">Description</label>
                         <textarea class="form-control" id="description" name="description" placeholder="" rows="5">${game.description}</textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="searchCategory">Search Categories:</label>
+                        <input type="text" class="form-control" id="searchCategory" placeholder="Type to search categories...">
+                        <ul id="categoryResults" class="list-group mt-2" style="list-style-type: none;"></ul>
 
+                        <h3>Selected Categories:</h3>
+                        <ul id="selectedCategories" class="list-group" style="list-style-type: none;">
+                            <c:forEach var="category" items="${gameCategories}">
+                                <li id="category-${category.categoryId}" class="list-group-item d-flex justify-content-between align-items-center">
+                                        ${category.categoryName}
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeCategory(${category.categoryId}, ${game.gameId})">x</button>
+                                    <input type="hidden" name="categoryIds" value="${category.categoryId}">
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </div>
                     <input type="hidden" name="gameId" value="${game.gameId}">
-                    <input type="hidden" name="gameName" value="${game.gameName}">
                     <input type="submit" class="btn btn-primary" value="Submit Changes">
                 </form>
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#searchCategory").on("input", function () {
+                var keyword = $(this).val();
+                if (keyword.length >= 1) {
+                    $.ajax({
+                        url: "SearchCategory",
+                        method: "GET",
+                        data: { keyword: keyword },
+                        success: function (data) {
+                            var resultList = $("#categoryResults");
+                            resultList.empty();
+                            $.each(data, function (index, category) {
+                                resultList.append('<li class="list-group-item d-flex justify-content-between align-items-center">' +
+                                    category.categoryName +
+                                    ' <button type="button" class="btn btn-primary btn-sm" onclick="addCategory(' + category.categoryId + ', \'' + category.categoryName + '\')">+</button></li>');
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        function addCategory(categoryId, categoryName) {
+            var selectedCategories = $("#selectedCategories");
+            if (!$("#category-" + categoryId).length) {
+                selectedCategories.append('<li id="category-' + categoryId + '" class="list-group-item d-flex justify-content-between align-items-center">' +
+                    categoryName +
+                    ' <button type="button" class="btn btn-danger btn-sm" onclick="removeCategory(' + categoryId + ')">x</button>' +
+                    '<input type="hidden" name="categoryIds" value="' + categoryId + '"></li>');
+            }
+        }
+
+        function removeCategory(categoryId, gameId) {
+            $.ajax({
+                url: "DeleteCategory",
+                method: "POST",
+                data: { categoryId: categoryId, gameId: gameId },
+                success: function () {
+                    $("#category-" + categoryId).remove();
+                }
+            });
+        }
+    </script>
 </t:template>

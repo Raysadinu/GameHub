@@ -1,25 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Raysa
-  Date: 5/10/2024
-  Time: 9:39 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template pageTitle="Users">
     <div class="container text-center">
         <h1>Users</h1>
+        <form id="searchForm" onsubmit="return false" method="get" action="${pageContext.request.contextPath}/SearchUsers">
+            <label for="searchBar"></label>
+            <input type="text" name="keyword" id="searchBar" class="form-control" placeholder="Search users..." value="${param.keyword}">
+        </form>
+        <div id="searchSuggestions"></div>
+        <c:if test="${isAdmin}">
         <table class="table">
             <thead>
             <tr>
                 <th>#</th>
                 <th>Username</th>
-                <c:if test="${isAdmin}">
-                    <th>Email</th>
-                    <th>Actions</th>
-                </c:if>
+                <th>Email</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -36,15 +33,41 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <c:if test="${isAdmin}">
-                        <td>${user.email}</td>
-                        <td>
-                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/DeleteUser?username=${user.username}">Delete User</a>
-                        </td>
-                    </c:if>
+                    <td>${user.email}</td>
+                    <td>
+                        <a class="btn btn-danger" href="${pageContext.request.contextPath}/DeleteUser?username=${user.username}">Delete User</a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
+        </c:if>
     </div>
 </t:template>
+<script>
+    document.getElementById('searchBar').addEventListener('input', function() {
+        var keyword = this.value.trim();
+        if (keyword !== '') {
+            fetch('${pageContext.request.contextPath}/SearchUsers?keyword=' + keyword)
+                .then(response => response.json())
+                .then(data => {
+                    var suggestionsDiv = document.getElementById('searchSuggestions');
+                    suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+                    data.forEach(username => {
+                        var suggestionElement = document.createElement('div');
+                        suggestionElement.textContent = username;
+                        suggestionElement.addEventListener('click', function() {
+
+                            window.location.href = '${pageContext.request.contextPath}/OtherProfile?username=' + username;
+                        });
+                        suggestionsDiv.appendChild(suggestionElement);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching search suggestions:', error);
+                });
+        } else {
+            document.getElementById('searchSuggestions').innerHTML = '';
+        }
+    });
+</script>

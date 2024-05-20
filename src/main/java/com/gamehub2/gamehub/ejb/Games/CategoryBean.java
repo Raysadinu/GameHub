@@ -82,5 +82,85 @@ public class CategoryBean {
         }
     }
 
+    public List<CategoryDto> findCategoryByKeyword(String keyword) {
+        LOG.info("\n Entered findCategoryByKeyword method with keyword: " + keyword + " \n");
 
+        List<CategoryDto> allCategories = findAllCategories();
+        List<CategoryDto> matchingCategories = new ArrayList<>();
+
+        String keywordLowerCase = keyword.toLowerCase();
+        for (CategoryDto category : allCategories) {
+            if (category.getCategoryName().toLowerCase().startsWith(keywordLowerCase)) {
+                matchingCategories.add(category);
+            }
+        }
+
+        LOG.info("\n Exited findCategoryByKeyword method. \n");
+        return matchingCategories;
+    }
+
+    public void deleteCategoryFromGame(Long categoryId, Long gameId) {
+        LOG.info("\n** Entered deleteCategoryFromGame method for categoryId: " + categoryId + " and gameId: " + gameId + " **\n");
+        try {
+            Category category = entityManager.find(Category.class, categoryId);
+            if (category == null) {
+                LOG.severe("\nCategory not found! **\n");
+                return;
+            }
+
+            Game game = entityManager.find(Game.class, gameId);
+            if (game == null) {
+                LOG.severe("\nGame not found! **\n");
+                return;
+            }
+
+            if (!category.getGames().contains(game)) {
+                LOG.info("\nThe game does not belong to the specified category. **\n");
+                return;
+            }
+
+            category.getGames().remove(game);
+            game.getCategories().remove(category);
+
+            entityManager.merge(category);
+            entityManager.merge(game);
+
+            LOG.info("\n** Successfully deleted category from game **\n");
+        } catch (Exception ex) {
+            LOG.severe("\nError in deleteCategoryFromGame method! " + ex.getMessage() + "\n");
+            throw new EJBException(ex);
+        }
+    }
+    public void addCategoryToGame(Long categoryId, Long gameId) {
+        LOG.info("\n** Entered addCategoryToGame method for categoryId: " + categoryId + " and gameId: " + gameId + " **\n");
+        try {
+            Category category = entityManager.find(Category.class, categoryId);
+            if (category == null) {
+                LOG.severe("\nCategory not found! **\n");
+                return;
+            }
+
+            Game game = entityManager.find(Game.class, gameId);
+            if (game == null) {
+                LOG.severe("\nGame not found! **\n");
+                return;
+            }
+
+            if (category.getGames().contains(game)) {
+                LOG.info("\nThe game already belongs to the specified category. **\n");
+                return;
+            }
+
+            category.getGames().add(game);
+            game.getCategories().add(category);
+
+            entityManager.merge(category);
+            entityManager.merge(game);
+
+            LOG.info("\n** Successfully added category to game **\n");
+        } catch (Exception ex) {
+            LOG.severe("\nError in addCategoryToGame method! " + ex.getMessage() + "\n");
+            throw new EJBException(ex);
+        }
+    }
 }

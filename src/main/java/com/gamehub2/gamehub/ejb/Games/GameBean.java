@@ -11,7 +11,9 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Stateless
@@ -114,5 +116,22 @@ public class GameBean {
         entityManager.persist(gameDetails);
 
         LOG.info("Game added successfully: " + gameName + "**\n");
+    }
+
+    public List<GameDto> findGameInSearchBar(String keyword) {
+        LOG.info("\n Entered findGameInSearchBar method with keyword: " + keyword + " \n");
+
+        List<GameDto> allGames = findAllGames();
+        List<GameDto> matchingGames = new ArrayList<>();
+
+        String keywordLowerCase = keyword.toLowerCase();
+        for (GameDto game : allGames) {
+            if (game.getGameName().toLowerCase().startsWith(keywordLowerCase)) {
+                matchingGames.add(game);
+            }
+        }
+
+        LOG.info("\n Exited findGameInSearchBar method. \n");
+        return matchingGames;
     }
 }

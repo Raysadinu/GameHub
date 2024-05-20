@@ -4,7 +4,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <t:template pageTitle="Store">
-
+  <div class="container mt-3 mb-3">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form id="searchForm" onsubmit="return false" method="get" action="${pageContext.request.contextPath}/SearchGames">
+          <label for="searchBar"></label>
+          <input type="text" name="keyword" id="searchBar" class="form-control" placeholder="Search games..." value="${param.keyword}">
+        </form>
+        <div id="gameSearchResults" class="mt-2"></div>
+      </div>
+    </div>
+  </div>
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3">
@@ -20,7 +30,7 @@
           <gd:forEach var="game" items="${games}">
             <div class="row">
               <div class="col-sm-6">
-                <div class="card">
+                <div class="card" data-game-id="${game.gameId}" data-game-name="${game.gameName}">
                   <div class="card-body">
                     <a href="${pageContext.request.contextPath}/GameProfile?gameId=${game.gameId}">${game.gameName}</a>
                       <c:choose>
@@ -85,5 +95,36 @@
       </div>
     </div>
   </div>
-
+  <script>
+    document.getElementById('searchBar').addEventListener('input', function() {
+      var keyword = this.value.trim();
+      if (keyword !== '') {
+        fetch('${pageContext.request.contextPath}/SearchGames?keyword=' + keyword)
+                .then(response => response.json())
+                .then(data => {
+                  var suggestionsDiv = document.getElementById('gameSearchResults');
+                  suggestionsDiv.innerHTML = '';
+                  data.forEach(game => {
+                    var suggestionElement = document.createElement('div');
+                    suggestionElement.textContent = game.gameName;
+                    suggestionElement.dataset.gameId = game.gameId;  // Ensure gameId is set
+                    suggestionElement.addEventListener('click', function() {
+                      var gameId = this.dataset.gameId;
+                      if (gameId) {
+                        window.location.href = '${pageContext.request.contextPath}/GameProfile?gameId=' + gameId;
+                      } else {
+                        console.error("Game ID is undefined!");
+                      }
+                    });
+                    suggestionsDiv.appendChild(suggestionElement);
+                  });
+                })
+                .catch(error => {
+                  console.error('Error fetching search suggestions:', error);
+                });
+      } else {
+        document.getElementById('gameSearchResults').innerHTML = ''; // Clear suggestions if input is empty
+      }
+    });
+  </script>
 </t:template>

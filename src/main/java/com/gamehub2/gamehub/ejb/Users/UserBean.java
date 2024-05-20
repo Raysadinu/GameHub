@@ -148,5 +148,21 @@ public class UserBean {
         entityManager.persist(library);
         LOG.info("\n** Exited createUser method. **\n");
     }
+    public List<String> findUserInSearchBar(String keyword) {
+        LOG.info("\n Entered findUsersByKeyword method with keyword: " + keyword + " \n");
+
+        List<UserDto> allUsers = findAllUsers();
+        List<String> matchingUsernames = new ArrayList<>();
+
+        for (UserDto user : allUsers) {
+            if (user.getUsername().toLowerCase().contains(keyword.toLowerCase())) {
+                matchingUsernames.add(user.getUsername());
+            }
+        }
+
+        LOG.info("\n Exited findUsersByKeyword method. \n");
+        return matchingUsernames;
+    }
+
 }
 
