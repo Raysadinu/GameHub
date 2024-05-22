@@ -1,9 +1,12 @@
 package com.gamehub2.gamehub.common.Games;
 
+import com.gamehub2.gamehub.entities.Games.Category;
 import com.gamehub2.gamehub.entities.Games.GameDetails;
 import com.gamehub2.gamehub.entities.SystemReq.Memory;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 public class GameDetailsDto {
     Long gameId;
@@ -14,7 +17,7 @@ public class GameDetailsDto {
     String description;
     String storage;
     double min_req;
-
+    List<CategoryDto> categories;
     public GameDetailsDto(Long gameId, String gameName, LocalDate releaseDate, String publisher, String developer, String description, String storage) {
         this.gameId = gameId;
         this.gameName = gameName;
@@ -78,5 +81,47 @@ public class GameDetailsDto {
     public double getMin_req() {
         return min_req;
     }
+
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setDeveloper(String developer) {
+        this.developer = developer;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStorage(String storage) {
+        this.storage = storage;
+    }
+
+    public void setMin_req(double min_req) {
+        this.min_req = min_req;
+    }
+
+    public List<CategoryDto> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryDto> categories) {
+        this.categories = categories;
+    }
+
+
 }
 

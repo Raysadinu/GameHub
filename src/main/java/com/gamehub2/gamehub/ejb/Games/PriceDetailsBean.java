@@ -81,4 +81,19 @@ public class PriceDetailsBean {
 
         LOG.info("\n** Exited updatePriceDetails method. **\n");
     }
+
+    public List<PriceDetails> findPricesByGameId(Long gameId) {
+        LOG.info("\n** Entered findPricesByGameId method for gameId: " + gameId + " **\n");
+        try {
+            TypedQuery<PriceDetails> query = entityManager.createQuery("SELECT pd FROM PriceDetails pd WHERE pd.gameId = :gameId", PriceDetails.class);
+            query.setParameter("gameId", gameId);
+            List<PriceDetails> prices = query.getResultList();
+            LOG.info("\n** Exited findPricesByGameId method. **\n");
+            return prices;
+        } catch (Exception ex) {
+            LOG.severe("\nError in findPricesByGameId method! " + ex.getMessage() + "\n");
+            throw new EJBException(ex);
+        }
+    }
+
 }

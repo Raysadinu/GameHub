@@ -18,7 +18,5 @@
 </main>
 
 </body>
-<footer>
-    <jsp:include page="/WEB-INF/components/footer.jsp"/>
-</footer>
+
 </html>

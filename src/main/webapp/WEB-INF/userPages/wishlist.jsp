@@ -19,9 +19,9 @@
                             <a href="${pageContext.request.contextPath}/GameProfile?gameId=${game.gameId}">${game.gameName}</a>
                             <c:choose>
                                 <c:when test="${gamePrices[game.gameId][1] > 0}">
-                                    <p style="color: grey; text-decoration: line-through;">Price: $<c:out value="${gamePrices[game.gameId][0]}" /></p>
+                                    <p style="color: grey; text-decoration: line-through;">Price: $<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
                                     <p>Discount: <fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</p>
-                                    <p>Discounted Price: $<c:out value="${gamePrices[game.gameId][1]}" /></p>
+                                    <p>Discounted Price: $<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></p>
                                 </c:when>
                                 <c:otherwise>
                                     <c:choose>

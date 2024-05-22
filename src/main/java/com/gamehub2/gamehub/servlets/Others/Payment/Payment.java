@@ -74,50 +74,50 @@ public class Payment extends HttpServlet {
         double totalPrice = cartBean.getTotalPriceByCartId(cartBean.getCartIdByUsername(user.getUsername()));
         String cvv = request.getParameter("cvv");
         LOG.info("\n** " + cvv + cardName + cardNumber +  " **\n");
-        // Regular expression for validating the card number
+
         String cardNumberRegex = "^\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}$";
-        // Regular expression for validating the card expiration date in the "MM/YY" format
+
         String expirationDateRegex = "^(0[1-9]|1[0-2])/(\\d{2})$";
 
-        // Compile the regular expressions
+
         Pattern cardNumberPattern = Pattern.compile(cardNumberRegex);
         Pattern expirationDatePattern = Pattern.compile(expirationDateRegex);
 
-        // Create a Matcher object to check if the card number matches the regular expression
+
         Matcher cardNumberMatcher = cardNumberPattern.matcher(cardNumber);
-        // Create a Matcher object to check if the expiration date matches the regular expression
+
         Matcher expirationDateMatcher = expirationDatePattern.matcher(expirationDate);
 
-        // Check if the card number matches the regular expression
+
         boolean isValidCardNumber = cardNumberMatcher.matches();
-        // Check if the expiration date matches the regular expression
+
         boolean isValidExpirationDate = expirationDateMatcher.matches();
         boolean isCardExpired = false;
         boolean saveCardDetails = "on".equals(request.getParameter("saveCardDetails"));
         if (isValidCardNumber && isValidExpirationDate) {
-            // Format the expiration date in the "MM/YY" format
+
             LocalDate currentDate = LocalDate.now();
             LocalDate parsedExpirationDate;
             try {
                 parsedExpirationDate = LocalDate.parse((expirationDate), DateTimeFormatter.ofPattern("MM/yy"));
 
-                // Check if the card is expired
+
                 if (parsedExpirationDate.isBefore(currentDate)) {
                     isCardExpired = true;
                 }
             } catch (DateTimeParseException e) {
-                // Handle exceptions if the expiration date cannot be parsed
+
                 e.printStackTrace();
             }
 
-            // Check if the CVV has 3 digits and the card is not expired
+
             if (cvv.length() == 3 && !isCardExpired) {
-                // Continue processing if the card is valid and not expired
+
                 LOG.info("\n** Card is valid **\n");
-                // Check if the user has selected to save the card details
+
                 if (saveCardDetails) {
                     // Save the card details in the database
-                    List<String> usernames = Collections.singletonList(user.getUsername()); // or get the list of users associated with the card
+                    List<String> usernames = Collections.singletonList(user.getUsername());
                     cardDetailsBean.saveCardDetails(null, usernames, cardNumber, expirationDate, cardName);
                 }
                 List<Long> gamesIdInCart = cartBean.getGamesInCart(Long.parseLong(request.getParameter("cart")));

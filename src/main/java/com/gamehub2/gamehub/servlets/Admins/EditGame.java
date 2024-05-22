@@ -121,6 +121,6 @@ public class EditGame extends HttpServlet {
 
         LOG.info("Exited doPost method.");
 
-        response.sendRedirect(request.getContextPath() + "/Games");
+        response.sendRedirect(request.getContextPath() + "/GameProfile?gameId=" + gameId);
     }
 }

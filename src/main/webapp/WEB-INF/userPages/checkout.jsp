@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <t:template pageTitle="Checkout">
   <div class="row">
     <div class="col-sm-6">
@@ -20,9 +20,9 @@
                 <a href="${pageContext.request.contextPath}/GameProfile?gameId=${game.gameId}">${game.gameName}</a>
                 <c:choose>
                   <c:when test="${gamePrices[game.gameId][1] > 0}">
-                    <p style="color: grey; text-decoration: line-through;">Price: $<c:out value="${gamePrices[game.gameId][0]}" /></p>
+                    <p style="color: grey; text-decoration: line-through;">Price: $<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
                     <p>Discount: <fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</p>
-                    <p>Discounted Price: $<c:out value="${gamePrices[game.gameId][1]}" /></p>
+                    <p>Discounted Price: $<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></p>
                   </c:when>
                   <c:otherwise>
                     <c:choose>
@@ -98,28 +98,27 @@
     var cvvInput = document.getElementById('cvv');
 
 
-    // Funcție pentru a umple câmpurile formularului cu detaliile cardului selectat
+
     function fillFormFields(card) {
       document.getElementById('cardName').value = card.cardName;
       document.getElementById('cardNumber').value = card.cardNumber;
       document.getElementById('expirationDate').value = card.expirationDate;
     }
-    // Eveniment pentru schimbarea selecției cardului salvat
+
     savedCardsSelect.addEventListener('change', function() {
       var selectedIndex = this.selectedIndex;
       var selectedOption = this.options[selectedIndex];
 
       if (selectedIndex !== 0 && selectedOption.value !== "") {
-        // Obțineți datele cardului selectat
+
         var card = {
           cardName: selectedOption.textContent,
           cardNumber: selectedOption.getAttribute('data-card-number'),
           expirationDate: selectedOption.getAttribute('data-expiration-date')
         };
-        // Umpleți câmpurile formularului cu detaliile cardului selectat
+
         fillFormFields(card);
 
-        // Dezactivați câmpurile de introducere a datelor cardului
         cardNameInput.readOnly = true;
         cardNumberInput.readOnly = true;
         expirationDateInput.readOnly = true;

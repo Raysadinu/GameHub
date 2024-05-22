@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Stateless
 public class GameBean {
@@ -52,6 +53,40 @@ public class GameBean {
         LOG.info("\n** Exited findGameByName method. **\n");
         return gameToReturn;
     }
+
+    public List<GameDto> findGamesByCategoryIds(List<Long> categoryIds) {
+        LOG.info("\n** Entered findGamesByCategoryIds method for categoryIds: " + categoryIds + " **\n");
+        try {
+            TypedQuery<Game> query = entityManager.createQuery(
+                    "SELECT DISTINCT g FROM Game g JOIN g.categories c WHERE c.categoryId IN :categoryIds", Game.class);
+            query.setParameter("categoryIds", categoryIds);
+            List<Game> games = query.getResultList();
+            LOG.info("\n** Exited findGamesByCategoryIds method **\n");
+            return copyGamesToDto(games);
+        } catch (Exception ex) {
+            LOG.severe("\nError in findGamesByCategoryIds method! " + ex.getMessage() + "\n");
+            throw new EJBException(ex);
+        }
+    }
+    public List<GameDto> findGamesThatContainAllCategories(List<Long> categoryIds) {
+        LOG.info("\n** Entered findGamesThatContainAllCategories method for categoryIds: " + categoryIds + " **\n");
+        try {
+            TypedQuery<Game> query = entityManager.createQuery(
+                    "SELECT DISTINCT g FROM Game g JOIN g.categories c WHERE c.categoryId IN :categoryIds GROUP BY g HAVING COUNT(DISTINCT c) = :categoryCount",
+                    Game.class);
+            query.setParameter("categoryIds", categoryIds);
+            query.setParameter("categoryCount", categoryIds.size());
+
+            List<Game> games = query.getResultList();
+
+            LOG.info("\n** Exited findGamesThatContainAllCategories method **\n");
+            return copyGamesToDto(games);
+        } catch (Exception ex) {
+            LOG.severe("\nError in findGamesThatContainAllCategories method! " + ex.getMessage() + "\n");
+            throw new EJBException(ex);
+        }
+    }
+
 
     public List<GameDto> copyGamesToDto(List<Game> games) {
         LOG.info("\n** Entered copyGamesToDto method with list size: " + games.size() + "**\n");
@@ -134,4 +169,6 @@ public class GameBean {
         LOG.info("\n Exited findGameInSearchBar method. \n");
         return matchingGames;
     }
+
+
 }
