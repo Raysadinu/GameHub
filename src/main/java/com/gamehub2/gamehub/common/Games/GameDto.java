@@ -59,9 +59,5 @@ public class GameDto {
     public void setPriceDetails(PriceDetails priceDetails) {
         this.priceDetails = priceDetails;
     }
-    public List<Long> getCategoryIds() {
-        return categories.stream()
-                .map(Category::getCategoryId)
-                .collect(Collectors.toList());
-    }
+
 }

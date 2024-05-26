@@ -6,9 +6,7 @@ import java.io.IOException;
 import com.gamehub2.gamehub.Utilities.Functionalities;
 import com.gamehub2.gamehub.common.Games.CategoryDto;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
-import com.gamehub2.gamehub.common.Games.GameDto;
 import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
-import com.gamehub2.gamehub.common.Others.WishlistDto;
 import com.gamehub2.gamehub.common.Users.UserDetailsDto;
 import com.gamehub2.gamehub.ejb.Games.*;
 import com.gamehub2.gamehub.ejb.Other.WishlistBean;
@@ -84,28 +82,7 @@ public class Home extends HttpServlet {
         List<CategoryDto> categories = categoryBean.findAllCategories();
         categories.sort((c1, c2) -> c1.getCategoryName().compareToIgnoreCase(c2.getCategoryName()));
 
-        Map<Long, Double[]> gamePrices = new HashMap<>();
-
-        for (GameDetailsDto gameDetail : games) {
-            Long gameId = gameDetail.getGameId();
-            Double[] priceInfo = new Double[3];
-
-            for (PriceDetailsDto priceDetail : priceList) {
-                if (priceDetail.getGameId().equals(gameId)) {
-                    if (priceDetail.getDiscount() > 0) {
-                        priceInfo[0] = priceDetail.getPrice();
-                        priceInfo[1] = priceDetail.getDiscount_price();
-                        priceInfo[2] = priceDetail.getDiscount();
-                    } else {
-                        priceInfo[0] = priceDetail.getPrice();
-                        priceInfo[1] = 0.0;
-                        priceInfo[2] = 0.0;
-                    }
-                    break;
-                }
-            }
-            gamePrices.put(gameId, priceInfo);
-        }
+        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(games, priceList);
 
         for (GameDetailsDto game : games) {
             boolean inWishlist = wishlistBean.inWishlist(user.getUsername(), game.getGameId());

@@ -37,23 +37,6 @@ public class GameBean {
         }
     }
 
-    public GameDto findGameByName(String name, List<GameDto> allGames) {
-        LOG.info("\n** Entered findGameByName method for the gameName: " + name + "**\n");
-
-        GameDto gameToReturn = null;
-        for (GameDto g : allGames) {
-            if (g.getGameName().equals(name)) {
-                gameToReturn = g;
-            }
-        }
-        if (gameToReturn == null) {
-            LOG.info("\n**Game not found **\n");
-            gameToReturn = new GameDto(Long.parseLong("-1"), null);
-        }
-        LOG.info("\n** Exited findGameByName method. **\n");
-        return gameToReturn;
-    }
-
     public List<GameDto> findGamesByCategoryIds(List<Long> categoryIds) {
         LOG.info("\n** Entered findGamesByCategoryIds method for categoryIds: " + categoryIds + " **\n");
         try {

@@ -11,12 +11,7 @@ public class CartDto {
     List<Game> games;
     double totalPrice;
 
-    public CartDto(Long cartId, User user, List<Game> games, double totalPrice) {
-        this.cartId = cartId;
-        this.user = user;
-        this.games = games;
-        this.totalPrice = totalPrice;
-    }
+
 
     public CartDto(Long cartId, User user, List<Game> games) {
         this.cartId = cartId;

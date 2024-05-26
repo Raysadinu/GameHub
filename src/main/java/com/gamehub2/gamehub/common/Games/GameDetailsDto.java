@@ -3,7 +3,9 @@ import com.gamehub2.gamehub.entities.Games.GameDetails;
 
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameDetailsDto {
     Long gameId;
@@ -13,7 +15,6 @@ public class GameDetailsDto {
     String developer;
     String description;
     String storage;
-
     List<CategoryDto> categories;
     public GameDetailsDto(Long gameId, String gameName, LocalDate releaseDate, String publisher, String developer, String description, String storage) {
         this.gameId = gameId;
@@ -65,8 +66,6 @@ public class GameDetailsDto {
 
     public String getStorage() {return storage;}
 
-
-
     public void setGameId(Long gameId) {
         this.gameId = gameId;
     }
@@ -75,33 +74,6 @@ public class GameDetailsDto {
         this.gameName = gameName;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public void setDeveloper(String developer) {
-        this.developer = developer;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setStorage(String storage) {
-        this.storage = storage;
-    }
-
-    public List<CategoryDto> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<CategoryDto> categories) {
-        this.categories = categories;
-    }
 
 
 }

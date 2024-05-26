@@ -13,15 +13,6 @@ public class CardDetailsDto {
     String expirationDate;
     String cardName;
 
-    public CardDetailsDto(Long cardId, List<User> user, List<PaymentRequest> paymentRequests, String cardNumber, String expirationDate, String cardName) {
-        this.cardId = cardId;
-        this.user = user;
-        this.paymentRequests = paymentRequests;
-        this.cardNumber = cardNumber;
-        this.expirationDate = expirationDate;
-        this.cardName = cardName;
-    }
-
     public CardDetailsDto(Long cardId, List<User> user, String cardNumber, String expirationDate, String cardName) {
         this.cardId = cardId;
         this.user = user;

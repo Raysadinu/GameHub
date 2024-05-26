@@ -16,10 +16,6 @@ public class LibraryDto {
         this.games = games;
     }
 
-    public LibraryDto(User user, List<Game> games) {
-        this.user = user;
-        this.games = games;
-    }
 
     public LibraryDto() {
     }

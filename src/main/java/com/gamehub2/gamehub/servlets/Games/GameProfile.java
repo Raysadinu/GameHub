@@ -2,6 +2,7 @@ package com.gamehub2.gamehub.servlets.Games;
 
 import java.io.IOException;
 
+import com.gamehub2.gamehub.Utilities.Functionalities;
 import com.gamehub2.gamehub.common.Games.CategoryDto;
 import com.gamehub2.gamehub.common.Games.CommentDto;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
@@ -72,12 +73,12 @@ public class GameProfile extends HttpServlet {
 
         List<PriceDetailsDto> allPriceDetails = priceDetailsBean.findAllPriceDetails();
 
-        PriceDetailsDto price = priceDetailsBean.getPriceDetailsByGameId(gameId, allPriceDetails);
-
+        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(allGameDetails, allPriceDetails);
 
         List<CategoryDto> categories = categoryBean.getCategoriesByGameId(gameId);
         categories.sort((c1, c2) -> c1.getCategoryName().compareToIgnoreCase(c2.getCategoryName()));
         List<CommentDto> comments = commentBean.getCommentsByGameId(gameId);
+
         List<GameDetailsDto> gameDetails = new ArrayList<>();
         List<GameDetailsDto> gameDetailsOnWishlist = new ArrayList<>();
         List<GameDetailsDto> gameDetailsInCart = new ArrayList<>();
@@ -102,18 +103,18 @@ public class GameProfile extends HttpServlet {
         if (thisGame != null) {
             LOG.info("Game details retrieved: " + thisGame.toString());
 
-            // Setting attributes to be accessed in JSP
-            request.setAttribute("price", price);
+
+            request.setAttribute("price", gamePrices);
             request.setAttribute("game", thisGame);
             request.setAttribute("categories", categories);
             request.setAttribute("comments", comments);
             request.setAttribute("wishlist", gameDetailsOnWishlist);
             request.setAttribute("cart", gameDetailsInCart);
             request.setAttribute("library", gameDetailsInLibrary);
-            // Forwarding the request to the game profile JSP
+
             request.getRequestDispatcher("/WEB-INF/gamePages/gameProfile.jsp").forward(request, response);
         } else {
-            // If game details not found, sending a 404 error
+
             LOG.warning("Game details not found for gameId: " + gameId);
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Game details not found");
         }

@@ -41,21 +41,19 @@
                 </c:choose>
             </div>
         </div>
-            <c:choose>
-                <c:when test="${price.price == 0}">
-                    <p>Free</p>
-                </c:when>
-                <c:otherwise>
-                    <c:if test="${price.discount > 0}">
-                        <p>Price:<span style="text-decoration: line-through;">$<fmt:formatNumber value="${price.price}" type="number" minFractionDigits="2" maxFractionDigits="2"/></span></p>
-                        <span>$<fmt:formatNumber value="${price.discount_price}" type="number" minFractionDigits="2" maxFractionDigits="2"/></span>
-                        <p>Discount: <fmt:formatNumber value="${price.discount}" pattern="##"/>%</p>
-                    </c:if>
-                    <c:if test="${price.discount == 0}">
-                        $${price.price}
-                    </c:if>
-                </c:otherwise>
-            </c:choose>
+        <c:choose>
+            <c:when test="${gamePrices[game.gameId][0] == 0}">
+                <p>Price: Free</p>
+            </c:when>
+            <c:when test="${gamePrices[game.gameId][1] > 0}">
+                <p style="color: grey; text-decoration: line-through;">Price: $<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
+                <p>Discount: <fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</p>
+                <p>Discounted Price: $<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></p>
+            </c:when>
+            <c:otherwise>
+                <p>Price: $<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
+            </c:otherwise>
+        </c:choose>
         <p>Publisher: ${game.publisher}</p>
         <p>Developer: ${game.developer}</p>
         <p>Release Date: ${game.releaseDate}</p>

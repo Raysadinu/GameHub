@@ -31,23 +31,6 @@ public class PaymentRequestDto {
         this.paymentDate = paymentDate;
     }
 
-    public PaymentRequestDto(Long paymentReqId, List<Admin> admins, List<Game> games, CardDetails card, User user, String status) {
-        this.paymentReqId = paymentReqId;
-        this.admins = admins;
-        this.games = games;
-        this.card = card;
-        this.user = user;
-        this.status = status;
-    }
-
-    public PaymentRequestDto(List<Admin> admins, List<Game> games, CardDetails card, User user, String status) {
-        this.admins = admins;
-        this.games = games;
-        this.card = card;
-        this.user = user;
-        this.status = status;
-    }
-
     public PaymentRequestDto() {
     }
 

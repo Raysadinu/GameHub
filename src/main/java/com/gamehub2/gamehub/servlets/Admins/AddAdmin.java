@@ -47,18 +47,15 @@ public class AddAdmin extends HttpServlet {
 
                 adminBean.addAdmin(username);
                 response.sendRedirect(request.getContextPath() + "/Admins");
-                return;
             } else {
 
                 request.setAttribute("alertMessage", "User is already an admin.");
                 request.getRequestDispatcher("/WEB-INF/adminPages/addAdmin.jsp").forward(request, response);
-                return;
             }
         } else {
 
             request.setAttribute("alertMessage", "User does not exist.");
             request.getRequestDispatcher("/WEB-INF/adminPages/addAdmin.jsp").forward(request, response);
-            return;
         }
     }
 }

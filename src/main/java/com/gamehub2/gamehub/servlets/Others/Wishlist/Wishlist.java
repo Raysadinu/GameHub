@@ -1,5 +1,6 @@
 package com.gamehub2.gamehub.servlets.Others.Wishlist;
 
+import com.gamehub2.gamehub.Utilities.Functionalities;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
 import com.gamehub2.gamehub.common.Games.GameDto;
 import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
@@ -81,32 +82,7 @@ public class Wishlist extends HttpServlet {
         List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
 
 
-        Map<Long, Double[]> gamePrices = new HashMap<>();
-
-        for (GameDetailsDto gameDetail : gameDetailsList) {
-            Long gameId = gameDetail.getGameId();
-            Double[] priceInfo = new Double[3];
-
-            for (PriceDetailsDto priceDetail : priceList) {
-                if (priceDetail.getGameId().equals(gameId)) {
-                    if (priceDetail.getDiscount() > 0) {
-
-                        priceInfo[0] = priceDetail.getPrice();
-                        priceInfo[1] = priceDetail.getDiscount_price();
-                        priceInfo[2] = priceDetail.getDiscount();
-                    } else {
-
-                        priceInfo[0] = priceDetail.getPrice();
-                        priceInfo[1] = 0.0;
-                        priceInfo[2] = 0.0;
-                    }
-                    break;
-                }
-            }
-
-
-            gamePrices.put(gameId, priceInfo);
-        }
+        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(gameDetails, priceList);
 
 
         request.setAttribute("cart", gameDetailsInCart);

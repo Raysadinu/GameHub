@@ -94,6 +94,4 @@ public class GameDetailsBean {
         LOG.info("\n** Exited updateGameDetails method. **\n");
     }
 
-
-
 }

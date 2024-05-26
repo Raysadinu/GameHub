@@ -34,6 +34,7 @@ public class EditGame extends HttpServlet {
     CategoryBean categoryBean;
     @Inject
     MemoryBean memoryBean;
+    @Inject
     ProcessorBean processorBean;
     @Inject
     VideoCardBean videoCardBean;

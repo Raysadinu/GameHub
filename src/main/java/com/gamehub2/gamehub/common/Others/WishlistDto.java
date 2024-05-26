@@ -11,22 +11,14 @@ public class WishlistDto {
     List<Game> games;
     double totalPrice;
 
-    public WishlistDto(Long wishlistId, User user, List<Game> games, double totalPrice) {
-        this.wishlistId = wishlistId;
-        this.user = user;
-        this.games = games;
-        this.totalPrice = totalPrice;
-    }
+
 
     public WishlistDto(Long wishlistId, User user, List<Game> games) {
         this.wishlistId = wishlistId;
         this.user = user;
         this.games = games;
     }
-    public WishlistDto(User user, List<Game> games) {
-        this.user = user;
-        this.games = games;
-    }
+
     public WishlistDto() {
     }
 

@@ -74,7 +74,7 @@ public class LibraryBean {
             Library library = query.getSingleResult();
             return library.getLibraryId();
         } catch (NoResultException ex) {
-            // Handle case where no library found for the username
+
             LOG.warning("No library found for username: " + username);
             return null;
         } catch (Exception ex) {
@@ -85,30 +85,30 @@ public class LibraryBean {
     }
     public void addGameToLibrary(Long libraryId, Long gameId) {
         try {
-            // Retrieve the Library and Game entities based on their IDs
+
             Library library = entityManager.find(Library.class, libraryId);
             Game game = entityManager.find(Game.class, gameId);
 
             if (library != null && game != null) {
-                // Add the game to the library (assuming a collection of games in Library)
+
                 library.getGames().add(game);
 
-                // Save changes to the database
+
                 entityManager.persist(library);
                 String username = library.getUser().getUsername();
                 WishlistDto wishlist = wishlistBean.findWishlistByUsername(username, wishlistBean.findAllWishlists());
                 if (wishlist != null) {
-                    // If the game is in the wishlist, remove it
+
                     if (wishlistBean.inWishlist(username, gameId)) {
                         wishlistBean.deleteGameFromWishlist(wishlist.getWishlistId(), gameId);
                     }
                 }
             } else {
-                // Handle case where library or game is not found
+
                 throw new EJBException("Library or game not found.");
             }
         } catch (Exception ex) {
-            // Handle exceptions (e.g., database errors)
+
             throw new EJBException("Error adding game to library: " + ex.getMessage());
         }
     }

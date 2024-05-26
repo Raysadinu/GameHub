@@ -51,23 +51,6 @@ public class CategoryBean {
         return listToReturn;
     }
 
-    public CategoryDto getCategoryById(Long categoryId) {
-        LOG.info("\n** Entered getCategoryById method for the categoryId: " + categoryId + " **\n");
-
-        Category category = entityManager.find(Category.class, categoryId);
-        if (category == null) {
-            LOG.info("\n** No category found, returning NULL CATEGORY **\n");
-            return null;
-        }
-
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setCategoryId(category.getCategoryId());
-        categoryDto.setCategoryName(category.getCategoryName());
-        categoryDto.setGameIds(category.getGames().stream().map(Game::getGameId).toList());
-
-        LOG.info("\n** Exited getCategoryById method. **\n");
-        return categoryDto;
-    }
 
     public List<CategoryDto> getCategoriesByGameId(Long gameId) {
         LOG.info("\n** Entered getCategoriesByGameId method for gameId: " + gameId + " **\n");

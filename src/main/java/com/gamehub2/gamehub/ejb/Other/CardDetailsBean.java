@@ -42,11 +42,11 @@ public class CardDetailsBean {
         List<CardDetailsDto> listToReturn = new ArrayList<>();
 
         for (CardDetails cardDetails : cardDetailsList) {
-            // Creează un nou obiect CardDetailsDto cu numărul de card original
+
             CardDetailsDto cardDetailsDtoTemp = new CardDetailsDto(
                     cardDetails.getCardId(),
                     cardDetails.getUser(),
-                    cardDetails.getCardNumber(),  // Folosim numărul de card original, fără mascare
+                    cardDetails.getCardNumber(),
                     cardDetails.getExpirationDate(),
                     cardDetails.getCardName()
             );
@@ -108,13 +108,11 @@ public class CardDetailsBean {
         }
     }
 
-
     public void deleteCardDetails(Long cardId) {
         LOG.info("\n** Entered deleteCardDetails method for cardId: " + cardId + " **\n");
         try {
             CardDetails cardDetails = entityManager.find(CardDetails.class, cardId);
             if (cardDetails != null) {
-                // Șterge cardul din baza de date
                 entityManager.remove(cardDetails);
                 LOG.info("\n** Deleted card details successfully for cardId: " + cardId + " **\n");
             } else {

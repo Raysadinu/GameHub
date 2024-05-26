@@ -159,12 +159,12 @@ public class CartBean {
 
                 entityManager.persist(cart);
             } else {
-                // Handle case where wishlist or game is not found
-                throw new EJBException("Wishlist or game not found.");
+
+                throw new EJBException("Cart or game not found.");
             }
         } catch (Exception ex) {
-            // Handle exceptions (e.g., database errors)
-            throw new EJBException("Error deleting game from wishlist: " + ex.getMessage());
+
+            throw new EJBException("Error deleting game from cart: " + ex.getMessage());
         }
     }
     public boolean inCart(String username, Long gameId) {
