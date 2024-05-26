@@ -1,8 +1,6 @@
 package com.gamehub2.gamehub.ejb.Games;
 
-import com.gamehub2.gamehub.common.Games.CategoryDto;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
-import com.gamehub2.gamehub.common.Games.GameDto;
 import com.gamehub2.gamehub.entities.Games.Category;
 import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Games.GameDetails;
@@ -10,7 +8,6 @@ import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
@@ -19,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Stateless
 public class GameDetailsBean {
@@ -28,7 +24,6 @@ public class GameDetailsBean {
 
     @PersistenceContext
     EntityManager entityManager;
-
 
     public List<GameDetailsDto> findAllGameDetails() {
         LOG.info("\n** Entered findAllGameDetails method **\n");

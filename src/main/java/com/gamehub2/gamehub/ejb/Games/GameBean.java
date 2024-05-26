@@ -1,9 +1,12 @@
 package com.gamehub2.gamehub.ejb.Games;
 
 import com.gamehub2.gamehub.common.Games.GameDto;
+import com.gamehub2.gamehub.common.Others.PictureDto;
 import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Games.GameDetails;
+import com.gamehub2.gamehub.entities.Games.GameScreenshot;
 import com.gamehub2.gamehub.entities.Games.PriceDetails;
+import com.gamehub2.gamehub.entities.Others.Picture;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -11,11 +14,9 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+
 
 @Stateless
 public class GameBean {
@@ -36,6 +37,7 @@ public class GameBean {
             throw new EJBException(ex);
         }
     }
+
 
     public List<GameDto> findGamesByCategoryIds(List<Long> categoryIds) {
         LOG.info("\n** Entered findGamesByCategoryIds method for categoryIds: " + categoryIds + " **\n");
@@ -70,7 +72,6 @@ public class GameBean {
         }
     }
 
-
     public List<GameDto> copyGamesToDto(List<Game> games) {
         LOG.info("\n** Entered copyGamesToDto method with list size: " + games.size() + "**\n");
 
@@ -83,6 +84,24 @@ public class GameBean {
 
         LOG.info("\n** Exited copyGamesToDto method. **\n");
         return listToReturn;
+    }
+    public GameDto findGameById(Long gameId) {
+        LOG.info("\n** Entered findGameById method for gameId: " + gameId + " **\n");
+
+        try {
+            Game game = entityManager.find(Game.class, gameId);
+
+            if (game != null) {
+                LOG.info("\n** Found game with ID " + gameId + " **\n");
+                return new GameDto(game.getGameId(), game.getGameName());
+            } else {
+                LOG.info("\n** Game with ID " + gameId + " not found **\n");
+                return null;
+            }
+        } catch (Exception ex) {
+            LOG.severe("\nError in findGameById method! " + ex.getMessage() + "\n");
+            throw new EJBException(ex);
+        }
     }
 
     public void deleteGame(Long gameId) {
@@ -151,6 +170,103 @@ public class GameBean {
 
         LOG.info("\n Exited findGameInSearchBar method. \n");
         return matchingGames;
+    }
+    public void addGameProfilePicture(Long gameId, String imageName, String imageFormat, byte[] imageData) {
+        LOG.info("Entered addGameProfilePicture method for gameId: " + gameId);
+        try {
+            Picture newGamePicture = new Picture();
+            newGamePicture.setImageName(imageName);
+            newGamePicture.setImageFormat(imageFormat);
+            newGamePicture.setImageData(imageData);
+            newGamePicture.setType(Picture.PictureType.GAME_PROFILE);
+
+            Game game = entityManager.find(Game.class, gameId);
+            if (game != null) {
+                Picture existingPicture = game.getPictures();
+                if (existingPicture != null) {
+                    // Remove old profile picture
+                    entityManager.remove(existingPicture);
+                    LOG.info("Removed old profile picture for gameId: " + gameId);
+                }
+
+                // Set the new profile picture
+                newGamePicture.setGame(game);
+                entityManager.persist(newGamePicture);
+                game.setPictures(newGamePicture);
+                entityManager.merge(game);
+                LOG.info("Added new profile picture for gameId: " + gameId);
+            } else {
+                LOG.warning("Game not found for gameId: " + gameId);
+            }
+        } catch (Exception ex) {
+            LOG.severe("Error in addGameProfilePicture method! " + ex.getMessage());
+            throw new EJBException(ex);
+        }
+    }
+
+
+    public PictureDto findGameProfilePictureByGameId(Long gameId) {
+        LOG.info("Entered findGameProfilePictureByGameId method for gameId: " + gameId);
+        try {
+            List<Picture> pictures = entityManager.createQuery(
+                            "SELECT p FROM Picture p WHERE p.game.gameId = :gameId AND p.type = :pictureType", Picture.class)
+                    .setParameter("gameId", gameId)
+                    .setParameter("pictureType", Picture.PictureType.GAME_PROFILE)
+                    .getResultList();
+
+            if (!pictures.isEmpty()) {
+                Picture picture = pictures.get(0);
+                return new PictureDto(picture.getId(), picture.getImageData(), picture.getImageFormat(), picture.getImageName());
+            } else {
+                LOG.warning("No profile picture found for gameId: " + gameId);
+                return null;
+            }
+        } catch (Exception ex) {
+            LOG.severe("Error in findGameProfilePictureByGameId method! " + ex.getMessage());
+            throw new EJBException(ex);
+        }
+    }
+
+    public void addGameScreenshot(Long gameId, String imageName, String imageFormat, byte[] imageData) {
+        LOG.info("Entered addGameScreenshot method for gameId: " + gameId);
+        try {
+
+            Picture newGameScreenshot = new Picture();
+            newGameScreenshot.setImageName(imageName);
+            newGameScreenshot.setImageFormat(imageFormat);
+            newGameScreenshot.setImageData(imageData);
+            newGameScreenshot.setType(Picture.PictureType.GAME_SCREENSHOT);
+
+
+            Game game = entityManager.find(Game.class, gameId);
+            if (game != null) {
+
+                List<GameScreenshot> existingScreenshots = game.getScreenshots();
+
+
+                GameScreenshot gameScreenshot = new GameScreenshot();
+                gameScreenshot.setGame(game);
+                gameScreenshot.setPicture(newGameScreenshot);
+
+
+                entityManager.persist(newGameScreenshot);
+                entityManager.persist(gameScreenshot);
+
+
+                existingScreenshots.add(gameScreenshot);
+                game.setScreenshots(existingScreenshots);
+
+
+                entityManager.merge(game);
+
+                LOG.info("Added new screenshot for gameId: " + gameId);
+            } else {
+                LOG.warning("Game not found for gameId: " + gameId);
+            }
+        } catch (Exception ex) {
+            LOG.severe("Error in addGameScreenshot method! " + ex.getMessage());
+            throw new EJBException(ex);
+        }
     }
 
 

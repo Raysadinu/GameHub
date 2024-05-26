@@ -82,7 +82,7 @@ public class Wishlist extends HttpServlet {
         List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
 
 
-        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(gameDetails, priceList);
+        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(gameDetailsList, priceList);
 
 
         request.setAttribute("cart", gameDetailsInCart);

@@ -411,6 +411,107 @@ VALUES
     (98, 59.99, 0, 0),
     (99, 0, 0, 0),
     (100, 11.59, 0, 0);
+INSERT IGNORE INTO gamehub.gamepg (`ID`, `TYPE`, `GAMEID`) VALUES
+(1, 'PEGI7', 1),
+(2, 'PEGI18', 2),
+(3, 'PEGI18', 3),
+(4, 'PEGI7', 4),
+(5, 'PEGI16', 5),
+(6, 'PEGI18', 6),
+(7, 'PEGI12', 7),
+(8, 'PEGI12', 8),
+(9, 'PEGI16', 9),
+(10, 'PEGI16', 10),
+(11, 'PEGI18', 11),
+(12, 'PEGI16', 12),
+(13, 'PEGI18', 13),
+(14, 'PEGI3', 14),
+(15, 'PEGI18', 15),
+(16, 'PEGI12', 16),
+(17, 'PEGI18', 17),
+(18, 'PEGI7', 18),
+(19, 'PEGI3', 19),
+(20, 'PEGI16', 20),
+(21, 'PEGI18', 21),
+(22, 'PEGI3', 22),
+(23, 'PEGI18', 23),
+(24, 'PEGI12', 24),
+(25, 'PEGI18', 25),
+(26, 'PEGI16', 26),
+(27, 'PEGI12', 27),
+(28, 'PEGI18', 28),
+(29, 'PEGI18', 29),
+(30, 'PEGI16', 30),
+(31, 'PEGI16', 31),
+(32, 'PEGI18', 32),
+(33, 'PEGI18', 33),
+(34, 'PEGI12', 34),
+(35, 'PEGI12', 35),
+(36, 'PEGI12', 36),
+(37, 'PEGI18', 37),
+(38, 'PEGI12', 38),
+(39, 'PEGI12', 39),
+(40, 'PEGI18', 40),
+(41, 'PEGI18', 41),
+(42, 'PEGI18', 42),
+(43, 'PEGI16', 43),
+(44, 'PEGI7', 44),
+(45, 'PEGI7', 45),
+(46, 'PEGI16', 46),
+(47, 'PEGI16', 47),
+(48, 'PEGI18', 48),
+(49, 'PEGI12', 49),
+(50, 'PEGI12', 50),
+(51, 'PEGI3', 51),
+(52, 'PEGI18', 52),
+(53, 'PEGI16', 53),
+(54, 'PEGI18', 54),
+(55, 'PEGI16', 55),
+(56, 'PEGI18', 56),
+(57, 'PEGI3', 57),
+(58, 'PEGI7', 58),
+(59, 'PEGI7', 59),
+(60, 'PEGI12', 60),
+(61, 'PEGI3', 61),
+(62, 'PEGI7', 62),
+(63, 'PEGI18', 63),
+(64, 'PEGI18', 64),
+(65, 'PEGI18', 65),
+(66, 'PEGI18', 66),
+(67, 'PEGI12', 67),
+(68, 'PEGI3', 68),
+(69, 'PEGI12', 69),
+(70, 'PEGI12', 70),
+(71, 'PEGI16', 71),
+(72, 'PEGI12', 72),
+(73, 'PEGI7', 73),
+(74, 'PEGI7', 74),
+(75, 'PEGI7', 75),
+(76, 'PEGI3', 76),
+(77, 'PEGI7', 77),
+(78, 'PEGI7', 78),
+(79, 'PEGI12', 79),
+(80, 'PEGI7', 80),
+(81, 'PEGI12', 81),
+(82, 'PEGI16', 82),
+(83, 'PEGI7', 83),
+(84, 'PEGI18', 84),
+(85, 'PEGI3', 85),
+(86, 'PEGI16', 86),
+(87, 'PEGI16', 87),
+(88, 'PEGI12', 88),
+(89, 'PEGI12', 89),
+(90, 'PEGI16', 90),
+(91, 'PEGI12', 91),
+(92, 'PEGI12', 92),
+(93, 'PEGI18', 93),
+(94, 'PEGI18', 94),
+(95, 'PEGI18', 95),
+(96, 'PEGI18', 96),
+(97, 'PEGI18', 97),
+(98, 'PEGI18', 98),
+(99, 'PEGI18', 99),
+(100, 'PEGI16', 100);
 
 INSERT INTO gamehub.category (`categoryId`, `categoryName`) VALUES
 (1, 'Simulation'),
@@ -950,11 +1051,6 @@ INSERT IGNORE INTO gamehub.game_category (`GAMEID`, `CATEGORYID`) VALUES
 (100, 14), -- Multiplayer
 (100, 27); -- Narrative
 
-
-INSERT IGNORE INTO gamehub.platform (`PLATFORMID`, `PLATFORMNAME`) VALUES
-(1, 'Windows'),
-(2, 'macOs'),
-(3, 'Linux / SteamOS');
 INSERT IGNORE INTO gamehub.memory (`MEMORYID`, `MEMORY`) VALUES
 (1, '1'),
 (2, '2'),
@@ -1007,3 +1103,105 @@ INSERT IGNORE INTO gamehub.videocard (`VIDEOCARDID`, `VIDEOCARDNAME`, `PERFORMAN
 (17, 'NVIDIA GeForce RTX 4080', 4731, 16),
 (18, 'NVIDIA GeForce RTX 4060', 4328, 8),
 (19, 'NVIDIA GeForce RTX 4060 Ti', 4883, 8);
+INSERT IGNORE INTO gamehub.systemrequirements (`GAMEID`, `PROCESSOR_PROCESSORID`, `MEMORY_MEMORYID`, `VIDEOCARD_VIDEOCARDID`) VALUES
+(1, 8, 5, 1),  -- Stardew Valley
+(2, 16, 7, 3), -- The Witcher 3: Wild Hunt
+(3, 10, 8, 4), -- Red Dead Redemption 2
+(4, 9, 4, 1),  -- Minecraft
+(5, 18, 7, 6), -- Dark Souls III
+(6, 4, 7, 2),  -- Grand Theft Auto V
+(7, 17, 5, 8), -- Fortnite
+(8, 11, 6, 3), -- Overwatch
+(9, 12, 7, 9), -- Final Fantasy XV
+(10, 15, 7, 5),-- Persona 5
+(11, 18, 7, 7),-- God of War
+(12, 16, 7, 7),-- Bloodborne
+(13, 13, 7, 1),-- The Elder Scrolls V: Skyrim
+(14, 11, 6, 1),-- Rocket League
+(15, 10, 8, 5),-- The Last of Us Part II
+(16, 4, 8, 5), -- League of Legends
+(17, 3, 7, 8), -- Counter-Strike: Global Offensive
+(18, 5, 5, 10),-- Among Us
+(19, 9, 5, 10),-- FIFA 21
+(20, 15, 7, 11),-- Apex Legends
+(21, 14, 7, 14),-- Call of Duty: Warzone
+(22, 8, 6, 12),-- Animal Crossing: New Horizons
+(23, 18, 7, 16),-- Assassin's Creed Odyssey
+(24, 17, 6, 13),-- Dota 2
+(25, 6, 7, 17), -- Rainbow Six Siege
+(26, 16, 7, 18),-- Halo Infinite
+(27, 3, 6, 6),  -- Genshin Impact
+(28, 10, 8, 13),-- Cyberpunk 2077
+(29, 15, 7, 17),-- Borderlands 3
+(30, 16, 7, 16),-- Monster Hunter: World
+(31, 12, 7, 15),-- Destiny 2
+(32, 17, 7, 15),-- Dead by Daylight
+(33, 7, 7, 11), -- The Elder Scrolls Online
+(34, 5, 6, 1),  -- Terraria
+(35, 10, 7, 13),-- World of Warcraft
+(36, 15, 7, 11),-- Smash Bros. Ultimate
+(37, 9, 5, 6),  -- Rust
+(38, 6, 7, 14), -- Hades
+(39, 5, 5, 8),  -- RuneScape
+(40, 16, 7, 11),-- Mortal Kombat 11
+(41, 18, 7, 14),-- Sekiro: Shadows Die Twice
+(42, 14, 8, 16),-- Death Stranding
+(43, 13, 7, 9), -- Diablo III
+(44, 9, 6, 10), -- No Man's Sky
+(45, 10, 7, 12),-- Subnautica
+(46, 18, 7, 14),-- Star Wars Jedi: Fallen Order
+(47, 14, 8, 13),-- Baldur's Gate III
+(48, 10, 7, 6), -- Warframe
+(49, 4, 8, 17), -- Civilization VI
+(50, 15, 7, 16),-- Sea of Thieves
+(51, 12, 7, 18),-- Forza Horizon 4
+(52, 10, 7, 15),-- Gears 5
+(53, 17, 7, 14),-- Control
+(54, 9, 7, 13), -- The Outer Worlds
+(55, 16, 7, 11),-- Divinity: Original Sin 2
+(56, 18, 7, 17),-- Tom Clancy's The Division 2
+(57, 5, 6, 1),  -- Cities: Skylines
+(58, 14, 7, 17),-- Stellaris
+(59, 15, 7, 13),-- Factorio
+(60, 17, 7, 14),-- Crusader Kings III
+(61, 13, 7, 14),-- Planet Zoo
+(62, 12, 7, 16),-- Ori and the Will of the Wisps
+(63, 4, 8, 16), -- Doom Eternal
+(64, 10, 7, 9), -- Disco Elysium
+(65, 14, 7, 15),-- Detroit: Become Human
+(66, 12, 7, 13),-- Resident Evil 2 Remake
+(67, 5, 6, 10), -- The Sims 4
+(68, 6, 7, 11), -- Celeste
+(69, 14, 7, 12),-- Outer Wilds
+(70, 9, 5, 6),  -- Undertale
+(71, 3, 6, 6),  -- Inside
+(72, 2, 6, 7),  -- Limbo
+(73, 5, 6, 8),  -- Braid
+(74, 4, 8, 11), -- Hyper Light Drifter
+(75, 13, 7, 10),-- Journey
+(76, 11, 6, 8), -- Cuphead
+(77, 12, 7, 14),-- Hollow Knight
+(78, 8, 6, 9),  -- Spelunky 2
+(79, 10, 7, 13),-- Dead Cells
+(80, 7, 7, 14), -- Shovel Knight
+(81, 17, 7, 16),-- Enter the Gungeon
+(82, 14, 7, 15),-- Katana Zero
+(83, 6, 7, 12), -- Ori and the Blind Forest
+(84, 12, 7, 13),-- A Plague Tale: Innocence
+(85, 13, 7, 12),-- The Witness
+(86, 7, 7, 10), -- Firewatch
+(87, 9, 7, 14), -- What Remains of Edith Finch
+(88, 8, 6, 9),  -- Gris
+(89, 5, 6, 7),  -- Night in the Woods
+(90, 11, 7, 10),-- Life is Strange
+(91, 6, 7, 8),  -- Oxenfree
+(92, 5, 6, 7),  -- To the Moon
+(93, 16, 7, 12),-- Silent Hill 2
+(94, 13, 7, 13),-- Amnesia: The Dark Descent
+(95, 18, 7, 14),-- Resident Evil 7: Biohazard
+(96, 10, 7, 11),-- Dead Space
+(97, 8, 6, 9),  -- Outlast
+(98, 18, 7, 15),-- The Last of Us
+(99, 14, 7, 16),-- Until Dawn
+(100, 7, 7, 17);-- Phasmophobia
+

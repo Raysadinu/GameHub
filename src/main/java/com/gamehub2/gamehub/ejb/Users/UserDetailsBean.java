@@ -1,6 +1,9 @@
 package com.gamehub2.gamehub.ejb.Users;
 
+
 import com.gamehub2.gamehub.common.Users.UserDetailsDto;
+import com.gamehub2.gamehub.entities.Others.Picture;
+import com.gamehub2.gamehub.entities.Users.User;
 import com.gamehub2.gamehub.entities.Users.UserDetails;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
@@ -41,7 +44,7 @@ public class UserDetailsBean {
         List<UserDetailsDto> listToReturn = new ArrayList<>();
 
         for (UserDetails ud : userDetailsList) {
-            UserDetailsDto userDetailsDtoTemp = new UserDetailsDto(ud.getUsername(), ud.getFirstName(), ud.getLastName(), ud.getBirthDate(), ud.getPhoneNumber(), ud.getGender(), ud.getBio(), ud.getLocation(), ud.getNickname());
+            UserDetailsDto userDetailsDtoTemp = new UserDetailsDto(ud.getUsername(), ud.getFirstName(), ud.getLastName(), ud.getBirthDate(), ud.getPhoneNumber(), ud.getGender(), ud.getBio(), ud.getLocation(), ud.getNickname(), ud.getProfilePicture());
             listToReturn.add(userDetailsDtoTemp);
         }
 
@@ -61,29 +64,86 @@ public class UserDetailsBean {
         }
 
         if (userToReturn == null) {
-            userToReturn = new UserDetailsDto(null,null,null, LocalDate.now(),null,null,null,null,null);
+            userToReturn = new UserDetailsDto(null,null,null, LocalDate.now(),null,null,null,null,null,null);
         }
 
         LOG.info("\n** Exited getUserDetailsByUsername method. **\n");
         return userToReturn;
     }
-    public void updateUserDetails(UserDetailsDto newUserDetails){
-        LOG.info("\n** Entered updateUserDetails method for the username: "+ newUserDetails.getUsername() +" **\n");
 
-        UserDetails userDetails=entityManager.find(UserDetails.class,newUserDetails.getUsername());
+    //Update
+    public void updateFirstName(String username, String firstName) {
+        LOG.info("\n Entered updateFirstName method for the username: "+username+" \n");
 
-        userDetails.setFirstName(newUserDetails.getFirstName());
-        userDetails.setLastName(newUserDetails.getLastName());
-        userDetails.setPhoneNumber(newUserDetails.getPhoneNumber());
-        userDetails.setBio(newUserDetails.getBio());
-        userDetails.setGender(newUserDetails.getGender());
-        if(newUserDetails.getBirthDate() != null){
-            userDetails.setBirthDate(newUserDetails.getBirthDate());
-        }
-        userDetails.setLocation(newUserDetails.getLocation());
-        userDetails.setNickname(newUserDetails.getNickname());
-        LOG.info("\n** Exited updateUserDetails method. **\n");
+        UserDetails ud=entityManager.find(UserDetails.class,username);
+        ud.setFirstName(firstName);
+
+        LOG.info("\n Exited updateFirstName method. \n");
+    }
+    public void updateLastName(String username, String lastName) {
+        LOG.info("\n Entered updateLastName method for the username: "+username+" \n");
+        UserDetails ud=entityManager.find(UserDetails.class,username);
+        ud.setLastName(lastName);
+        LOG.info("\n Exited updateLastName method. \n");
+    }
+    public void updateNickname(String username, String nickname) {
+        LOG.info("\n Entered updateNickname method for the username: "+username+" \n");
+        UserDetails ud=entityManager.find(UserDetails.class,username);
+        ud.setNickname(nickname);
+        LOG.info("\n Exited updateNickname method. \n");
     }
 
+    public void updateLocation(String username, String location) {
+        LOG.info("\n Entered updateLocation method for the username: "+username+" \n");
+        UserDetails ud=entityManager.find(UserDetails.class,username);
+        ud.setLocation(location);
+        LOG.info("\n Exited updateLocation method. \n");
+    }
+    public void updateBirthDate(String username, LocalDate birthDate) {
+        LOG.info("\n Entered updateBirthDate method for the username: "+username+" \n");
+        UserDetails ud=entityManager.find(UserDetails.class,username);
+        ud.setBirthDate(birthDate);
+        LOG.info("\n Exited updateBirthDate method. \n");
+    }
+    public void updatePhoneNumber(String username, String phoneNumber) {
+        LOG.info("\n Entered updatePhoneNumber method for the username: "+username+" \n");
+        UserDetails ud=entityManager.find(UserDetails.class,username);
+        ud.setPhoneNumber(phoneNumber);
+        LOG.info("\n Exited updatePhoneNumber method. \n");
+    }
+    public void updateGender(String username, String gender) {
+        LOG.info("\n Entered updateGender method for the username: "+username+" \n");
+        UserDetails ud=entityManager.find(UserDetails.class,username);
+        ud.setGender(gender);
+        LOG.info("\n Exited updateGender method. \n");
+    }
+    public void updateBio(String username, String bio) {
+        LOG.info("\n Entered updateBio method for the username: "+username+" \n");
+        UserDetails ud=entityManager.find(UserDetails.class,username);
+        ud.setBio(bio);
+        LOG.info("\n Exited updateBio method. \n");
+    }
+    public void updateProfilePicture(String username,String imageName, String imageFormat,byte[] imageData) {
+        LOG.info("\n Entered updateProfilePicture method for the username: " + username + " \n");
+        UserDetails ud = entityManager.find(UserDetails.class, username);
+        if (ud != null) {
+            Picture existingProfilePicture = ud.getProfilePicture();
+            if (existingProfilePicture != null) {
+                entityManager.remove(existingProfilePicture);
+            }
+            Picture picture = new Picture();
+            picture.setImageName(imageName);
+            picture.setImageFormat(imageFormat);
+            picture.setImageData(imageData);
+            picture.setType(Picture.PictureType.USER_PROFILE);
+            ud.setProfilePicture(picture);
+            entityManager.persist(picture);
+            LOG.info("\n Profile picture updated successfully for username: " + username + " \n");
+        } else {
+            throw new IllegalArgumentException("User not found with username: " + username);
+        }
+    }
 
 }
+
+

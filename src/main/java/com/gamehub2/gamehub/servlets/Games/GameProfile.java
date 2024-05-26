@@ -2,7 +2,16 @@ package com.gamehub2.gamehub.servlets.Games;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.Utilities.Functionalities;
+
+import com.gamehub2.gamehub.common.Games.*;
+import com.gamehub2.gamehub.common.Others.MediaDto;
+import com.gamehub2.gamehub.common.Others.PictureDto;
+import com.gamehub2.gamehub.ejb.Admins.AdminBean;
+import com.gamehub2.gamehub.ejb.Games.*;
+import com.gamehub2.gamehub.ejb.Other.CartBean;
+import com.gamehub2.gamehub.ejb.Other.LibraryBean;
+import com.gamehub2.gamehub.ejb.Other.MediaBean;
+
 import com.gamehub2.gamehub.common.Games.CategoryDto;
 import com.gamehub2.gamehub.common.Games.CommentDto;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
@@ -14,6 +23,7 @@ import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.CartBean;
 import com.gamehub2.gamehub.ejb.Other.LibraryBean;
+
 import com.gamehub2.gamehub.ejb.Other.WishlistBean;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;
@@ -40,6 +50,8 @@ public class GameProfile extends HttpServlet {
     @Inject
     PriceDetailsBean priceDetailsBean;
     @Inject
+    GameBean gameBean;
+    @Inject
     CategoryBean categoryBean;
     @Inject
     CommentBean commentBean;
@@ -49,6 +61,12 @@ public class GameProfile extends HttpServlet {
     CartBean cartBean;
     @Inject
     LibraryBean libraryBean;
+
+    @Inject
+    GameScreenshotBean gameScreenshotBean;
+    @Inject
+    MediaBean mediaBean;
+
 
     private static final Logger LOG = Logger.getLogger(GameProfile.class.getName());
     @Override
@@ -73,7 +91,32 @@ public class GameProfile extends HttpServlet {
 
         List<PriceDetailsDto> allPriceDetails = priceDetailsBean.findAllPriceDetails();
 
-        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(allGameDetails, allPriceDetails);
+        PriceDetailsDto price = priceDetailsBean.getPriceDetailsByGameId(gameId, allPriceDetails);
+
+
+        Map<Long, Double[]> gamePrices = new HashMap<>();
+
+        for (GameDetailsDto gameDetail : allGameDetails) {
+            Long gameIds = gameDetail.getGameId();
+            Double[] priceInfo = new Double[3];
+
+            for (PriceDetailsDto priceDetail : allPriceDetails) {
+                if (priceDetail.getGameId().equals(gameIds)) {
+                    if (priceDetail.getDiscount() > 0) {
+                        priceInfo[0] = priceDetail.getPrice();
+                        priceInfo[1] = priceDetail.getDiscount_price();
+                        priceInfo[2] = priceDetail.getDiscount();
+                    } else {
+                        priceInfo[0] = priceDetail.getPrice();
+                        priceInfo[1] = 0.0;
+                        priceInfo[2] = 0.0;
+                    }
+                    break;
+                }
+            }
+            gamePrices.put(gameIds, priceInfo);
+        }
+
 
         List<CategoryDto> categories = categoryBean.getCategoriesByGameId(gameId);
         categories.sort((c1, c2) -> c1.getCategoryName().compareToIgnoreCase(c2.getCategoryName()));
@@ -100,23 +143,35 @@ public class GameProfile extends HttpServlet {
             }
         }
 
+        List<GameScreenshotDto> screenshots = gameScreenshotBean.findScreenshotByGameId(gameId);
+        MediaDto trailer = mediaBean.findMediaByGameId(gameId);
+
+
         if (thisGame != null) {
             LOG.info("Game details retrieved: " + thisGame.toString());
 
 
-            request.setAttribute("price", gamePrices);
+            // Setting attributes to be accessed in JSP
+            request.setAttribute("trailer", trailer);
+            request.setAttribute("screenshots", screenshots);
+            request.setAttribute("gamePrices", gamePrices);
+
+            // Setting attributes to be accessed in JSP
+
             request.setAttribute("game", thisGame);
             request.setAttribute("categories", categories);
             request.setAttribute("comments", comments);
             request.setAttribute("wishlist", gameDetailsOnWishlist);
             request.setAttribute("cart", gameDetailsInCart);
             request.setAttribute("library", gameDetailsInLibrary);
-
+            // Forwarding the request to the game profile JSP
             request.getRequestDispatcher("/WEB-INF/gamePages/gameProfile.jsp").forward(request, response);
         } else {
-
+            // If game details not found, sending a 404 error
             LOG.warning("Game details not found for gameId: " + gameId);
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Game details not found");
         }
+
+
     }
 }

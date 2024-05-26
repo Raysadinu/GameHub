@@ -10,7 +10,32 @@
 <%@taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<t:template pageTitle="Wishlist">
+<t:template pageTitle="Cart">
+    <style>
+        .price-discount {
+            background-color: blue;
+            color: white;
+            padding: 0 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-right: 15px;
+        }
+
+        .price-values {
+            display: flex;
+            align-items: center;
+        }
+
+        .price-values p, .price-values s {
+            margin-right: 10px;
+            margin-bottom: 0;
+        }
+
+        .price-values p {
+            text-decoration: line-through;
+            color: grey;
+        }
+    </style>
     <h1>Cart, ${user.username}</h1>
 
     <c:if test="${empty games}">
@@ -25,28 +50,21 @@
                         <div class="card-body">
                             <a href="${pageContext.request.contextPath}/GameProfile?gameId=${game.gameId}">${game.gameName}</a>
                             <c:choose>
-                                <c:when test="${gamePrices[game.gameId][1] > 0}">
-                                 <p style="color: grey; text-decoration: line-through;">Price: $<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
-                                 <p>Discount: <fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</p>
-                                 <p>Discounted Price: $<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></p>
+                                <c:when test="${gamePrices[game.gameId][0] == 0}">
+                                    <p>Free</p>
                                 </c:when>
+                                <c:when test="${gamePrices[game.gameId][1] > 0}">
+                                    <div class="price-container">
+                                        <b class="price-discount"><fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</b>
+                                        <div class="price-values">
+                                            <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
+                                            <b>$<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></b>
+                                        </div>
+                                    </div>
+                                </c:when>
+
                                 <c:otherwise>
-                                    <c:choose>
-                                        <c:when test="${gamePrices[game.gameId][0] == 0}">
-                                            <p>Price: Free</p>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:set var="price" value="${gamePrices[game.gameId][0]}" />
-                                            <c:choose>
-                                                <c:when test="${price == price.intValue()}">
-                                                    <p>Price: $<c:out value="${price.intValue()}" /></p>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <p>Price: $<c:out value="${price}" /></p>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:otherwise>
-                                    </c:choose>
+                                    <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
                                 </c:otherwise>
                             </c:choose>
                             <a class="btn btn-danger" href="${pageContext.request.contextPath}/DeleteFromCart?gameId=${game.gameId}&cartId=${cart.cartId}">Remove</a>

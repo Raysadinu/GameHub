@@ -3,12 +3,65 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <t:template pageTitle="Game Profile">
-    <div class="container text-center">
+    <style>
+        .price-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+
+        .price-discount {
+            flex-grow: 1;
+            margin-right: 10px;
+            background-color: blue;
+            color: white;
+            padding: 5px;
+            text-align: center;
+            width: 40px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            font-size:15px;
+            margin-top:25px;
+            margin-bottom: 5px;
+
+        }
+        .price-values {
+            display: flex;
+            align-items: center;
+        }
+        .price-values p, .price-values b {
+            margin-right:  15px;
+            margin-bottom: 0;
+        }
+        .price-values p {
+            text-decoration: line-through;
+            color: grey;
+        }
+    </style>
+    <div class="container text-center" style="margin-top: 100px">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <!-- Display game profile picture -->
+                <img src="${pageContext.request.contextPath}/GamePhotos?gameId=${game.gameId}" width="200">
+            </div>
+        </div>
+
         <div>
             <h3>${game.gameName}</h3>
             <c:if test="${isAdmin}">
-                <div><a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditGame?gameId=${game.gameId}">Edit Game</a></div>
+                <div>
+                    <a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditGame?gameId=${game.gameId}">Edit Game</a>
+                </div>
+                <div>
+                    <a class="btn btn-secondary" href="${pageContext.request.contextPath}/AddGamePictures?gameId=${game.gameId}">Add Photos</a>
+                </div>
             </c:if>
+
             <div class="wishlist-cart-buttons">
                 <c:choose>
                     <c:when test="${library.contains(game)}">
@@ -43,17 +96,46 @@
         </div>
         <c:choose>
             <c:when test="${gamePrices[game.gameId][0] == 0}">
-                <p>Price: Free</p>
+                <p>Free</p>
             </c:when>
             <c:when test="${gamePrices[game.gameId][1] > 0}">
-                <p style="color: grey; text-decoration: line-through;">Price: $<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
-                <p>Discount: <fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</p>
-                <p>Discounted Price: $<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></p>
+                <div class="price-container">
+                    <b class="price-discount"><fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</b>
+                    <div class="price-values">
+                        <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
+                        <b>$<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></b>
+                    </div>
+                </div>
             </c:when>
+
             <c:otherwise>
-                <p>Price: $<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
+                <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
             </c:otherwise>
         </c:choose>
+        <iframe width="560" height="315" src="${trailer.link}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Screenshots</h4>
+            <div class="row">
+                <c:forEach var="screenshot" items="${screenshots}">
+                    <div class="col-md-3">
+                        <c:if test="${not empty screenshot}">
+                            <img src="data:image/${screenshot.picture.imageFormat};base64,${screenshot.picture.base64ImageData}" alt="Screenshot" width="560" height="315">
+                        </c:if>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+    </div>
+
+    <c:if test="${isAdmin}">
+        <div>
+            <a class="btn btn-secondary" href="${pageContext.request.contextPath}/AddGameScreenshots?gameId=${game.gameId}">Add Screenshots</a>
+        </div>
+    </c:if>
+
         <p>Publisher: ${game.publisher}</p>
         <p>Developer: ${game.developer}</p>
         <p>Release Date: ${game.releaseDate}</p>
@@ -96,14 +178,14 @@
                         <p>${comment.content}</p>
                         <div class="recommendation">
                             <span>Recommendation:</span>
-                            <span id="recommendation-icon-${comment.id}"></span>
+                            <!-- Display thumbs-up icon if recommended, thumbs-down if notRecommended -->
+                            <c:if test="${comment.recommended}">
+                                <i class="bi bi-hand-thumbs-up-fill"  style="color: green;"></i>
+                            </c:if>
+                            <c:if test="${comment.notRecommended}">
+                                <i class="bi bi-hand-thumbs-down-fill" style="color: red;"></i>
+                            </c:if>
                         </div>
-                        <div class="reactions">
-                            <button class="btn btn-primary">Like</button>
-                            <button class="btn btn-danger">Dislike</button>
-                            <button class="btn btn-success">Helpful</button>
-                        </div>
-                        <button class="btn btn-secondary reply-btn">Reply</button>
                     </div>
                 </c:forEach>
             </div>

@@ -1,5 +1,6 @@
 package com.gamehub2.gamehub.entities.Users;
 
+import com.gamehub2.gamehub.entities.Others.Picture;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.persistence.*;
 
@@ -30,7 +31,16 @@ public class UserDetails {
     private String location;
     @Basic
     private String nickname;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Picture profilePicture;
 
+    public Picture getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(Picture profilePicture) {
+        this.profilePicture = profilePicture;
+    }
 
     public void setUsername(String username) {
         this.username = username;

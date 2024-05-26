@@ -1,9 +1,6 @@
 package com.gamehub2.gamehub.entities.Games;
 
-import com.gamehub2.gamehub.entities.Others.Cart;
-import com.gamehub2.gamehub.entities.Others.Library;
-import com.gamehub2.gamehub.entities.Others.PaymentRequest;
-import com.gamehub2.gamehub.entities.Others.Wishlist;
+import com.gamehub2.gamehub.entities.Others.*;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -32,6 +29,38 @@ public class Game {
     private List<PaymentRequest> paymentRequests;
     @ManyToMany(mappedBy = "games")
     private List<Category> categories;
+
+    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
+    private Picture pictures;
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<GameScreenshot> screenshots;
+    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
+    private Media videos;
+
+
+    public Picture getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(Picture pictures) {
+        this.pictures = pictures;
+    }
+
+    public List<GameScreenshot> getScreenshots() {
+        return screenshots;
+    }
+
+    public void setScreenshots(List<GameScreenshot> screenshots) {
+        this.screenshots = screenshots;
+    }
+
+    public Media getVideos() {
+        return videos;
+    }
+
+    public void setVideos(Media videos) {
+        this.videos = videos;
+    }
 
     public List<Category> getCategories() {
         return categories;
