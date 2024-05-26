@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -114,10 +113,7 @@ public class Filter extends HttpServlet {
             if (minPrice != null && price < minPrice) {
                 return false;
             }
-            if (maxPrice != null && price > maxPrice) {
-                return false;
-            }
-            return true;
+            return maxPrice == null || price <= maxPrice;
         }).collect(Collectors.toList());
 
         boolean filtersActive = !categoryIds.isEmpty() || minPrice != null || maxPrice != null || discountedOnly || freeOnly;

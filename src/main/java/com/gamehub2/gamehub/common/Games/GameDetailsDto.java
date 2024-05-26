@@ -1,11 +1,8 @@
 package com.gamehub2.gamehub.common.Games;
-
-import com.gamehub2.gamehub.entities.Games.Category;
 import com.gamehub2.gamehub.entities.Games.GameDetails;
-import com.gamehub2.gamehub.entities.SystemReq.Memory;
+
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 
 public class GameDetailsDto {
@@ -16,7 +13,7 @@ public class GameDetailsDto {
     String developer;
     String description;
     String storage;
-    double min_req;
+
     List<CategoryDto> categories;
     public GameDetailsDto(Long gameId, String gameName, LocalDate releaseDate, String publisher, String developer, String description, String storage) {
         this.gameId = gameId;
@@ -36,17 +33,7 @@ public class GameDetailsDto {
         this.developer = gameDetails.getDeveloper();
         this.description = gameDetails.getDescription();
         this.storage = gameDetails.getStorage();
-        this.min_req = gameDetails.getMin_req();
-    }
-    public GameDetailsDto(Long gameId, String gameName, LocalDate releaseDate, String publisher, String developer, String description, String storage, double min_req) {
-        this.gameId = gameId;
-        this.gameName = gameName;
-        this.releaseDate = releaseDate;
-        this.publisher = publisher;
-        this.developer = developer;
-        this.description = description;
-        this.storage = storage;
-        this.min_req = min_req;
+
     }
 
     public GameDetailsDto() {
@@ -78,9 +65,7 @@ public class GameDetailsDto {
 
     public String getStorage() {return storage;}
 
-    public double getMin_req() {
-        return min_req;
-    }
+
 
     public void setGameId(Long gameId) {
         this.gameId = gameId;
@@ -108,10 +93,6 @@ public class GameDetailsDto {
 
     public void setStorage(String storage) {
         this.storage = storage;
-    }
-
-    public void setMin_req(double min_req) {
-        this.min_req = min_req;
     }
 
     public List<CategoryDto> getCategories() {

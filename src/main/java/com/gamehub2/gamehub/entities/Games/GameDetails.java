@@ -15,13 +15,10 @@ public class GameDetails {
     @MapsId
     @JoinColumn(name = "gameId", referencedColumnName = "gameId")
     private Game game;
-
     @Basic
     private LocalDate releaseDate;
-
     @Basic
     private String publisher;
-
     @Basic
     private String developer;
     @Basic
@@ -31,8 +28,17 @@ public class GameDetails {
     private String gameName;
     @Basic
     private String storage;
-    @Basic
-    private double min_req;
+    @OneToOne(mappedBy = "gameDetails")
+    private GamePG gamePG;
+
+
+    public GamePG getGamePG() {
+        return gamePG;
+    }
+
+    public void setGamePG(GamePG gamePG) {
+        this.gamePG = gamePG;
+    }
 
     public Long getGameId() {
         return gameId;
@@ -94,11 +100,5 @@ public class GameDetails {
 
     public void setStorage(String storage) {this.storage = storage;}
 
-    public double getMin_req() {
-        return min_req;
-    }
 
-    public void setMin_req(double min_req) {
-        this.min_req = min_req;
-    }
 }

@@ -10,11 +10,8 @@ import com.gamehub2.gamehub.ejb.Games.CategoryBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.SystemReq.*;
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.HttpConstraint;
-import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +20,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -38,9 +34,6 @@ public class EditGame extends HttpServlet {
     CategoryBean categoryBean;
     @Inject
     MemoryBean memoryBean;
-    @Inject
-    PlatformBean platformBean;
-    @Inject
     ProcessorBean processorBean;
     @Inject
     VideoCardBean videoCardBean;
@@ -58,11 +51,6 @@ public class EditGame extends HttpServlet {
         List<GameDetailsDto> gameList = gameDetailsBean.findAllGameDetails();
         List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
 
-        List<MemoryDto> memory = memoryBean.findAllMemory();
-        List<PlatformDto> platform=platformBean.findAllPlatforms();
-        List<ProcessorDto> processor = processorBean.findAllProcessors();
-        List<VideoCardDto> videoCard = videoCardBean.findAllVideoCards();
-        List<SystemRequirementsDto> systemRequirements=systemRequirementsBean.findAllSystemRequirements();
 
         GameDetailsDto selectedGame = gameDetailsBean.getGameDetailsByGameId(gameId, gameList);
         PriceDetailsDto seletedPrice=priceDetailsBean.getPriceDetailsByGameId(gameId, priceList);
@@ -72,7 +60,6 @@ public class EditGame extends HttpServlet {
         LOG.info("Forwarding to editGame.jsp.");
         request.setAttribute("allCategories", allCategories);
         request.setAttribute("gameCategories", gameCategories);
-        request.setAttribute("memory", memory);
         request.setAttribute("game", selectedGame);
         request.setAttribute("price", seletedPrice);
         request.getRequestDispatcher("/WEB-INF/adminPages/editGame.jsp").forward(request, response);

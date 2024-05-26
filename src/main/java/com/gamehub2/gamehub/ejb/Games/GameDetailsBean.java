@@ -49,7 +49,7 @@ public class GameDetailsBean {
         List<GameDetailsDto> listToReturn = new ArrayList<>();
 
         for (GameDetails gd : gameDetailsList) {
-            GameDetailsDto gameDetailsDtoTemp = new GameDetailsDto(gd.getGameId(), gd.getGame().getGameName(),gd.getReleaseDate(), gd.getPublisher(), gd.getDeveloper(), gd.getDescription(), gd.getStorage(),gd.getMin_req());
+            GameDetailsDto gameDetailsDtoTemp = new GameDetailsDto(gd.getGameId(), gd.getGame().getGameName(),gd.getReleaseDate(), gd.getPublisher(), gd.getDeveloper(), gd.getDescription(), gd.getStorage());
             listToReturn.add(gameDetailsDtoTemp);
         }
 
@@ -70,7 +70,7 @@ public class GameDetailsBean {
 
         if (gameToReturn == null) {
             LOG.info("\n** No game returning NULL GAME **\n");
-            gameToReturn = new GameDetailsDto(Long.parseLong("-1"),null,LocalDate.now(),null,null,null,null,0);
+            gameToReturn = new GameDetailsDto(Long.parseLong("-1"),null,LocalDate.now(),null,null,null,null);
         }
 
         LOG.info("\n** Exited getGameDetailsByGameId method. **\n");
