@@ -21,8 +21,9 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/Library">Library</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/Users">Users</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/Community">Community</a>
                     </li>
+
                 </ul>
             </div>
 
@@ -44,6 +45,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Admins">Admins</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Users">Users</a></li>
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Games">Games</a></li>
                                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/PaymentRequests">Payment requests</a></li>
                             </ul>

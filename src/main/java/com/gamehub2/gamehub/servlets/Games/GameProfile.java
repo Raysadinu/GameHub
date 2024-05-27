@@ -3,6 +3,7 @@ package com.gamehub2.gamehub.servlets.Games;
 import java.io.IOException;
 
 
+import com.gamehub2.gamehub.Utilities.Functionalities;
 import com.gamehub2.gamehub.common.Games.*;
 import com.gamehub2.gamehub.common.Others.MediaDto;
 import com.gamehub2.gamehub.common.Others.PictureDto;
@@ -91,32 +92,7 @@ public class GameProfile extends HttpServlet {
 
         List<PriceDetailsDto> allPriceDetails = priceDetailsBean.findAllPriceDetails();
 
-        PriceDetailsDto price = priceDetailsBean.getPriceDetailsByGameId(gameId, allPriceDetails);
-
-
-        Map<Long, Double[]> gamePrices = new HashMap<>();
-
-        for (GameDetailsDto gameDetail : allGameDetails) {
-            Long gameIds = gameDetail.getGameId();
-            Double[] priceInfo = new Double[3];
-
-            for (PriceDetailsDto priceDetail : allPriceDetails) {
-                if (priceDetail.getGameId().equals(gameIds)) {
-                    if (priceDetail.getDiscount() > 0) {
-                        priceInfo[0] = priceDetail.getPrice();
-                        priceInfo[1] = priceDetail.getDiscount_price();
-                        priceInfo[2] = priceDetail.getDiscount();
-                    } else {
-                        priceInfo[0] = priceDetail.getPrice();
-                        priceInfo[1] = 0.0;
-                        priceInfo[2] = 0.0;
-                    }
-                    break;
-                }
-            }
-            gamePrices.put(gameIds, priceInfo);
-        }
-
+        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(allGameDetails, allPriceDetails);
 
         List<CategoryDto> categories = categoryBean.getCategoriesByGameId(gameId);
         categories.sort((c1, c2) -> c1.getCategoryName().compareToIgnoreCase(c2.getCategoryName()));

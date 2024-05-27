@@ -4,6 +4,11 @@
 <t:template pageTitle="Friends">
     <h1>Friends</h1>
     <div class="container text-center">
+        <form id="searchForm" onsubmit="return false" method="get" action="${pageContext.request.contextPath}/SearchUsers">
+            <label for="searchBar"></label>
+            <input type="text" name="keyword" id="searchBar" class="form-control" placeholder="Search users..." value="${param.keyword}">
+        </form>
+        <div id="searchSuggestions"></div>
         <table class="table">
             <thead>
             <tr>
@@ -31,4 +36,32 @@
             </tbody>
         </table>
     </div>
+    <script>
+        document.getElementById('searchBar').addEventListener('input', function() {
+            var keyword = this.value.trim();
+            if (keyword !== '') {
+                fetch('${pageContext.request.contextPath}/SearchUsers?keyword=' + keyword)
+                    .then(response => response.json())
+                    .then(data => {
+                        var suggestionsDiv = document.getElementById('searchSuggestions');
+                        suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+                        data.forEach(username => {
+                            var suggestionElement = document.createElement('div');
+                            suggestionElement.textContent = username;
+                            suggestionElement.addEventListener('click', function() {
+
+                                window.location.href = '${pageContext.request.contextPath}/OtherProfile?username=' + username;
+                            });
+                            suggestionsDiv.appendChild(suggestionElement);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching search suggestions:', error);
+                    });
+            } else {
+                document.getElementById('searchSuggestions').innerHTML = '';
+            }
+        });
+    </script>
+
 </t:template>

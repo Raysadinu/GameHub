@@ -5,10 +5,12 @@ import java.io.IOException;
 import com.gamehub2.gamehub.common.Games.CategoryDto;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
 import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
+import com.gamehub2.gamehub.common.Others.MediaDto;
 import com.gamehub2.gamehub.common.SystemReq.*;
 import com.gamehub2.gamehub.ejb.Games.CategoryBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
+import com.gamehub2.gamehub.ejb.Other.MediaBean;
 import com.gamehub2.gamehub.ejb.SystemReq.*;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -33,6 +35,8 @@ public class EditGame extends HttpServlet {
     @Inject
     CategoryBean categoryBean;
     @Inject
+    MediaBean mediaBean;
+    @Inject
     MemoryBean memoryBean;
     @Inject
     ProcessorBean processorBean;
@@ -55,14 +59,17 @@ public class EditGame extends HttpServlet {
 
         GameDetailsDto selectedGame = gameDetailsBean.getGameDetailsByGameId(gameId, gameList);
         PriceDetailsDto seletedPrice=priceDetailsBean.getPriceDetailsByGameId(gameId, priceList);
+        MediaDto trailer = mediaBean.findMediaByGameId(gameId);
 
         List<CategoryDto> allCategories = categoryBean.findAllCategories();
         List<CategoryDto> gameCategories = categoryBean.getCategoriesByGameId(gameId);
+
         LOG.info("Forwarding to editGame.jsp.");
         request.setAttribute("allCategories", allCategories);
         request.setAttribute("gameCategories", gameCategories);
         request.setAttribute("game", selectedGame);
         request.setAttribute("price", seletedPrice);
+        request.setAttribute("trailer", trailer != null ? trailer.getLink() : "");
         request.getRequestDispatcher("/WEB-INF/adminPages/editGame.jsp").forward(request, response);
     }
 
@@ -78,6 +85,7 @@ public class EditGame extends HttpServlet {
         double discount = Double.parseDouble(request.getParameter("discount"));
         double discountPrice = price - (price * discount / 100);
 
+        String trailerLink = request.getParameter("trailer");
 
         LOG.info("Entering doPost method.");
 
@@ -99,6 +107,8 @@ public class EditGame extends HttpServlet {
 
         gameDetailsBean.updateGameDetails(newGameDetails);
         priceDetailsBean.updatePriceDetails(newPriceDetails);
+        mediaBean.addGameVideo(gameId, trailerLink);
+
         String[] categoryIds = request.getParameterValues("categoryIds");
         if (categoryIds != null) {
             for (String categoryIdStr : categoryIds) {

@@ -3,7 +3,9 @@ package com.gamehub2.gamehub.Utilities;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
 import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.entities.Games.GamePG;
+import jakarta.servlet.http.Part;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -68,7 +70,43 @@ public class Functionalities {
         return gamePrices;
     }
 
+    public static ImageData processPicturePart(Part picturePart) throws IOException {
+        String imageName = null;
+        String imageFormat = null;
+        byte[] imageData = null;
 
+        if (picturePart != null && picturePart.getSize() > 0) {
+            imageName = picturePart.getSubmittedFileName();
+            imageFormat = picturePart.getContentType();
+            imageData = picturePart.getInputStream().readAllBytes();
+        }
+
+        return new ImageData(imageName, imageFormat, imageData);
+    }
+
+    public static class ImageData {
+        private final String imageName;
+        private final String imageFormat;
+        private final byte[] imageData;
+
+        public ImageData(String imageName, String imageFormat, byte[] imageData) {
+            this.imageName = imageName;
+            this.imageFormat = imageFormat;
+            this.imageData = imageData;
+        }
+
+        public String getImageName() {
+            return imageName;
+        }
+
+        public String getImageFormat() {
+            return imageFormat;
+        }
+
+        public byte[] getImageData() {
+            return imageData;
+        }
+    }
 
 }
 

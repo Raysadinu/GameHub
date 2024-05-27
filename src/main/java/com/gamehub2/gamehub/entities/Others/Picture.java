@@ -22,6 +22,10 @@ public class Picture {
     @JoinColumn(name = "gameId", referencedColumnName = "gameId")
     private Game game;
 
+    @ManyToOne
+    @JoinColumn(name = "postId")
+    private Post post;
+
     @Enumerated(EnumType.STRING)
     private PictureType type;
 
@@ -32,6 +36,13 @@ public class Picture {
         POST
     }
 
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 
     public Game getGame() {
         return game;
@@ -80,6 +91,7 @@ public class Picture {
     public void setType(PictureType type) {
         this.type = type;
     }
+
     @Transient
     public String getBase64ImageData() {
         return Base64.getEncoder().encodeToString(imageData);

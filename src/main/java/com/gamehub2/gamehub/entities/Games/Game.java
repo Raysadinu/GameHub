@@ -36,7 +36,17 @@ public class Game {
     private List<GameScreenshot> screenshots;
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     private Media videos;
+    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Post post;
 
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 
     public Picture getPictures() {
         return pictures;

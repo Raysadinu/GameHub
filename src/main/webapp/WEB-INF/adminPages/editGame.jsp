@@ -8,6 +8,10 @@
                 <h3>Edit ${game.gameName}</h3>
                 <form method="POST" action="${pageContext.request.contextPath}/EditGame">
                     <div class="form-group">
+                        <label for="trailer">Trailer</label>
+                        <input type="text" class="form-control" id="trailer" name="trailer" value="${trailer}">
+                    </div>
+                    <div class="form-group">
                         <label for="price">Price</label>
                         <input type="number" class="form-control" id="price" name="price" placeholder="" value="${price.price}">
                     </div>

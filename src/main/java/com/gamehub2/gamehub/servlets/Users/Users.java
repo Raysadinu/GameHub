@@ -28,18 +28,11 @@ import java.util.logging.Logger;
 public class Users extends HttpServlet {
     @Inject
     UserBean userBean;
-    @Inject
-    AdminBean adminBean;
     private static final Logger LOG = Logger.getLogger(Games.class.getName());
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         LOG.info("Entering doGet method of Users servlet");
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-
-        boolean isAdmin = adminBean.isAdmin(user.getUsername());
-        request.setAttribute("isAdmin", isAdmin);
 
         try {
             List<UserDto> users = userBean.findAllUsers();

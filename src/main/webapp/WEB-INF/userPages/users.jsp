@@ -9,7 +9,6 @@
             <input type="text" name="keyword" id="searchBar" class="form-control" placeholder="Search users..." value="${param.keyword}">
         </form>
         <div id="searchSuggestions"></div>
-        <c:if test="${isAdmin}">
         <table class="table">
             <thead>
             <tr>
@@ -41,7 +40,6 @@
             </c:forEach>
             </tbody>
         </table>
-        </c:if>
     </div>
 </t:template>
 <script>
