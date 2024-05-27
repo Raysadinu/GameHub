@@ -8,10 +8,7 @@ import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class Functionalities {
@@ -107,6 +104,5 @@ public class Functionalities {
             return imageData;
         }
     }
-
 }
 

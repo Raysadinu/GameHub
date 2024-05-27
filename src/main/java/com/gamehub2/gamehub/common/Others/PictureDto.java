@@ -73,6 +73,6 @@ public class PictureDto {
     }
 
     public String getBase64ImageData() {
-        return base64ImageData;
+        return Base64.getEncoder().encodeToString(imageData);
     }
 }

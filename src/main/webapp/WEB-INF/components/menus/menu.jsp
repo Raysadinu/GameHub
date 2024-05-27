@@ -21,7 +21,7 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/Library">Library</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/Community">Community</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/CommunityPost">Community</a>
                     </li>
 
                 </ul>

@@ -23,7 +23,7 @@ public class Picture {
     private Game game;
 
     @ManyToOne
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "postId", referencedColumnName = "postId")
     private Post post;
 
     @Enumerated(EnumType.STRING)

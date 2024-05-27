@@ -4,33 +4,38 @@ import java.io.IOException;
 
 import com.gamehub2.gamehub.common.Others.PostDto;
 import com.gamehub2.gamehub.ejb.Other.PostBean;
-import com.gamehub2.gamehub.entities.Others.Post;
+import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
+import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 
-@WebServlet(name = "Community", value = "/Community")
-public class Community extends HttpServlet {
+@WebServlet(name = "CommunityPost", value = "/CommunityPost")
+public class CommunityPost extends HttpServlet {
 
-    private static final Logger LOG = Logger.getLogger(Community.class.getName());
+    private static final Logger LOG = Logger.getLogger(CommunityPost.class.getName());
 
     @Inject
     PostBean postBean;
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.info("\n** Entered CommunityServlet doGet method **\n");
         try {
+
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
+
             // Find all posts
             List<PostDto> postList = postBean.findAllPosts();
 
-            // Set posts as request attribute
+            request.setAttribute("user", user);
             request.setAttribute("postList", postList);
 
             // Forward to JSP for rendering

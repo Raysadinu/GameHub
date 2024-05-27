@@ -1,23 +1,21 @@
 package com.gamehub2.gamehub.ejb.Other;
 
+import com.gamehub2.gamehub.common.Others.PictureDto;
 import com.gamehub2.gamehub.common.Others.PostDto;
-import com.gamehub2.gamehub.common.Others.WishlistDto;
+import com.gamehub2.gamehub.common.Others.PostReactionDto;
 import com.gamehub2.gamehub.entities.Games.Game;
-import com.gamehub2.gamehub.entities.Games.GameScreenshot;
-import com.gamehub2.gamehub.entities.Others.Media;
-import com.gamehub2.gamehub.entities.Others.Picture;
-import com.gamehub2.gamehub.entities.Others.Post;
-import com.gamehub2.gamehub.entities.Others.Wishlist;
+import com.gamehub2.gamehub.entities.Others.*;
 import com.gamehub2.gamehub.entities.Users.User;
 
-import com.gamehub2.gamehub.entities.Users.UserDetails;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -29,33 +27,35 @@ public class PostBean {
 
     @PersistenceContext
     EntityManager entityManager;
+    public List<PostDto> findAllPosts(){
+        LOG.info("\n Entered findAllPosts method \n");
 
-    public List<PostDto> findAllPosts() {
+        try{
+            TypedQuery<Post> typedQuery=entityManager.createQuery("SELECT post FROM Post post", Post.class);
+            List<Post> posts=typedQuery.getResultList();
 
-        LOG.info("\n** Entered findAllWishlists method. **\n");
-        try {
-            TypedQuery<Post> typedQuery = entityManager.createQuery("SELECT p FROM Post p", Post.class);
-            List<Post> posts = typedQuery.getResultList();
-            LOG.info("\n** Exited findAllPosts method with the list size of: " + posts.size() + "**\n");
-            return copyPostsToDto(posts);
-        } catch (Exception ex) {
-            LOG.info("\nError in findAllPosts method! " + ex.getMessage() + "\n");
+            LOG.info("\n Exited findAllPosts method, successfully found "+ posts.size() +" posts \n");
+            return copyPostToDto(posts);
+
+        }catch(Exception ex){
+            LOG.info("\n Error in findAllPosts method! "+ex.getMessage()+" \n");
             throw new EJBException(ex);
         }
 
     }
 
-    private List<PostDto> copyPostsToDto(List<Post> posts) {
-        LOG.info("\n** Entered copyPostsToDto method with list size: " + posts.size() + "**\n");
-
+    private List<PostDto> copyPostToDto(List<Post> posts) {
+        LOG.info("\n Entered copyPostToDto method with list size of: " + posts.size() + " \n");
         List<PostDto> listToReturn = new ArrayList<>();
+        PostDto postDtoTemp;
 
-        for (Post currentPost : posts) {
-            PostDto postDtoTemp = new PostDto(currentPost.getPostId(),currentPost.getDescription(),currentPost.getPostingDate(),currentPost.getGame(),currentPost.getUser(),currentPost.getPostPictures(),currentPost.getMediaPosts());
+        for (Post p : posts) {
+            postDtoTemp = new PostDto(p.getPostId(),p.getDescription(),p.getPostingDate(),p.getGame(),p.getUser(),p.getPostPictures(),p.getComments(),p.getReactions());
+
             listToReturn.add(postDtoTemp);
         }
 
-        LOG.info("\n** Exited copyPostsToDto method. **\n");
+        LOG.info("\n Exited copyPostToDto method. \n");
         return listToReturn;
     }
 
@@ -72,14 +72,53 @@ public class PostBean {
             throw ex;
         }
     }
+    public List<PostDto> findFriendsPosts(List<String> userFriends, List<PostDto> allPosts) {
+        LOG.info("\n Entered findFriendsPosts method for the user: "+userFriends.size()+" \n");
+        List<PostDto> friendsPosts=new ArrayList<>();
+        for(PostDto postDto:allPosts){
+            if(userFriends.contains(postDto.getUser().getUsername())){
+                friendsPosts.add(postDto);
+            }
+        }
+        LOG.info("\n Exited findFriendsPosts method. \n");
+        return friendsPosts;
 
-    public void createCompletePost(String username, String description, String videoLink, String imageName, String imageFormat, byte[] imageData) {
+    }
+    public PostDto findPostById(Long postId) {
+
+        List<PostDto> allPosts=findAllPosts();
+        for(PostDto postDto:allPosts){
+            if(postDto.getPostId().equals(postId)){
+                return postDto;
+            }
+        }
+
+        return null;
+    }
+    public List<PostDto> findPostsByUser(String username) {
+
+        LOG.info("\n Entered findPostsByUser method for the user: "+username+" \n");
+        List<PostDto> posts=new ArrayList<>();
+        List<PostDto> allPosts=findAllPosts();
+        for(PostDto postDto:allPosts){
+            if(postDto.getUser().getUsername().equals(username)){
+                posts.add(postDto);
+            }
+        }
+
+        LOG.info("\n Exited findPostsByUser method. \n");
+        return posts;
+
+    }
+
+    public void createCompletePost(String username, String description, Long gameId, String imageName, String imageFormat, byte[] imageData) {
         User user = entityManager.find(User.class, username);
         Post post = new Post();
         post.setUser(user);
         post.setDescription(description);
         post.setPostingDate(new Date());
 
+        // Handle image (if present)
         if (imageName != null && imageFormat != null && imageData != null) {
             Picture picture = new Picture();
             picture.setImageName(imageName);
@@ -89,25 +128,37 @@ public class PostBean {
             picture.setType(Picture.PictureType.POST);
             post.getPostPictures().add(picture);
         }
-
-        if (videoLink != null && !videoLink.isEmpty()) {
-            Media media = new Media();
-            media.setLink(videoLink);
-            media.setPost(post);
-            media.setType(Media.MediaType.POST_VIDEO);
-            post.getMediaPosts().add(media);
+        if (gameId != null) {
+            Game game = entityManager.find(Game.class, gameId);
+            if (game != null) {
+                post.setGame(game);
+            }
         }
-
         entityManager.persist(post);
         entityManager.flush();
     }
+
+
     public void deletePost(long postId) {
         LOG.info("\n** Entered deletePost method for postId: " + postId + " **\n");
         try {
             Post post = entityManager.find(Post.class, postId);
             if (post != null) {
+
+                for (Picture picture : post.getPostPictures()) {
+                    entityManager.remove(picture);
+                }
+
+                for (PostComment comment : post.getComments()) {
+                    entityManager.remove(comment);
+                }
+
+                for (PostReaction reaction : post.getReactions()) {
+                    entityManager.remove(reaction);
+                }
+
                 entityManager.remove(post);
-                LOG.info("\n** Post with postId " + postId + " deleted successfully. **\n");
+                LOG.info("\n** Post with postId " + postId + " and associated content deleted successfully. **\n");
             } else {
                 LOG.warning("\n** Post with postId " + postId + " not found. **\n");
             }
@@ -122,14 +173,9 @@ public class PostBean {
         try {
             Post post = entityManager.find(Post.class, postId);
             if (post != null) {
+
                 post.setDescription(description);
-                if (videoLink != null && !videoLink.isEmpty()) {
-                    Media media = new Media();
-                    media.setLink(videoLink);
-                    media.setPost(post);
-                    media.setType(Media.MediaType.POST_VIDEO);
-                    post.getMediaPosts().add(media);
-                }
+
                 entityManager.merge(post);
                 LOG.info("\n** Post with postId " + postId + " edited successfully. **\n");
             } else {
@@ -140,6 +186,7 @@ public class PostBean {
             throw ex;
         }
     }
+
 
 
 }

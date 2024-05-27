@@ -26,9 +26,6 @@ public class Profile extends HttpServlet {
     @Inject
     UserDetailsBean userDetailsBean;
 
-    /*@Inject
-    AdminBean adminBean;*/
-
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

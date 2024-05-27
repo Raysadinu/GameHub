@@ -14,25 +14,13 @@ public class Media {
     @OneToOne
     @JoinColumn(name = "gameId", referencedColumnName = "gameId")
     private Game game;
-    @ManyToOne
-    @JoinColumn(name = "postId",  nullable = false)
-    private Post post;
-
 
     @Enumerated(EnumType.STRING)
     private Media.MediaType type;
 
+
     public enum MediaType {
-        GAME_VIDEO,
-        POST_VIDEO
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
+        GAME_VIDEO
     }
 
     public Long getId() {

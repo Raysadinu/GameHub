@@ -28,7 +28,7 @@ public class DeletePost extends HttpServlet {
         LOG.info("\n** Entered DeletePost.doGet method with the postId: "+request.getParameter("postId")+" to be deleted **\n");
 
         postBean.deletePost(Long.parseLong(request.getParameter("postId")));
-        response.sendRedirect(request.getContextPath() + "/Community");
+        response.sendRedirect(request.getContextPath() + "/CommunityPost");
 
         LOG.info("\n** Exited DeletePost.doGet method. **\n");
     }
