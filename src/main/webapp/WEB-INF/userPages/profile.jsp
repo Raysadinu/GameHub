@@ -10,7 +10,7 @@
                     <img src="data:image/${user.profilePicture.imageFormat};base64,${user.profilePicture.base64ImageData}" alt="Profile Picture" width="200" height="200">
                 </c:if>
                 <c:if test="${empty user.profilePicture}">
-                    <img src="img/default-picture.jpg" alt="Default Profile Picture" width="200" height="200">
+                    <img src="default-picture.jpg" alt="Default Profile Picture" width="200" height="200">
                 </c:if>
             </div>
         </div>
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group">
                 <label for="postPicture">Upload Picture:</label>
-                <input type="file" class="form-control-file" id="postPicture" name="postPicture">
+                <input type="file" class="form-control-file" id="postPicture" name="postPicture"  multiple>
             </div>
             <div class="form-group">
                 <label for="selectedGames">Selected Game:</label>
@@ -68,7 +68,7 @@
                             // Create a button to add the game
                             var addButton = document.createElement('a');
                             addButton.textContent = '+';
-                            addButton.className = 'btn btn-primary';
+                            addButton.className = 'btn btn-primary list-group-item d-flex justify-content-between align-items-center';
                             addButton.onclick = function() {
                                 addGame(game.gameId, game.gameName);
                             };
@@ -91,7 +91,7 @@
         function addGame(gameId, gameName) {
             var selectedGames = $("#selectedGames");
 
-            selectedGames.append('<li id="game-' + gameId + '" class="list-group-item">' +
+            selectedGames.append('<li id="game-' + gameId + '"  class="list-group-item d-flex justify-content-between align-items-center">' +
                 gameName +
                 '<button type="button" class="btn btn-danger btn-sm" onclick="removeGame(' + gameId + ')">x</button>' +
                 '<input type="hidden" name="gameIds" value="' + gameId + '"></li>');

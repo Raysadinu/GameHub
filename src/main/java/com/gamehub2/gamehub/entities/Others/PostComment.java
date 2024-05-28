@@ -12,15 +12,16 @@ public class PostComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Lob
     private String content;
-
-    @ManyToOne
-    @JoinColumn(name = "username")
-    private User user;
 
     @ManyToOne
     @JoinColumn(name = "postId")
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private User user;
 
     LocalDateTime postedAt;
 

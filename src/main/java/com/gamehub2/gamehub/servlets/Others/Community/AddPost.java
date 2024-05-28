@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import jakarta.servlet.http.Part;
 import com.gamehub2.gamehub.Utilities.Functionalities;
@@ -24,6 +26,7 @@ public class AddPost extends HttpServlet {
     @Inject
     PostBean postBean;
     @Override
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.info("\n** Entered AddPostServlet doPost method **\n");
         try {
@@ -32,7 +35,6 @@ public class AddPost extends HttpServlet {
             String username = user.getUsername();
             String description = request.getParameter("description");
 
-
             String selectedGameIdString = request.getParameter("selectedGameId");
             if (selectedGameIdString == null || selectedGameIdString.isEmpty()) {
                 throw new IllegalArgumentException("Selected game ID is empty or null.");
@@ -40,14 +42,17 @@ public class AddPost extends HttpServlet {
 
             Long gameId = Long.parseLong(selectedGameIdString);
 
+            List<Functionalities.ImageData> imagesData = new ArrayList<>();
 
-            Part picturePart = request.getPart("postPicture");
-            Functionalities.ImageData imageData = Functionalities.processPicturePart(picturePart);
+            // Get all parts (images) from the request
+            for (Part part : request.getParts()) {
+                if (part.getName().startsWith("postPicture")) {
+                    Functionalities.ImageData imageData = Functionalities.processPicturePart(part);
+                    imagesData.add(imageData);
+                }
+            }
 
-
-            postBean.createCompletePost(username, description, gameId, imageData.getImageName(),
-                    imageData.getImageFormat(), imageData.getImageData());
-
+            postBean.createCompletePost(username, description, gameId, imagesData);
 
             response.sendRedirect(request.getContextPath() + "/CommunityPost");
         } catch (Exception ex) {

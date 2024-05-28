@@ -47,8 +47,17 @@ public class PrAcceptOrDecline extends HttpServlet {
         Long paymentRequestId = Long.parseLong(request.getParameter("paymentrequestId"));
 
         LOG.info("\n** Pr.. [" + action + paymentRequestId + "] **\n");
-        paymentRequestBean.changeStatus(currentUser.getUsername(), paymentRequestId, Objects.equals(action, "A") ? PaymentRequest.RequestStatus.ACCEPTED : PaymentRequest.RequestStatus.REJECTED);
+        PaymentRequest.RequestStatus newStatus = Objects.equals(action, "A") ? PaymentRequest.RequestStatus.ACCEPTED : PaymentRequest.RequestStatus.REJECTED;
+        paymentRequestBean.changeStatus(currentUser.getUsername(), paymentRequestId, newStatus);
 
+        if (newStatus == PaymentRequest.RequestStatus.ACCEPTED) {
+            List<Game> gamesInPr = paymentRequestBean.findGamesInPaymentReq(paymentRequestId);
+            String paymentRequestUsername = paymentRequestBean.findUsernameByPaymentReqId(paymentRequestId);
+            for (Game g : gamesInPr) {
+                Long libraryId = libraryBean.getLibraryIdByUsername(paymentRequestUsername);
+                libraryBean.addGameToLibrary(libraryId, g.getGameId());
+            }
+        }
         List<PaymentRequestDto> allPaymentRequests = paymentRequestBean.findAllPaymentRequests();
         List<Game> gamesInPaymentRequest = new ArrayList<>();
         for (PaymentRequestDto paymentRequest : allPaymentRequests) {
@@ -70,14 +79,6 @@ public class PrAcceptOrDecline extends HttpServlet {
 
         request.setAttribute("games", gameDetailsForGamesInPaymentRequest);
         request.setAttribute("paymentRequests", allPaymentRequests);
-
-        List<Game> gamesInPr = paymentRequestBean.findGamesInPaymentReq(paymentRequestId);
-        String paymentRequestUsername = paymentRequestBean.findUsernameByPaymentReqId(paymentRequestId);
-        for (Game g : gamesInPr) {
-            Long libraryId = libraryBean.getLibraryIdByUsername(paymentRequestUsername);
-            libraryBean.addGameToLibrary(libraryId, g.getGameId());
-
-        }
 
         request.getRequestDispatcher("/WEB-INF/adminPages/payment-requests.jsp").forward(request, response);
     }

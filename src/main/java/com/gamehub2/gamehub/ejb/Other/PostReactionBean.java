@@ -1,5 +1,6 @@
 package com.gamehub2.gamehub.ejb.Other;
 
+import com.gamehub2.gamehub.common.Others.PostDto;
 import com.gamehub2.gamehub.common.Others.PostReactionDto;
 import com.gamehub2.gamehub.entities.Others.Post;
 import com.gamehub2.gamehub.entities.Others.PostReaction;
@@ -39,6 +40,7 @@ public class PostReactionBean {
             throw new EJBException(ex);
         }
     }
+
     private List<PostReactionDto> copyPostReactionsToDto(List<PostReaction> postReactions) {
         LOG.info("\n Entered copyPostReactionsToDto method with list size of: "+postReactions.size()+" \n");
         List<PostReactionDto> listToReturn =new ArrayList<PostReactionDto>();
@@ -51,6 +53,19 @@ public class PostReactionBean {
         LOG.info("\n Exited copyPostReactionsToDto method. \n");
 
         return listToReturn;
+    }
+    public PostDto findPostByIdWithDetails(Long postId) {
+        // Fetch the post details along with reactions and comments
+        Post post = entityManager.find(Post.class, postId);
+        if (post == null) {
+            return null;
+        }
+
+        PostDto postDto = new PostDto(post.getPostId(), post.getDescription(), post.getPostingDate(),
+                post.getGame(), post.getUser(), post.getPostPictures(),
+                post.getComments(), post.getReactions());
+
+        return postDto;
     }
 
     public void addReactionToPost(Long postId, String usernameReacted, PostReaction.ReactionType reactionType) {

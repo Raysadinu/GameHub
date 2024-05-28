@@ -61,17 +61,23 @@
                                 </c:otherwise>
                             </c:choose>
 
-                            <form action="${pageContext.request.contextPath}/DeleteFromWishlist" method="post">
-                                <input type="hidden" name="gameId" value="${game.gameId}">
-                                <input type="hidden" name="wishlistId" value="${wishlist.wishlistId}">
-                                <input type="hidden" name="page" value="wishlist">
-                                <button type="submit" class="btn btn-danger mr-4">Remove</button>
-                            </form>
+                            <c:if test="${not pendingPayment.contains(game)}">
+                                <form action="${pageContext.request.contextPath}/DeleteFromWishlist" method="post">
+                                    <input type="hidden" name="gameId" value="${game.gameId}">
+                                    <input type="hidden" name="wishlistId" value="${wishlist.wishlistId}">
+                                    <input type="hidden" name="page" value="wishlist">
+                                    <button type="submit" class="btn btn-danger mr-4">Remove</button>
+                                </form>
+                            </c:if>
+
 
                             <div class="btn-group" role="group">
                                 <c:choose>
                                     <c:when test="${cart.contains(game)}">
                                         <button class="btn btn-primary" disabled>Already in Cart</button>
+                                    </c:when>
+                                    <c:when test="${pendingPayment.contains(game)}">
+                                        <button class="btn btn-warning" disabled>Pending Payment</button>
                                     </c:when>
                                     <c:otherwise>
                                         <form action="${pageContext.request.contextPath}/AddToCart" method="post">

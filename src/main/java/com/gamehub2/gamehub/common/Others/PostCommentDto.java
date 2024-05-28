@@ -9,24 +9,20 @@ import java.time.format.DateTimeFormatter;
 public class PostCommentDto {
 
     Long id;
-    String content;
-    LocalDateTime postedAt;
     User user;
     Post post;
+    String content;
+    LocalDateTime postedAt;
 
-    public PostCommentDto(Long id, String content, LocalDateTime postedAt, User user, Post post) {
+
+    public PostCommentDto(Long id, User user, Post post, String content, LocalDateTime postedAt) {
         this.id = id;
-        this.content = content;
-        this.postedAt = postedAt;
         this.user = user;
         this.post = post;
-    }
-    public PostCommentDto(String content, LocalDateTime postedAt, User user, Post post) {
         this.content = content;
         this.postedAt = postedAt;
-        this.user = user;
-        this.post = post;
     }
+
     public PostCommentDto() {
     }
 

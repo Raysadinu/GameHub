@@ -21,7 +21,6 @@
                         <th>Card Number</th>
                         <th>Expiration Date</th>
                         <th>Card Name</th>
-                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,7 +30,6 @@
                             <td>${card.cardNumber}</td>
                             <td>${card.expirationDate}</td>
                             <td>${card.cardName}</td>
-                            <td><a href="${pageContext.request.contextPath}/DeleteCard?cardId=${card.cardId}">Delete Card</a></td>
                         </tr>
                     </cd:forEach>
                     </tbody>

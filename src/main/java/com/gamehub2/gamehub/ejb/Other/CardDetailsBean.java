@@ -107,23 +107,4 @@ public class CardDetailsBean {
             throw new EJBException(ex);
         }
     }
-
-    public void deleteCardDetails(Long cardId) {
-        LOG.info("\n** Entered deleteCardDetails method for cardId: " + cardId + " **\n");
-        try {
-            CardDetails cardDetails = entityManager.find(CardDetails.class, cardId);
-            if (cardDetails != null) {
-                entityManager.remove(cardDetails);
-                LOG.info("\n** Deleted card details successfully for cardId: " + cardId + " **\n");
-            } else {
-                LOG.info("\n** Card details not found for cardId: " + cardId + " **\n");
-            }
-        } catch (EntityNotFoundException ex) {
-            LOG.info("\nError in deleteCardDetails method! " + ex.getMessage() + "\n");
-            throw ex;
-        } catch (Exception ex) {
-            LOG.info("\nError in deleteCardDetails method! " + ex.getMessage() + "\n");
-            throw new EJBException(ex);
-        }
-    }
 }

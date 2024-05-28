@@ -120,4 +120,14 @@ public class PaymentRequestBean {
     public String findUsernameByPaymentReqId(Long paymentrequestId) {
         return entityManager.find(PaymentRequest.class,paymentrequestId).getUser().getUsername();
     }
+
+    public boolean isPendingPayment(String username, Long gameId) {
+        List<PaymentRequest> pendingPayments = entityManager.createQuery(
+                        "SELECT p FROM PaymentRequest p JOIN p.games g WHERE p.user.username = :username AND g.gameId = :gameId AND p.status = :status", PaymentRequest.class)
+                .setParameter("username", username)
+                .setParameter("gameId", gameId)
+                .setParameter("status", PaymentRequest.RequestStatus.PENDING)
+                .getResultList();
+        return !pendingPayments.isEmpty();
+    }
 }

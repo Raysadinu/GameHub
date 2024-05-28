@@ -9,6 +9,7 @@ import com.gamehub2.gamehub.common.Games.GameDetailsDto;
 import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.common.Users.UserDetailsDto;
 import com.gamehub2.gamehub.ejb.Games.*;
+import com.gamehub2.gamehub.ejb.Other.PaymentRequestBean;
 import com.gamehub2.gamehub.ejb.Other.WishlistBean;
 import com.gamehub2.gamehub.ejb.Other.CartBean;
 import com.gamehub2.gamehub.ejb.Other.LibraryBean;
@@ -47,6 +48,8 @@ public class Home extends HttpServlet {
     UserDetailsBean userDetailsBean;
     @Inject
     GamePGBean gamePGBean;
+    @Inject
+    PaymentRequestBean paymentRequestBean;
     private static final Logger LOG = Logger.getLogger(Home.class.getName());
 
     @Override
@@ -74,7 +77,7 @@ public class Home extends HttpServlet {
         List<GameDetailsDto> gameDetailsOnWishlist = new ArrayList<>();
         List<GameDetailsDto> gameDetailsInCart = new ArrayList<>();
         List<GameDetailsDto> gameDetailsInLibrary = new ArrayList<>();
-
+        List<GameDetailsDto> gameDetailsPendingPayment = new ArrayList<>();
 
         List<GameDetailsDto> games = gameDetailsBean.findAllGameDetails();
 
@@ -88,6 +91,7 @@ public class Home extends HttpServlet {
             boolean inWishlist = wishlistBean.inWishlist(user.getUsername(), game.getGameId());
             boolean inLibrary = libraryBean.inLibrary(user.getUsername(), game.getGameId());
             boolean inCart = cartBean.inCart(user.getUsername(), game.getGameId());
+            boolean pendingPayment = paymentRequestBean.isPendingPayment(user.getUsername(), game.getGameId());
             GamePG.PGType thisGamePG = gamePGBean.getPGTypeByGameId(game.getGameId());
 
             if(validPG.contains(thisGamePG)){
@@ -101,6 +105,9 @@ public class Home extends HttpServlet {
                 if (inLibrary) {
                     gameDetailsInLibrary.add(game);
                 }
+                if (pendingPayment) {
+                    gameDetailsPendingPayment.add(game);
+                }
             }
         }
         request.setAttribute("userAge", userAge);
@@ -111,6 +118,7 @@ public class Home extends HttpServlet {
         request.setAttribute("wishlist", gameDetailsOnWishlist);
         request.setAttribute("cart", gameDetailsInCart);
         request.setAttribute("library", gameDetailsInLibrary);
+        request.setAttribute("pendingPayment", gameDetailsPendingPayment);
         LOG.info("\n** Exit Home .doGet **\n");
         request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
     }

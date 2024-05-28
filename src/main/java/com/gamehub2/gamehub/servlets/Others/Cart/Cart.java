@@ -12,6 +12,7 @@ import com.gamehub2.gamehub.ejb.Games.GameBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.CartBean;
+import com.gamehub2.gamehub.ejb.Other.PaymentRequestBean;
 import com.gamehub2.gamehub.ejb.Other.WishlistBean;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.annotation.security.DeclareRoles;
@@ -47,6 +48,8 @@ public class Cart extends HttpServlet {
     PriceDetailsBean priceDetailsBean;
     @Inject
     WishlistBean wishlistBean;
+    @Inject
+    PaymentRequestBean paymentRequestBean;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.info("\n** Entered Wishlist.doGet ... **\n");
@@ -83,7 +86,6 @@ public class Cart extends HttpServlet {
                 gameDetailsOnWishlist.add(game);
             }
         }
-
         List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
 
 
@@ -95,7 +97,6 @@ public class Cart extends HttpServlet {
         request.setAttribute("games",gameDetailsForGamesInCart);
         request.setAttribute("gamePrices", gamePrices);
         request.setAttribute("totalPrice", totalPrice);
-
         LOG.info("\n** Exited Cart.doGet ... **\n");
         request.getRequestDispatcher("/WEB-INF/userPages/cart.jsp").forward(request,response);
     }

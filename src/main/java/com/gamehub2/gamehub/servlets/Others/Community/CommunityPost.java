@@ -35,6 +35,7 @@ public class CommunityPost extends HttpServlet {
             // Find all posts
             List<PostDto> postList = postBean.findAllPosts();
 
+
             request.setAttribute("user", user);
             request.setAttribute("postList", postList);
 

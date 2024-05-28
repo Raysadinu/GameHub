@@ -1,5 +1,6 @@
 package com.gamehub2.gamehub.ejb.Other;
 
+import com.gamehub2.gamehub.Utilities.Functionalities;
 import com.gamehub2.gamehub.common.Others.PictureDto;
 import com.gamehub2.gamehub.common.Others.PostDto;
 import com.gamehub2.gamehub.common.Others.PostReactionDto;
@@ -111,32 +112,37 @@ public class PostBean {
 
     }
 
-    public void createCompletePost(String username, String description, Long gameId, String imageName, String imageFormat, byte[] imageData) {
+    public void createCompletePost(String username, String description, Long gameId, List<Functionalities.ImageData> imagesData) {
         User user = entityManager.find(User.class, username);
         Post post = new Post();
         post.setUser(user);
         post.setDescription(description);
         post.setPostingDate(new Date());
 
-        // Handle image (if present)
-        if (imageName != null && imageFormat != null && imageData != null) {
-            Picture picture = new Picture();
-            picture.setImageName(imageName);
-            picture.setImageFormat(imageFormat);
-            picture.setImageData(imageData);
-            picture.setPost(post);
-            picture.setType(Picture.PictureType.POST);
-            post.getPostPictures().add(picture);
-        }
         if (gameId != null) {
             Game game = entityManager.find(Game.class, gameId);
             if (game != null) {
                 post.setGame(game);
             }
         }
+
+        // Handle images (if present)
+        for (Functionalities.ImageData imageData : imagesData) {
+            if (imageData != null && imageData.getImageName() != null && imageData.getImageFormat() != null && imageData.getImageData() != null) {
+                Picture picture = new Picture();
+                picture.setImageName(imageData.getImageName());
+                picture.setImageFormat(imageData.getImageFormat());
+                picture.setImageData(imageData.getImageData());
+                picture.setPost(post);
+                picture.setType(Picture.PictureType.POST);
+                post.getPostPictures().add(picture);
+            }
+        }
+
         entityManager.persist(post);
         entityManager.flush();
     }
+
 
 
     public void deletePost(long postId) {

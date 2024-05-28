@@ -202,6 +202,9 @@
                                             <c:when test="${library.contains(game)}">
                                                 <button class="btn btn-primary" disabled>In Library</button>
                                             </c:when>
+                                            <c:when test="${pendingPayment.contains(game)}">
+                                                <button class="btn btn-warning" disabled>Pending Payment</button>
+                                            </c:when>
                                             <c:otherwise>
                                                 <c:choose>
                                                     <c:when test="${wishlist.contains(game)}">
@@ -265,6 +268,9 @@
                                             <c:choose>
                                                 <c:when test="${library.contains(game)}">
                                                     <button class="btn btn-primary" disabled>In Library</button>
+                                                </c:when>
+                                                <c:when test="${pendingPayment.contains(game)}">
+                                                    <button class="btn btn-warning" disabled>Pending Payment</button>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <c:choose>

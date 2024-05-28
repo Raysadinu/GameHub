@@ -19,11 +19,16 @@
                     <p>${post.game.gameName}</p>
                 </c:if>
                 <p>${post.description}</p>
-                <c:forEach var="picture" items="${post.postPictures}">
-                    <c:if test="${not empty picture}">
-                        <img src="data:image/${picture.imageFormat};base64,${picture.base64ImageData}" alt="Post Picture" width="700" height="415" />
-                    </c:if>
-                </c:forEach>
+
+                <div class="slideshow-container">
+                    <c:forEach var="picture" items="${post.postPictures}">
+                        <div class="slides">
+                            <img src="data:image/${picture.imageFormat};base64,${picture.base64ImageData}" alt="Post Picture" style="width:700px;height:415px;">
+                        </div>
+                    </c:forEach>
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                </div>
                 <div class="reaction-buttons">
                     <c:set var="userReactedLike" value="false"/>
                     <c:set var="userReactedFun" value="false"/>
@@ -57,7 +62,7 @@
                     </c:choose>
                     <c:choose>
                         <c:when test="${userReactedFun}">
-                            <button class="btn-link" disabled>&#128514;</button>
+                            <button class="btn-link" disabled  style="color:green">&#128514;</button>
                         </c:when>
                         <c:otherwise>
                             <a href="${pageContext.request.contextPath}/PostReact?postId=${post.postId}&reaction=fun" class="btn-link">&#128514;</a>
@@ -73,13 +78,13 @@
                     </c:choose>
                     <c:choose>
                         <c:when test="${userReactedDislike}">
-                            <button class="btn-link" disabled>&#128078;</button>
+                            <button class="btn-link" disabled style="color:red">&#128078;</button>
                         </c:when>
                         <c:otherwise>
                             <a href="${pageContext.request.contextPath}/PostReact?postId=${post.postId}&reaction=dislike" class="btn-link">&#128078;</a>
                         </c:otherwise>
                     </c:choose>
-                    <a href="${pageContext.request.contextPath}/ViewPost?postId=${post.postId}" class="btn-link"><i class="fas fa-comment"></i></a>
+                    <a href="${pageContext.request.contextPath}/ViewPost?postId=${post.postId}" class="btn btn-primary">View Post</a>
 
                     <c:if test="${post.user.username eq user.username}">
                         <form action="${pageContext.request.contextPath}/DeletePost" method="post">
@@ -90,5 +95,27 @@
             </c:forEach>
         </div>
     </div>
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
 
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("slides");
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex-1].style.display = "block";
+        }
+    </script>
 </t:template>

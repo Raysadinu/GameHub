@@ -30,20 +30,17 @@ public class PostComment extends HttpServlet {
     PostBean postBean;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LOG.info("\n Entered PostComment.doGet \n");
-        HttpSession session = req.getSession();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LOG.info("\n Entered PostComment.doPost \n");
+        HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-        String postIdStr = req.getParameter("postId");
+        String postIdStr = request.getParameter("postId");
         Long postId = Long.parseLong(postIdStr);
-        String commentContent = req.getParameter("commentContent");
+        String commentContent = request.getParameter("commentContent");
         postCommentBean.addCommentToPost(postId, user.getUsername(), commentContent);
 
-
-        LOG.info("\n Redirecting to viewPostComments with the postId: " + postId + "\n");
-        resp.sendRedirect(req.getContextPath() + "/CommunityPost?postId=" + postId);
-
-
+        LOG.info("\n Redirecting to viewPost with the postId: " + postId + "\n");
+        response.sendRedirect(request.getContextPath() + "/ViewPost?postId=" + postId);
     }
 }

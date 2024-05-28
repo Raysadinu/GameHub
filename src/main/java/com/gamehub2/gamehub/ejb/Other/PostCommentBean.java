@@ -1,6 +1,8 @@
 package com.gamehub2.gamehub.ejb.Other;
 
 import com.gamehub2.gamehub.common.Others.PostCommentDto;
+import com.gamehub2.gamehub.entities.Games.Comment;
+import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Others.Post;
 import com.gamehub2.gamehub.entities.Others.PostComment;
 import com.gamehub2.gamehub.entities.Users.User;
@@ -10,8 +12,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,88 +21,67 @@ import java.util.logging.Logger;
 @Stateless
 public class PostCommentBean {
 
-    private static final Logger LOG = Logger.getLogger(PostReactionBean.class.getName());
+    private static final Logger LOG = Logger.getLogger(PostCommentBean.class.getName());
 
     @PersistenceContext
     EntityManager entityManager;
 
-    public List<PostCommentDto> findAllComments() {
-        LOG.info("\n Entered findAllComments method \n");
-
-        try {
-            TypedQuery<PostComment> typedQuery = entityManager.createQuery("SELECT postComment FROM PostComment postComment ORDER BY postComment.postedAt DESC", PostComment.class);
-            List<PostComment> postComments = typedQuery.getResultList();
-
-            LOG.info("\n Exited findAllComments method, successfully found " + postComments.size() + " comments \n");
-            return copyPostCommentsToDto(postComments);
-
-        } catch (Exception ex) {
-            LOG.info("\n Error in findAllComments method! " + ex.getMessage() + " \n");
-            throw new EJBException(ex);
-        }
-    }
-
     private List<PostCommentDto> copyPostCommentsToDto(List<PostComment> postComments) {
-        LOG.info("\n Entered copyPostCommentsToDto method with list size of: " + postComments.size() + " \n");
+        LOG.info("Entered copyPostCommentsToDto method with list size of: " + postComments.size());
         List<PostCommentDto> listToReturn = new ArrayList<>();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
         for (PostComment pc : postComments) {
-            LocalDateTime formattedDate = null;
-            if (pc.getPostedAt() != null) {
-                formattedDate = pc.getPostedAt();
-            }
-            String formattedDateString = "";
-            if (formattedDate != null) {
-                formattedDateString = formattedDate.format(formatter);
-            }
-
-            formattedDateString = formattedDateString.replace("T", " ");
-
-            LocalDateTime parsedDate = null;
-            if (!formattedDateString.isEmpty()) {
-                parsedDate = LocalDateTime.parse(formattedDateString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            }
-            PostCommentDto pcDto = new PostCommentDto(pc.getId(), pc.getContent(), parsedDate, pc.getUser(), pc.getPost());
+            PostCommentDto pcDto = new PostCommentDto(pc.getId(), pc.getUser(), pc.getPost(), pc.getContent(), pc.getPostedAt());
             listToReturn.add(pcDto);
         }
 
-        LOG.info("\n Exited copyPostCommentsToDto method. \n");
-
+        LOG.info("Exited copyPostCommentsToDto method");
         return listToReturn;
     }
 
     public List<PostCommentDto> findAllCommentsForPost(Long postId) {
-        LOG.info("\n Entered findAllCommentsForPost method \n");
-        List<PostCommentDto> listToReturn = new ArrayList<>();
-        List<PostCommentDto> allComments = findAllComments();
-        for (PostCommentDto pc : allComments) {
-            if (pc.getPost().getPostId().equals(postId)) {
-                listToReturn.add(pc);
-            }
+        LOG.info("Entered findAllCommentsForPost method");
+        try {
+            TypedQuery<PostComment> typedQuery = entityManager.createQuery(
+                    "SELECT pc FROM PostComment pc WHERE pc.post.postId = :postId ORDER BY pc.postedAt DESC",
+                    PostComment.class
+            );
+            typedQuery.setParameter("postId", postId);
+            List<PostComment> postComments = typedQuery.getResultList();
+            LOG.info("Exited findAllCommentsForPost method with " + postComments.size() + " comments");
+            return copyPostCommentsToDto(postComments);
+        } catch (Exception ex) {
+            LOG.severe("Error in findAllCommentsForPost method: " + ex.getMessage());
+            throw new EJBException(ex);
         }
-        LOG.info("\n Exited findAllCommentsForPost method. \n");
-        return listToReturn;
     }
-    public void addCommentToPost(Long postId, String authorUsername, String commentContent) {
-        LOG.info("\n Entered addCommentToPost method \n");
+    public void addCommentToPost(Long postId, String username, String commentContent) {
+        LOG.info("Entered addCommentToPost method");
 
-        User user = entityManager.find(User.class, authorUsername);
+        try {
+            User user = entityManager.find(User.class, username);
+            if (user == null) {
+                throw new IllegalArgumentException("User not found with username: " + username);
+            }
 
-        Post post = entityManager.find(Post.class, postId);
+            Post post = entityManager.find(Post.class, postId);
+            if (post == null) {
+                throw new IllegalArgumentException("Post not found with ID: " + postId);
+            }
 
-        PostComment postComment = new PostComment();
-        postComment.setContent(commentContent);
-        postComment.setPostedAt(LocalDateTime.now());
-        postComment.setUser(user);
-        postComment.setPost(post);
+            PostComment postComment = new PostComment();
+            postComment.setUser(user);
+            postComment.setPost(post);
+            postComment.setContent(commentContent);
+            postComment.setPostedAt(LocalDateTime.now());
 
-        post.getComments().add(postComment);
-        entityManager.persist(postComment);
 
-        entityManager.merge(post);
+            entityManager.persist(postComment);
 
-        LOG.info("\n Exited addCommentToPost method. \n");
+            LOG.info("Exited addCommentToPost method");
+        } catch (Exception ex) {
+            LOG.severe("Error in addCommentToPost method: " + ex.getMessage());
+            throw new EJBException(ex);
+        }
     }
 }

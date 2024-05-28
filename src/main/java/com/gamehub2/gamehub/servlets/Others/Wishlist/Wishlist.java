@@ -9,6 +9,7 @@ import com.gamehub2.gamehub.ejb.Games.GameBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.CartBean;
+import com.gamehub2.gamehub.ejb.Other.PaymentRequestBean;
 import com.gamehub2.gamehub.ejb.Other.WishlistBean;
 import com.gamehub2.gamehub.ejb.Users.UserBean;
 import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
@@ -42,6 +43,8 @@ public class Wishlist extends HttpServlet {
     PriceDetailsBean priceDetailsBean;
     @Inject
     CartBean cartBean;
+    @Inject
+    PaymentRequestBean paymentRequestBean;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.info("\n** Entered Wishlist.doGet ... **\n");
@@ -56,10 +59,10 @@ public class Wishlist extends HttpServlet {
         double totalPrice = wishlistBean.getTotalPriceByWishlistId(wishlist.getWishlistId());
         LOG.info("Total Price: " + totalPrice);
 
-        List<GameDetailsDto> gameDetails = new ArrayList<>();
         List<GameDetailsDto> gameDetailsInCart = new ArrayList<>();
-
+        List<GameDetailsDto> gameDetailsPendingPayment = new ArrayList<>();
         List<GameDto> gamesOnWishlist = gameBean.copyGamesToDto(wishlist.getGames());
+
         List<GameDetailsDto> gameDetailsList = gameDetailsBean.findAllGameDetails();
 
         List<Long> gameIdList = new ArrayList<>();
@@ -79,11 +82,16 @@ public class Wishlist extends HttpServlet {
                 gameDetailsInCart.add(game);
             }
         }
+        for(GameDetailsDto game : gameDetailsList) {
+            boolean pendingPayment = paymentRequestBean.isPendingPayment(user.getUsername(), game.getGameId());
+            if(pendingPayment){
+                gameDetailsPendingPayment.add(game);
+            }
+        }
         List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
 
 
         Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(gameDetailsList, priceList);
-
 
         request.setAttribute("cart", gameDetailsInCart);
         request.setAttribute("user", user);
@@ -91,7 +99,7 @@ public class Wishlist extends HttpServlet {
         request.setAttribute("wishlist", wishlist);
         request.setAttribute("games", gameDetailsForGamesOnWishlist);
         request.setAttribute("gamePrices", gamePrices);
-
+        request.setAttribute("pendingPayment", gameDetailsPendingPayment);
         LOG.info("\n** Exited Wishlist.doGet ... **\n");
         request.getRequestDispatcher("/WEB-INF/userPages/wishlist.jsp").forward(request, response);
     }

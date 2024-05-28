@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import com.gamehub2.gamehub.ejb.Other.CartBean;
 import com.gamehub2.gamehub.ejb.Other.LibraryBean;
+import com.gamehub2.gamehub.ejb.Other.PaymentRequestBean;
 import com.gamehub2.gamehub.ejb.Other.WishlistBean;
 import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
 import com.gamehub2.gamehub.entities.Games.GameDetails;
@@ -57,6 +58,8 @@ public class Filter extends HttpServlet {
     UserDetailsBean userDetailsBean;
     @Inject
     GamePGBean gamePGBean;
+    @Inject
+    PaymentRequestBean paymentRequestBean;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -85,6 +88,7 @@ public class Filter extends HttpServlet {
         List<GameDto> gameDetailsOnWishlist = new ArrayList<>();
         List<GameDto> gameDetailsInCart = new ArrayList<>();
         List<GameDto> gameDetailsInLibrary = new ArrayList<>();
+        List<GameDto> gameDetailsPendingPayment = new ArrayList<>();
 
         List<Long> categoryIds = selectedCategoryIds != null ?
                 Arrays.stream(selectedCategoryIds).map(Long::parseLong).collect(Collectors.toList()) :
@@ -139,6 +143,7 @@ public class Filter extends HttpServlet {
             boolean inWishlist = wishlistBean.inWishlist(user.getUsername(), game.getGameId());
             boolean inLibrary = libraryBean.inLibrary(user.getUsername(), game.getGameId());
             boolean inCart = cartBean.inCart(user.getUsername(), game.getGameId());
+            boolean pendingPayment = paymentRequestBean.isPendingPayment(user.getUsername(), game.getGameId());
 
             if (inWishlist) {
                 gameDetailsOnWishlist.add(game);
@@ -149,7 +154,9 @@ public class Filter extends HttpServlet {
             if (inLibrary) {
                 gameDetailsInLibrary.add(game);
             }
-
+            if (pendingPayment) {
+                gameDetailsPendingPayment.add(game);
+            }
         }
 
         List<GamePG.PGType> validPG = Functionalities.getValidPG(userAge);
@@ -175,6 +182,7 @@ public class Filter extends HttpServlet {
         request.setAttribute("wishlist", gameDetailsOnWishlist);
         request.setAttribute("cart", gameDetailsInCart);
         request.setAttribute("library", gameDetailsInLibrary);
+        request.setAttribute("pendingPayment", gameDetailsPendingPayment);
         request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
     }
 }

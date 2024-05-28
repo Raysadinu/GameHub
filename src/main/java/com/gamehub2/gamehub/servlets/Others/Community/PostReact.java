@@ -33,12 +33,12 @@ public class PostReact extends HttpServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest requset, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = req.getSession();
+        HttpSession session = requset.getSession();
         User user = (User) session.getAttribute("user");
-        String postIdString = req.getParameter("postId");
-        String reaction = req.getParameter("reaction");
+        String postIdString = requset.getParameter("postId");
+        String reaction = requset.getParameter("reaction");
         Long postId = Long.parseLong(postIdString);
         PostDto thisPost = postBean.findPostById(postId);
         LOG.info("\n Entered PostReact.doGet for the post: " + postId + " with the reaction " + reaction + " \n");
@@ -49,25 +49,25 @@ public class PostReact extends HttpServlet {
                     LOG.info("\n** Added like reaction to post **\n");
                     postReactionBean.removeOtherReactionsFromUser(postId, user.getUsername());
                     postReactionBean.addReactionToPost(postId, user.getUsername(), PostReaction.ReactionType.LIKE);
-                    resp.sendRedirect(req.getContextPath() + "/CommunityPost");
+                    response.sendRedirect(requset.getContextPath() + "/CommunityPost");
                 }
                 case "fun" -> {
                     LOG.info("\n** Added fun reaction to post **\n");
                     postReactionBean.removeOtherReactionsFromUser(postId, user.getUsername());
                     postReactionBean.addReactionToPost(postId, user.getUsername(), PostReaction.ReactionType.FUN);
-                    resp.sendRedirect(req.getContextPath() + "/CommunityPost");
+                    response.sendRedirect(requset.getContextPath() + "/CommunityPost");
                 }
                 case "helpful" -> {
                     LOG.info("\n** Added helpful reaction to post **\n");
                     postReactionBean.removeOtherReactionsFromUser(postId, user.getUsername());
                     postReactionBean.addReactionToPost(postId, user.getUsername(), PostReaction.ReactionType.HELPFUL);
-                    resp.sendRedirect(req.getContextPath() + "/CommunityPost");
+                    response.sendRedirect(requset.getContextPath() + "/CommunityPost");
                 }
                 case "dislike" -> {
                     LOG.info("\n** Added dislike reaction to post **\n");
                     postReactionBean.removeOtherReactionsFromUser(postId, user.getUsername());
                     postReactionBean.addReactionToPost(postId, user.getUsername(), PostReaction.ReactionType.DISLIKE);
-                    resp.sendRedirect(req.getContextPath() + "/CommunityPost");
+                    response.sendRedirect(requset.getContextPath() + "/CommunityPost");
                 }
             }
         }

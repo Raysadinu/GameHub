@@ -9,9 +9,7 @@ import com.gamehub2.gamehub.common.Others.MediaDto;
 import com.gamehub2.gamehub.common.Others.PictureDto;
 import com.gamehub2.gamehub.ejb.Admins.AdminBean;
 import com.gamehub2.gamehub.ejb.Games.*;
-import com.gamehub2.gamehub.ejb.Other.CartBean;
-import com.gamehub2.gamehub.ejb.Other.LibraryBean;
-import com.gamehub2.gamehub.ejb.Other.MediaBean;
+import com.gamehub2.gamehub.ejb.Other.*;
 
 import com.gamehub2.gamehub.common.Games.CategoryDto;
 import com.gamehub2.gamehub.common.Games.CommentDto;
@@ -25,7 +23,6 @@ import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.CartBean;
 import com.gamehub2.gamehub.ejb.Other.LibraryBean;
 
-import com.gamehub2.gamehub.ejb.Other.WishlistBean;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -62,6 +59,8 @@ public class GameProfile extends HttpServlet {
     CartBean cartBean;
     @Inject
     LibraryBean libraryBean;
+    @Inject
+    PaymentRequestBean paymentRequestBean;
 
     @Inject
     GameScreenshotBean gameScreenshotBean;
@@ -102,11 +101,13 @@ public class GameProfile extends HttpServlet {
         List<GameDetailsDto> gameDetailsOnWishlist = new ArrayList<>();
         List<GameDetailsDto> gameDetailsInCart = new ArrayList<>();
         List<GameDetailsDto> gameDetailsInLibrary = new ArrayList<>();
+        List<GameDetailsDto> gameDetailsPendingPayment = new ArrayList<>();
 
         for (GameDetailsDto game : allGameDetails) {
             boolean inWishlist = wishlistBean.inWishlist(user.getUsername(), game.getGameId());
             boolean inLibrary = libraryBean.inLibrary(user.getUsername(), game.getGameId());
             boolean inCart = cartBean.inCart(user.getUsername(), game.getGameId());
+            boolean pendingPayment = paymentRequestBean.isPendingPayment(user.getUsername(), game.getGameId());
             gameDetails.add(game);
             if (inWishlist) {
                 gameDetailsOnWishlist.add(game);
@@ -116,6 +117,9 @@ public class GameProfile extends HttpServlet {
             }
             if (inLibrary) {
                 gameDetailsInLibrary.add(game);
+            }
+            if (pendingPayment) {
+                gameDetailsPendingPayment.add(game);
             }
         }
 
@@ -140,6 +144,7 @@ public class GameProfile extends HttpServlet {
             request.setAttribute("wishlist", gameDetailsOnWishlist);
             request.setAttribute("cart", gameDetailsInCart);
             request.setAttribute("library", gameDetailsInLibrary);
+            request.setAttribute("pendingPayment", gameDetailsPendingPayment);
             // Forwarding the request to the game profile JSP
             request.getRequestDispatcher("/WEB-INF/gamePages/gameProfile.jsp").forward(request, response);
         } else {
