@@ -44,13 +44,38 @@ public class SystemRequirementsBean {
             MemoryDto memoryDto = new MemoryDto(currentSystemRequirement.getMemory());
             ProcessorDto processorDto = new ProcessorDto(currentSystemRequirement.getProcessor());
             VideoCardDto videoCardDto = new VideoCardDto(currentSystemRequirement.getVideoCard());
-            GameDetailsDto gameDetailsDto = new GameDetailsDto(currentSystemRequirement.getGameDetails());
 
-            SystemRequirementsDto systemRequirementsDtoTemp = new SystemRequirementsDto(currentSystemRequirement.getGameId(), currentSystemRequirement.getGameDetails(), currentSystemRequirement.getMemory(),currentSystemRequirement.getProcessor(), currentSystemRequirement.getVideoCard());
+            memoryDto.setMemoryId(currentSystemRequirement.getMemory().getMemoryId());
+            processorDto.setProcessorId(currentSystemRequirement.getProcessor().getProcessorId());
+            videoCardDto.setVideoCardId(currentSystemRequirement.getVideoCard().getVideoCardId());
+
+            SystemRequirementsDto systemRequirementsDtoTemp = new SystemRequirementsDto(
+                    currentSystemRequirement.getGameId(),
+                    currentSystemRequirement.getGameDetails(),
+                    memoryDto,
+                    processorDto,
+                    videoCardDto
+            );
             listToReturn.add(systemRequirementsDtoTemp);
         }
 
         LOG.info("\n** Exited copySystemRequirementsToDto method. **\n");
         return listToReturn;
     }
+
+    public List<SystemRequirementsDto> findSystemReqByGameId(Long gameId) {
+        LOG.info("\n** Entering findSystemReqByGameId method for gameId: " + gameId + " **\n");
+        try {
+            TypedQuery<SystemRequirements> typedQuery = entityManager.createQuery(
+                    "SELECT sr FROM SystemRequirements sr WHERE sr.gameId = :gameId", SystemRequirements.class);
+            typedQuery.setParameter("gameId", gameId);
+            List<SystemRequirements> systemRequirementsList = typedQuery.getResultList();
+            LOG.info("\n** Exited findSystemReqByGameId method for gameId: " + gameId + " **\n");
+            return copySystemRequirementsToDto(systemRequirementsList);
+        } catch (Exception ex) {
+            LOG.info("\nError in findSystemReqByGameId method for gameId: " + gameId + "! " + ex.getMessage() + "\n");
+            throw new EJBException(ex);
+        }
+    }
+
 }

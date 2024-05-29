@@ -4,31 +4,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <t:template pageTitle="Wishlist">
-    <style>
-        .price-discount {
-            background-color: blue;
-            color: white;
-            padding: 0 5px;
-            border-radius: 5px;
-            font-size: 12px;
-            margin-right: 15px;
-        }
-
-        .price-values {
-            display: flex;
-            align-items: center;
-        }
-
-        .price-values p, .price-values s {
-            margin-right: 10px;
-            margin-bottom: 0;
-        }
-
-        .price-values p {
-            text-decoration: line-through;
-            color: grey;
-        }
-    </style>
     <h1>Wishlist, ${user.username}</h1>
 
     <c:if test="${empty games}">
@@ -62,7 +37,7 @@
                             </c:choose>
 
                             <c:if test="${not pendingPayment.contains(game)}">
-                                <form action="${pageContext.request.contextPath}/DeleteFromWishlist" method="post">
+                                <form action="${pageContext.request.contextPath}/DeleteFromWishlist" method="get">
                                     <input type="hidden" name="gameId" value="${game.gameId}">
                                     <input type="hidden" name="wishlistId" value="${wishlist.wishlistId}">
                                     <input type="hidden" name="page" value="wishlist">

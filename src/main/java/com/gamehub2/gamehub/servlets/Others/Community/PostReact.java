@@ -3,6 +3,7 @@ package com.gamehub2.gamehub.servlets.Others.Community;
 import java.io.IOException;
 
 import com.gamehub2.gamehub.common.Others.PostDto;
+import com.gamehub2.gamehub.ejb.Other.NotificationBean;
 import com.gamehub2.gamehub.ejb.Other.PostBean;
 import com.gamehub2.gamehub.ejb.Other.PostReactionBean;
 import com.gamehub2.gamehub.entities.Others.PostReaction;
@@ -30,15 +31,16 @@ public class PostReact extends HttpServlet {
     PostReactionBean postReactionBean;
     @Inject
     PostBean postBean;
-
+    @Inject
+    NotificationBean notificationBean;
 
     @Override
-    protected void doGet(HttpServletRequest requset, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = requset.getSession();
+        HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        String postIdString = requset.getParameter("postId");
-        String reaction = requset.getParameter("reaction");
+        String postIdString = request.getParameter("postId");
+        String reaction = request.getParameter("reaction");
         Long postId = Long.parseLong(postIdString);
         PostDto thisPost = postBean.findPostById(postId);
         LOG.info("\n Entered PostReact.doGet for the post: " + postId + " with the reaction " + reaction + " \n");
@@ -49,25 +51,29 @@ public class PostReact extends HttpServlet {
                     LOG.info("\n** Added like reaction to post **\n");
                     postReactionBean.removeOtherReactionsFromUser(postId, user.getUsername());
                     postReactionBean.addReactionToPost(postId, user.getUsername(), PostReaction.ReactionType.LIKE);
-                    response.sendRedirect(requset.getContextPath() + "/CommunityPost");
+                    notificationBean.sendReactOnPostNotification(user.getUsername(),thisPost.getUser().getUsername(),postId);
+                    response.sendRedirect(request.getContextPath() + "/CommunityPost");
                 }
                 case "fun" -> {
                     LOG.info("\n** Added fun reaction to post **\n");
                     postReactionBean.removeOtherReactionsFromUser(postId, user.getUsername());
                     postReactionBean.addReactionToPost(postId, user.getUsername(), PostReaction.ReactionType.FUN);
-                    response.sendRedirect(requset.getContextPath() + "/CommunityPost");
+                    notificationBean.sendReactOnPostNotification(user.getUsername(),thisPost.getUser().getUsername(),postId);
+                    response.sendRedirect(request.getContextPath() + "/CommunityPost");
                 }
                 case "helpful" -> {
                     LOG.info("\n** Added helpful reaction to post **\n");
                     postReactionBean.removeOtherReactionsFromUser(postId, user.getUsername());
                     postReactionBean.addReactionToPost(postId, user.getUsername(), PostReaction.ReactionType.HELPFUL);
-                    response.sendRedirect(requset.getContextPath() + "/CommunityPost");
+                    notificationBean.sendReactOnPostNotification(user.getUsername(),thisPost.getUser().getUsername(),postId);
+                    response.sendRedirect(request.getContextPath() + "/CommunityPost");
                 }
                 case "dislike" -> {
                     LOG.info("\n** Added dislike reaction to post **\n");
                     postReactionBean.removeOtherReactionsFromUser(postId, user.getUsername());
                     postReactionBean.addReactionToPost(postId, user.getUsername(), PostReaction.ReactionType.DISLIKE);
-                    response.sendRedirect(requset.getContextPath() + "/CommunityPost");
+                    notificationBean.sendReactOnPostNotification(user.getUsername(),thisPost.getUser().getUsername(),postId);
+                    response.sendRedirect(request.getContextPath() + "/CommunityPost");
                 }
             }
         }

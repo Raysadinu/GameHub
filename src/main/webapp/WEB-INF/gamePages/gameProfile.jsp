@@ -3,157 +3,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <t:template pageTitle="Game Profile">
-    <style>
-        .price-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            margin-bottom: 10px;
-        }
-
-        .price-discount {
-            flex-grow: 1;
-            margin-right: 10px;
-            background-color: blue;
-            color: white;
-            padding: 5px;
-            text-align: center;
-            width: 40px;
-            height: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 5px;
-            font-size:15px;
-            margin-top:25px;
-            margin-bottom: 5px;
-
-        }
-        .price-values {
-            display: flex;
-            align-items: center;
-        }
-        .price-values p, .price-values b {
-            margin-right:  15px;
-            margin-bottom: 0;
-        }
-        .price-values p {
-            text-decoration: line-through;
-            color: grey;
-        }
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            padding-top: 100px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.9);
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 1000px; /* Increased max-width */
-        }
-
-        .modal-content, #caption {
-            animation-name: zoom;
-            animation-duration: 0.6s;
-        }
-
-        @keyframes zoom {
-            from {transform:scale(0)}
-            to {transform:scale(1)}
-        }
-
-        .close {
-            position: absolute;
-            top: 50px;
-            right: 50px;
-            color: #fff;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .slideshow-container {
-            position: relative;
-            max-width: 100%;
-            margin: auto;
-        }
-
-        .slides {
-            display: none;
-            width: 100%;
-        }
-
-        .prev, .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            padding: 16px;
-            margin-top: -22px;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
-
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        .prev {
-            left: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        .prev:hover, .next:hover {
-            background-color: rgba(0,0,0,0.8);
-        }
-
-        .thumbnail-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .thumbnail {
-            cursor: pointer;
-            width: 100px;
-            height: 60px;
-            margin: 0 5px;
-            transition: 0.3s;
-        }
-
-        .thumbnail:hover {
-            opacity: 0.8;
-        }
-
-        .thumbnail.active-thumb {
-            border: 2px solid #717171;
-        }
-    </style>
 
 
     <div class="container text-center" style="margin-top: 100px">
@@ -214,8 +63,8 @@
                 <p>Free</p>
             </c:when>
             <c:when test="${gamePrices[game.gameId][1] > 0}">
-                <div class="price-container">
-                    <b class="price-discount"><fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</b>
+                <div class="price-container-game-profile">
+                    <b class="price-discount-game-profile"><fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</b>
                     <div class="price-values">
                         <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
                         <b>$<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></b>
@@ -275,8 +124,18 @@
                 </div>
             </c:if>
 
+        <div class="system-requirements">
+            <h4>System Requirements</h4>
+                    Storage: ${game.storage}
+                <c:forEach var="requirement" items="${systemRequirements}">
+                    Memory: ${requirement.memory.memory} GB,
+                    Processor: ${requirement.processor.processorName},
+                    VideoCard: ${requirement.videoCard.videoCardName}, ${requirement.videoCard.memory} GB
+                </c:forEach>
+        </div>
 
-            <h4>Comments</h4>
+
+        <h4>Comments</h4>
             <form action="${pageContext.request.contextPath}/AddComment" method="post" class="comment-form">
                 <div class="form-group">
                     <label for="comment">Your Comment:</label><br>

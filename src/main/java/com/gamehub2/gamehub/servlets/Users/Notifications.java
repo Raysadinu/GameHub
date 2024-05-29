@@ -5,8 +5,6 @@ import java.io.IOException;
 import com.gamehub2.gamehub.common.Others.NotificationDto;
 import com.gamehub2.gamehub.common.Users.UserDetailsDto;
 import com.gamehub2.gamehub.ejb.Other.NotificationBean;
-import com.gamehub2.gamehub.ejb.Users.UserBean;
-import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
@@ -21,32 +19,30 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
-@WebServlet(name = "Profile", value = "/Profile")
-public class Profile extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(UserBean.class.getName());
+
+@WebServlet(name = "Notifications", value = "/Notifications")
+public class Notifications extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(OtherProfile.class.getName());
+
     @Inject
-    UserDetailsBean userDetailsBean;
-    @Inject
-    NotificationBean notificationBean;
+    private NotificationBean notificationBean;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOG.info("\n** Entered Profile.doGet " + request.getParameter("username") + " **\n");
-
+        LOG.info("Entered Profile.doGet");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
+        List<NotificationDto> readNotifications = notificationBean.findReadNotificationsByUsername(user.getUsername());
+        List<NotificationDto> unreadNotifications = notificationBean.findUnreadNotificationsByUsername(user.getUsername());
 
-        List<UserDetailsDto> allUserDetails = userDetailsBean.findAllUserDetails();
-        UserDetailsDto thisUser = userDetailsBean.getUserDetailsByUsername(user.getUsername(), allUserDetails);
+        int unreadNotificationsCount = unreadNotifications.size();
+        request.setAttribute("unreadNotificationsCount", unreadNotificationsCount);
 
-
-        request.setAttribute("user", thisUser);
-
-
-
-        LOG.info("\n** Exited Profile.doGet ... **\n");
-        request.getRequestDispatcher("/WEB-INF/userPages/profile.jsp").forward(request, response);
+        request.setAttribute("readNotifications", readNotifications);
+        request.setAttribute("unreadNotifications", unreadNotifications);
+        request.getRequestDispatcher("/WEB-INF/userPages/notifications.jsp").forward(request, response);
     }
 }

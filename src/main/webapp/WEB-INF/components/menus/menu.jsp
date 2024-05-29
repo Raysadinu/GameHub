@@ -33,6 +33,9 @@
 
                 <ul class="navbar-nav mb-2 mb-md-0">
                     <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/Notifications">Notifications</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/Wishlist">Wishlist</a>
                     </li>
                     <li class="nav-item">

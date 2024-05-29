@@ -8,14 +8,14 @@ import com.gamehub2.gamehub.entities.SystemReq.VideoCard;
 public class SystemRequirementsDto {
     private Long gameId;
     private GameDetails gameDetails;
-    private Memory memory;
-    private Processor processor;
-    private VideoCard videoCard;
+    private MemoryDto memory;
+    private ProcessorDto processor;
+    private VideoCardDto videoCard;
 
     public SystemRequirementsDto() {
     }
 
-    public SystemRequirementsDto(Long gameId, GameDetails gameDetails, Memory memory, Processor processor, VideoCard videoCard) {
+    public SystemRequirementsDto(Long gameId, GameDetails gameDetails, MemoryDto memory, ProcessorDto processor, VideoCardDto videoCard) {
         this.gameId = gameId;
         this.gameDetails = gameDetails;
         this.memory = memory;
@@ -39,27 +39,27 @@ public class SystemRequirementsDto {
         this.gameDetails = gameDetails;
     }
 
-    public Memory getMemory() {
+    public MemoryDto getMemory() {
         return memory;
     }
 
-    public void setMemory(Memory memory) {
+    public void setMemory(MemoryDto memory) {
         this.memory = memory;
     }
 
-    public Processor getProcessor() {
+    public ProcessorDto getProcessor() {
         return processor;
     }
 
-    public void setProcessor(Processor processor) {
+    public void setProcessor(ProcessorDto processor) {
         this.processor = processor;
     }
 
-    public VideoCard getVideoCard() {
+    public VideoCardDto getVideoCard() {
         return videoCard;
     }
 
-    public void setVideoCard(VideoCard videoCard) {
+    public void setVideoCard(VideoCardDto videoCard) {
         this.videoCard = videoCard;
     }
 }

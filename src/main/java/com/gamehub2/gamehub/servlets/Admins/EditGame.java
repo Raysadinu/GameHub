@@ -6,12 +6,19 @@ import com.gamehub2.gamehub.common.Games.CategoryDto;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
 import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.common.Others.MediaDto;
+import com.gamehub2.gamehub.common.Others.NotificationDto;
+import com.gamehub2.gamehub.common.Others.WishlistDto;
 import com.gamehub2.gamehub.common.SystemReq.*;
 import com.gamehub2.gamehub.ejb.Games.CategoryBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.MediaBean;
+import com.gamehub2.gamehub.ejb.Other.NotificationBean;
+import com.gamehub2.gamehub.ejb.Other.WishlistBean;
 import com.gamehub2.gamehub.ejb.SystemReq.*;
+import com.gamehub2.gamehub.ejb.Users.UserBean;
+import com.gamehub2.gamehub.entities.Others.Notification;
+import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,10 +27,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 @WebServlet(name = "EditGame", value = "/EditGame")
@@ -37,13 +46,8 @@ public class EditGame extends HttpServlet {
     @Inject
     MediaBean mediaBean;
     @Inject
-    MemoryBean memoryBean;
-    @Inject
-    ProcessorBean processorBean;
-    @Inject
-    VideoCardBean videoCardBean;
-    @Inject
-    SystemRequirementsBean systemRequirementsBean;
+    NotificationBean notificationBean;
+
 
     private static final Logger LOG = Logger.getLogger(EditGame.class.getName());
     @Override
@@ -116,9 +120,14 @@ public class EditGame extends HttpServlet {
                 categoryBean.addCategoryToGame(categoryId, gameId);
             }
         }
+        if (newPriceDetails.getDiscount_price() < newPriceDetails.getPrice()) {
+            notificationBean.sendSaleNotification(gameId, "The game you have in your wishlist is now on sale!");
+        }
+
 
         LOG.info("Exited doPost method.");
 
         response.sendRedirect(request.getContextPath() + "/GameProfile?gameId=" + gameId);
     }
+
 }

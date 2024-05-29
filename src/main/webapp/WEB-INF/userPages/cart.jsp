@@ -11,31 +11,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <t:template pageTitle="Cart">
-    <style>
-        .price-discount {
-            background-color: blue;
-            color: white;
-            padding: 0 5px;
-            border-radius: 5px;
-            font-size: 12px;
-            margin-right: 15px;
-        }
-
-        .price-values {
-            display: flex;
-            align-items: center;
-        }
-
-        .price-values p, .price-values s {
-            margin-right: 10px;
-            margin-bottom: 0;
-        }
-
-        .price-values p {
-            text-decoration: line-through;
-            color: grey;
-        }
-    </style>
     <h1>Cart, ${user.username}</h1>
 
     <c:if test="${empty games}">

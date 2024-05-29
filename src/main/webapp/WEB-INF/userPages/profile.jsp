@@ -4,6 +4,7 @@
 <t:template pageTitle="Profile">
 
     <div class="container text-center" style="margin-top: 100px">
+
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <c:if test="${not empty user.profilePicture}">

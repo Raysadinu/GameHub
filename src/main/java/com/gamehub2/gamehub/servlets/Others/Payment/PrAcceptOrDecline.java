@@ -2,11 +2,15 @@ package com.gamehub2.gamehub.servlets.Others.Payment;
 
 import java.io.IOException;
 
+import com.gamehub2.gamehub.common.Admins.AdminDto;
 import com.gamehub2.gamehub.common.Games.GameDetailsDto;
 import com.gamehub2.gamehub.common.Others.PaymentRequestDto;
+import com.gamehub2.gamehub.ejb.Admins.AdminBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.LibraryBean;
+import com.gamehub2.gamehub.ejb.Other.NotificationBean;
 import com.gamehub2.gamehub.ejb.Other.PaymentRequestBean;
+import com.gamehub2.gamehub.entities.Admins.Admin;
 import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Others.PaymentRequest;
 import com.gamehub2.gamehub.entities.Users.User;
@@ -36,6 +40,10 @@ public class PrAcceptOrDecline extends HttpServlet {
     GameDetailsBean gameDetailsBean;
     @Inject
     LibraryBean libraryBean;
+    @Inject
+    NotificationBean notificationBean;
+    @Inject
+    AdminBean adminBean;
     private static final Logger LOG = Logger.getLogger(PrAcceptOrDecline.class.getName());
 
     @Override
@@ -58,6 +66,18 @@ public class PrAcceptOrDecline extends HttpServlet {
                 libraryBean.addGameToLibrary(libraryId, g.getGameId());
             }
         }
+        String notificationMessage;
+        if (newStatus == PaymentRequest.RequestStatus.ACCEPTED) {
+            notificationMessage = "Payment has been accepted. The game has been added to your library.";
+        } else {
+            notificationMessage = "Payment has been rejected. Please check your payment information and try again.";
+        }
+        notificationBean.sendPaymentNotification(currentUser.getUsername(), notificationMessage);
+        List<AdminDto> administrators = adminBean.findAllAdmins();
+        for (AdminDto admin : administrators) {
+            notificationBean.sendPaymentNotification(admin.getUsername(), "A payment request has been processed. Check the payment-requests page for details.");
+        }
+
         List<PaymentRequestDto> allPaymentRequests = paymentRequestBean.findAllPaymentRequests();
         List<Game> gamesInPaymentRequest = new ArrayList<>();
         for (PaymentRequestDto paymentRequest : allPaymentRequests) {

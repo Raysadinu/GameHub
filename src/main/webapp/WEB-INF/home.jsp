@@ -3,116 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<t:template pageTitle="Store">
-    <style>
-        .game-card {
-            margin-bottom: 20px;
-        }
-        .wishlist-cart-buttons {
-            display: flex;
-        }
-        .wishlist-cart-buttons button {
-            margin-right: 5px;
-        }
-        .center-content {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .search-bar-container {
-            margin-right: 40px;
-            margin-top: 30px;
-            width: 1100px;
-        }
-        .categories-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 20px;
-            margin-bottom: 20px;
-        }
-        .categories-container form {
-            display: flex;
-            align-items: flex-end;
-        }
-        .game-container {
-            width: 90%;
-            justify-content: center;
-            margin: 0 auto;
-            flex: 2;
-        }
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .dropdown-toggle {
-            background-color: #f8f9fa;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            color: #495057;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            cursor: pointer;
-        }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background-color: #fff;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            padding: 0.5rem 0;
-            z-index: 1000;
-            min-width: 10rem;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            border-radius: 0.25rem;
-        }
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            padding: 0.25rem 1.5rem;
-            width: 100%;
-            color: #212529;
-            text-decoration: none;
-            background-color: transparent;
-            border: 0;
-            cursor: pointer;
-        }
-        .dropdown-item:hover {
-            background-color: #f8f9fa;
-        }
-        .dropdown-item input {
-            margin-right: 10px;
-        }
-        .price-container {
-            display: flex;
-            align-items: center;
-        }
+<t:home pageTitle="Store">
 
-        .price-discount {
-            background-color: blue;
-            color: white;
-            padding: 0 5px;
-            border-radius: 5px;
-            font-size: 12px;
-            margin-right: 15px;
-        }
-
-        .price-values {
-            display: flex;
-            align-items: center;
-        }
-
-        .price-values p, .price-values s {
-            margin-right: 10px;
-            margin-bottom: 0;
-        }
-
-        .price-values p {
-            text-decoration: line-through;
-            color: grey;
-        }
-    </style>
 
     <c:if test="${userAge == -1}">
         <p>Age: -1</p>
@@ -184,12 +76,10 @@
                                             <p>Free</p>
                                         </c:when>
                                         <c:when test="${gamePrices[game.gameId][1] > 0}">
-                                            <div class="price-container">
-                                                <b class="price-discount"><fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</b>
-                                                <div class="price-values">
-                                                    <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
-                                                    <b>$<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></b>
-                                                </div>
+                                            <b class="price-discount"><fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</b>
+                                            <div class="price-values">
+                                                <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
+                                                <b>$<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></b>
                                             </div>
                                         </c:when>
 
@@ -372,4 +262,4 @@
             }
         });
     </script>
-</t:template>
+</t:home>

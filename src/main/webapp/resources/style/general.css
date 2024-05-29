@@ -1,0 +1,191 @@
+.price-container-game-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.price-discount {
+    background-color: blue;
+    color: white;
+    padding: 0 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-right: 15px;
+}
+.price-discount-game-profile {
+    flex-grow: 1;
+    margin-right: 10px;
+    background-color: blue;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    width: 40px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-size:15px;
+    margin-top:25px;
+    margin-bottom: 5px;
+
+}
+.price-values {
+    display: flex;
+    align-items: center;
+}
+
+.price-values p, .price-values s {
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.price-values p {
+    text-decoration: line-through;
+    color: grey;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 1000px; /* Increased max-width */
+}
+
+.modal-content, #caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
+.close {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.slideshow-container {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+}
+
+.slides {
+    display: none;
+    width: 100%;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+.thumbnail-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.thumbnail {
+    cursor: pointer;
+    width: 100px;
+    height: 60px;
+    margin: 0 5px;
+    transition: 0.3s;
+}
+
+.thumbnail:hover {
+    opacity: 0.8;
+}
+
+.thumbnail.active-thumb {
+    border: 2px solid #717171;
+}
+/* System Requirements */
+.system-requirements h4 {
+    margin-bottom: 10px;
+}
+
+.system-requirements ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.system-requirements li {
+    margin-bottom: 5px;
+}
+
+.system-requirements li:before {
+    content: "•";
+    color: #007bff;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.system-requirements p {
+    margin-bottom: 5px;
+}
+
+.system-requirements p:before {
+    content: attr(data-label);
+    font-weight: bold;
+    margin-right: 5px;
+}

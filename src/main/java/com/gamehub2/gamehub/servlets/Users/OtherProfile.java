@@ -31,8 +31,7 @@ public class OtherProfile extends HttpServlet {
 
     @Inject
     FollowBean followBean;
-    /*@Inject
-    AdminBean adminBean;*/
+
 
 
     @Override
@@ -57,12 +56,12 @@ public class OtherProfile extends HttpServlet {
 
         boolean isFollower = false;
         for (FollowDto follower : followersList) {
-            if (follower.getFollowed().getUsername().equals(username)) {
+            if (follower.getFollowed() != null && follower.getFollowed().getUsername().equals(username)) {
                 isFollower = true;
                 break;
             }
         }
-
+        request.setAttribute("userDetails", thisUser);
         request.setAttribute("isFollower",isFollower);
         LOG.info("\n** Exited OthetProfile.doGet ... **\n");
         request.getRequestDispatcher("/WEB-INF/userPages/otherProfile.jsp").forward(request, response);

@@ -5,8 +5,10 @@ import java.io.IOException;
 
 import com.gamehub2.gamehub.Utilities.Functionalities;
 import com.gamehub2.gamehub.common.Games.*;
+import com.gamehub2.gamehub.common.Others.FollowDto;
 import com.gamehub2.gamehub.common.Others.MediaDto;
 import com.gamehub2.gamehub.common.Others.PictureDto;
+import com.gamehub2.gamehub.common.SystemReq.SystemRequirementsDto;
 import com.gamehub2.gamehub.ejb.Admins.AdminBean;
 import com.gamehub2.gamehub.ejb.Games.*;
 import com.gamehub2.gamehub.ejb.Other.*;
@@ -23,6 +25,7 @@ import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.CartBean;
 import com.gamehub2.gamehub.ejb.Other.LibraryBean;
 
+import com.gamehub2.gamehub.ejb.SystemReq.SystemRequirementsBean;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -32,10 +35,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 
@@ -47,8 +47,7 @@ public class GameProfile extends HttpServlet {
     AdminBean adminBean;
     @Inject
     PriceDetailsBean priceDetailsBean;
-    @Inject
-    GameBean gameBean;
+
     @Inject
     CategoryBean categoryBean;
     @Inject
@@ -66,7 +65,8 @@ public class GameProfile extends HttpServlet {
     GameScreenshotBean gameScreenshotBean;
     @Inject
     MediaBean mediaBean;
-
+    @Inject
+    SystemRequirementsBean systemRequirementsBean;
 
     private static final Logger LOG = Logger.getLogger(GameProfile.class.getName());
     @Override
@@ -97,6 +97,7 @@ public class GameProfile extends HttpServlet {
         categories.sort((c1, c2) -> c1.getCategoryName().compareToIgnoreCase(c2.getCategoryName()));
         List<CommentDto> comments = commentBean.getCommentsByGameId(gameId);
 
+
         List<GameDetailsDto> gameDetails = new ArrayList<>();
         List<GameDetailsDto> gameDetailsOnWishlist = new ArrayList<>();
         List<GameDetailsDto> gameDetailsInCart = new ArrayList<>();
@@ -126,6 +127,8 @@ public class GameProfile extends HttpServlet {
         List<GameScreenshotDto> screenshots = gameScreenshotBean.findScreenshotByGameId(gameId);
         MediaDto trailer = mediaBean.findMediaByGameId(gameId);
 
+        List<SystemRequirementsDto> systemRequirements = systemRequirementsBean.findSystemReqByGameId(gameId);
+
 
         if (thisGame != null) {
             LOG.info("Game details retrieved: " + thisGame.toString());
@@ -135,7 +138,7 @@ public class GameProfile extends HttpServlet {
             request.setAttribute("trailer", trailer);
             request.setAttribute("screenshots", screenshots);
             request.setAttribute("gamePrices", gamePrices);
-
+            request.setAttribute("systemRequirements", systemRequirements);
             // Setting attributes to be accessed in JSP
 
             request.setAttribute("game", thisGame);

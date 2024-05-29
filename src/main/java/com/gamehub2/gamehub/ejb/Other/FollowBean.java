@@ -6,6 +6,7 @@ import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
@@ -50,6 +51,19 @@ public class FollowBean {
         return listToReturn;
 
     }
+    public List<User> findFollowersByUser(String username, List<FollowDto> allFollows) {
+        LOG.info("\n** Entered findFollowersByUser method with list size of: " + allFollows.size() + " and username: " + username + " **\n");
+        List<User> followers = new ArrayList<>();
+
+        for (FollowDto follow : allFollows) {
+            if (follow.getFollowed().getUsername().equals(username)) {
+                followers.add(follow.getUser());
+            }
+        }
+
+        LOG.info("\n** Exited findFollowersByUser method. **\n");
+        return followers;
+    }
 
     public List<FollowDto> findFollowsByUser(String username, List<FollowDto> allFollows) {
 
@@ -90,16 +104,20 @@ public class FollowBean {
     }
     public void removeFollow(String username, String followedUsername) {
         try {
-
-            Follow Follow = entityManager.createQuery("SELECT f FROM Follow f WHERE f.user.username = :username AND f.followed.username = :followedUsername", Follow.class)
+            Follow follow = entityManager.createQuery("SELECT f FROM Follow f WHERE f.user.username = :username AND f.followed.username = :followedUsername", Follow.class)
                     .setParameter("username", username)
                     .setParameter("followedUsername", followedUsername)
                     .getSingleResult();
 
-            entityManager.remove(Follow);
+            entityManager.remove(follow);
+        } catch (NoResultException ex) {
+            // Handle the case where no follow record is found
+            LOG.warning("No follow record found for user: " + username + " and followed user: " + followedUsername);
         } catch (Exception ex) {
+            // Handle other exceptions
             throw new EJBException(ex);
         }
     }
+
 
 }
