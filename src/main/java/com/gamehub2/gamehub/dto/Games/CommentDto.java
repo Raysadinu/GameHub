@@ -1,5 +1,7 @@
 package com.gamehub2.gamehub.dto.Games;
 
+import com.gamehub2.gamehub.entities.Users.User;
+
 import java.time.LocalDate;
 
 
@@ -11,7 +13,7 @@ public class CommentDto {
     private boolean recommended;
     private boolean notRecommended;
     private LocalDate createdAt;
-
+    User user;
     public CommentDto() {
     }
 
@@ -80,5 +82,13 @@ public class CommentDto {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

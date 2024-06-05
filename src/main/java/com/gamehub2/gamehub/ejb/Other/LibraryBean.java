@@ -1,5 +1,6 @@
 package com.gamehub2.gamehub.ejb.Other;
 
+import com.gamehub2.gamehub.dto.Games.GameDto;
 import com.gamehub2.gamehub.dto.Others.LibraryDto;
 import com.gamehub2.gamehub.dto.Others.WishlistDto;
 import com.gamehub2.gamehub.entities.Games.Game;
@@ -122,4 +123,28 @@ public class LibraryBean {
         }
         return false;
     }
+    public List<GameDto> findGamesByUsername(String username) {
+        LOG.info("\n** Entered findGamesByUsername method for username: " + username + " **\n");
+        try {
+            LibraryDto libraryDto = findLibraryByUsername(username, findAllLibraries());
+            if (libraryDto != null) {
+                List<Game> games = libraryDto.getGames();
+                List<GameDto> gameDtos = new ArrayList<>();
+                for (Game game : games) {
+                    GameDto gameDto = new GameDto(game.getGameId(), game.getGameName());
+                    gameDtos.add(gameDto);
+                }
+                LOG.info("\n** Exited findGamesByUsername method **\n");
+                return gameDtos;
+            } else {
+                LOG.warning("\nNo library found for username: " + username + "\n");
+                return new ArrayList<>(); // Return an empty list if the library is not found
+            }
+        } catch (Exception ex) {
+            LOG.severe("\nError in findGamesByUsername method! " + ex.getMessage() + "\n");
+            throw new EJBException(ex);
+        }
+    }
+
+
 }

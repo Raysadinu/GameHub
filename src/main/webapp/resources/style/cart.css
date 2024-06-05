@@ -1,0 +1,85 @@
+/* Additional CSS styles */
+body {
+    text-align: center;
+}
+
+h1 {
+    margin-top: 100px;
+    margin-bottom: 30px;
+}
+
+.game-picture {
+    max-width: 100%;
+    height: auto;
+}
+
+.price-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center !important;
+    margin-bottom: 10px;
+}
+
+.price-discount {
+    background-color: blue;
+    color: white;
+    padding: 0 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-right: 15px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    flex-grow: 1;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.btn-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn {
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+.total-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+form {
+    margin-top: 20px;
+}
+
+form button {
+    margin-top: 10px;
+}
+
+button.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+button.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}

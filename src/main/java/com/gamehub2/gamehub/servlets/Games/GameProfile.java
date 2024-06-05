@@ -6,7 +6,9 @@ import java.io.IOException;
 import com.gamehub2.gamehub.Utilities.Functionalities;
 import com.gamehub2.gamehub.dto.Games.*;
 import com.gamehub2.gamehub.dto.Others.MediaDto;
+import com.gamehub2.gamehub.dto.Others.PostCommentDto;
 import com.gamehub2.gamehub.dto.SystemReq.SystemRequirementsDto;
+import com.gamehub2.gamehub.dto.Users.UserDetailsDto;
 import com.gamehub2.gamehub.ejb.Admins.AdminBean;
 import com.gamehub2.gamehub.ejb.Games.*;
 import com.gamehub2.gamehub.ejb.Other.*;
@@ -23,6 +25,8 @@ import com.gamehub2.gamehub.ejb.Other.CartBean;
 import com.gamehub2.gamehub.ejb.Other.LibraryBean;
 
 import com.gamehub2.gamehub.ejb.SystemReq.SystemRequirementsBean;
+import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
+import com.gamehub2.gamehub.entities.Others.Picture;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -64,6 +68,8 @@ public class GameProfile extends HttpServlet {
     MediaBean mediaBean;
     @Inject
     SystemRequirementsBean systemRequirementsBean;
+    @Inject
+    UserDetailsBean userDetailsBean;
 
     private static final Logger LOG = Logger.getLogger(GameProfile.class.getName());
     @Override
@@ -93,7 +99,13 @@ public class GameProfile extends HttpServlet {
         List<CategoryDto> categories = categoryBean.getCategoriesByGameId(gameId);
         categories.sort((c1, c2) -> c1.getCategoryName().compareToIgnoreCase(c2.getCategoryName()));
         List<CommentDto> comments = commentBean.getCommentsByGameId(gameId);
-
+        Map<String, Picture> userPicturesMap = new HashMap<>();
+        for (CommentDto comment : comments) {
+            UserDetailsDto userDetails = userDetailsBean.getUserDetailsByUsername(comment.getUsername(),userDetailsBean.findAllUserDetails());
+            if (userDetails != null) {
+                userPicturesMap.put(comment.getUsername(), userDetails.getProfilePicture());
+            }
+        }
 
         List<GameDetailsDto> gameDetails = new ArrayList<>();
         List<GameDetailsDto> gameDetailsOnWishlist = new ArrayList<>();
@@ -131,7 +143,7 @@ public class GameProfile extends HttpServlet {
 
         if (thisGame != null) {
             LOG.info("Game details retrieved: " + thisGame.toString());
-
+            request.setAttribute("userPicturesMap", userPicturesMap);
             request.setAttribute("timesPurchased", timesPurchased);
             // Setting attributes to be accessed in JSP
             request.setAttribute("trailer", trailer);

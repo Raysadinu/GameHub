@@ -118,6 +118,19 @@ public class FollowBean {
             throw new EJBException(ex);
         }
     }
-
+    public boolean isFollower(String loggedInUsername, String profileUsername) {
+        try {
+            TypedQuery<Follow> query = entityManager.createQuery("SELECT f FROM Follow f WHERE f.user.username = :loggedInUsername AND f.followed.username = :profileUsername", Follow.class);
+            query.setParameter("loggedInUsername", loggedInUsername);
+            query.setParameter("profileUsername", profileUsername);
+            Follow follow = query.getSingleResult();
+            return follow != null;
+        } catch (NoResultException ex) {
+            return false;
+        } catch (Exception ex) {
+            LOG.severe("Error checking if user is follower: " + ex.getMessage());
+            throw new EJBException(ex);
+        }
+    }
 
 }

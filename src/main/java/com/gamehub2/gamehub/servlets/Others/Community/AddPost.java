@@ -29,6 +29,7 @@ public class AddPost extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.info("\n** Entered AddPostServlet doPost method **\n");
+        request.setCharacterEncoding("UTF-8");
         try {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");

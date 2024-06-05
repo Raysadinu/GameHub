@@ -25,8 +25,8 @@
               <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name" value="${user.lastName}" required>
             </div>
             <div class="form-group">
-              <label for="nickname">Nickname</label>
-              <input type="text" class="form-control" id="nickname" name="nickname" placeholder="Nickname" value="${user.nickname}">
+              <label for="nickname">Nickname *</label>
+              <input type="text" class="form-control" id="nickname" name="nickname" placeholder="Nickname" value="${user.nickname}" required>
             </div>
           </div>
           <div class="row">
@@ -53,8 +53,8 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="bio">About yourself:</label>
-            <textarea class="form-control" id="bio" name="bio" placeholder="Tell us about yourself" rows="3">${user.bio}</textarea>
+            <label for="bio">About yourself *</label>
+            <textarea class="form-control" id="bio" name="bio" placeholder="Tell us about yourself" rows="3" required>${user.bio}</textarea>
           </div>
 
           <input type="hidden" name="username" value="${user.username}">

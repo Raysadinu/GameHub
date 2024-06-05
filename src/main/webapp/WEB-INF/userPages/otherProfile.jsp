@@ -3,20 +3,21 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template pageTitle="User Profile">
 
-    <div class="container text-center"  style="margin-top: 100px">
-        <c:if test="${not empty userDetails.profilePicture}">
-            <div class="row">
-                <div class="col-md-4 offset-md-4">
-                    <c:if test="${not empty userDetails.profilePicture}">
-                        <img src="data:image/${userDetails.profilePicture.imageFormat};base64,${userDetails.profilePicture.base64ImageData}" alt="Profile Picture" width="200" height="200">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="profile-picture-container">
+                    <c:if test="${not empty user.profilePicture}">
+                        <img src="data:image/${user.profilePicture.imageFormat};base64,${user.profilePicture.base64ImageData}" alt="Profile Picture" class="profile-picture">
                     </c:if>
-                    <c:if test="${empty userDetails.profilePicture}">
-                        <img src="img/default-picture.jpg" alt="Default Profile Picture" width="200" height="200">
+                    <c:if test="${empty user.profilePicture}">
+                        <img src="default-picture.jpg" alt="Default Profile Picture" class="profile-picture">
                     </c:if>
                 </div>
             </div>
-        </c:if>
-        <h1>${userDetails.username}</h1>
+        </div>
+        <h1 class="mt-4 username">${user.username}<span class="nickname">${user.nickname}</span></h1>
+
         <c:choose>
             <c:when test="${isFollower}">
                 <form action="${pageContext.request.contextPath}/UnfollowUser" method="post">
@@ -32,9 +33,9 @@
                 </form>
             </c:otherwise>
         </c:choose>
-        <p>Full name: ${userDetails.firstName} ${userDetails.lastName}</p>
-        <p>Birthday: ${userDetails.birthDate}</p>
-        <p>Phone number: ${userDetails.phoneNumber}</p>
-        <p>Bio: ${userDetails.bio}</p>
+
+        <c:if test="${not empty user.bio}">
+            <p class="bio" style="white-space: pre-wrap;">${user.bio}</p>
+        </c:if>
     </div>
 </t:template>

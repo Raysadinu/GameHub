@@ -37,7 +37,7 @@ public class EditProfile extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.info("Entered EditProfile.doPost method");
-
+        request.setCharacterEncoding("UTF-8");
         // Get form parameters
         String username = request.getParameter("username");
         String firstName = request.getParameter("firstname");

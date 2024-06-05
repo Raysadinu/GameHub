@@ -1,0 +1,436 @@
+/* Game Profile */
+.game-profile {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Game Profile Picture */
+.game-profile-picture img {
+    width: 60%; /* Adjust the size of the profile picture */
+    max-width: 300px; /* Set maximum width */
+    display: block;
+    margin: 0 auto; /* Center the profile picture */
+
+}
+
+/* Description */
+.game-details p {
+    text-align: justify; /* Justify the text for a cleaner look */
+    margin-bottom: 20px; /* Add some space after paragraphs */
+}
+
+/* Slideshow Container */
+.slideshow-container {
+    max-width: 100%;
+    margin: 20px auto; /* Center the slideshow */
+}
+
+.slides {
+    display: none;
+    width: 100%;
+    text-align: center; /* Center images within the slideshow */
+}
+
+.slides img {
+    max-width: 100%; /* Ensure images don't overflow */
+}
+
+/* Thumbnail Container */
+.thumbnail-container {
+    justify-content: center;
+}
+
+.thumbnail {
+    cursor: pointer;
+    width: 80px; /* Adjust thumbnail size */
+    height: 50px; /* Adjust thumbnail size */
+    margin: 0 5px;
+    transition: 0.3s;
+}
+
+.thumbnail.active-thumb {
+    border: 2px solid #007bff; /* Highlight active thumbnail */
+}
+
+/* Description */
+.game-details p {
+    text-align: justify; /* Justify text for a cleaner look */
+    margin-bottom: 20px; /* Add some space after paragraphs */
+}
+
+/* Comments */
+.comments-section {
+    margin-top: 20px;
+}
+
+.comment {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+
+.comment p {
+    margin-bottom: 10px;
+}
+
+
+/* Trailer */
+.trailer iframe {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom:55px
+}
+
+/* Game Details */
+.game-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* System Requirements */
+.system-requirements {
+    margin-top: 20px;
+}
+
+.system-requirements h4 {
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+.system-requirements ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.system-requirements li {
+    margin-bottom: 5px;
+}
+
+.system-requirements li:before {
+    content: "•";
+    color: #007bff;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.system-requirements p {
+    margin-bottom: 5px;
+}
+
+.system-requirements p:before {
+    content: attr(data-label);
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* Recommendation */
+.recommendation {
+    margin-top: 10px;
+}
+
+.recommendation span {
+    margin-right: 5px;
+}
+
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 1000px; /* Increased max-width */
+}
+
+.modal-content, #caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+.close {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Slideshow Container */
+.slideshow-container {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+}
+
+.slides {
+    display: none;
+    width: 100%;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Thumbnail Container */
+.thumbnail-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.thumbnail {
+    cursor: pointer;
+    width: 100px;
+    height: 60px;
+    margin: 0 5px;
+    transition: 0.3s;
+}
+
+.thumbnail:hover {
+    opacity: 0.8;
+}
+
+.thumbnail.active-thumb {
+    border: 2px solid #717171;
+}
+
+/* Admin Buttons */
+.admin-buttons {
+    margin-top: 20px;
+}
+
+.admin-buttons .btn {
+    margin-right: 10px;
+}
+
+/* Comments */
+.comments-section {
+    margin-top: 20px;
+}
+
+.comment {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+
+.comment p {
+    margin-bottom: 10px;
+}
+/* Game Details */
+.game-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center the content */
+}
+
+/* Game Name */
+.game-details h3 {
+    margin-top: 20px; /* Add some space above the game name */
+}
+
+/* Admin Buttons */
+.admin-buttons {
+    margin-top: 20px;
+    text-align: center; /* Center the buttons */
+}
+
+.admin-buttons .btn {
+    margin-right: 10px;
+}
+
+/* Wishlist and Cart Buttons */
+.wishlist-cart-buttons {
+    margin-top: 20px;
+    text-align: center; /* Center the buttons */
+}
+
+.wishlist-cart-buttons .btn {
+    margin-right: 10px;
+}
+
+/* Price Container */
+
+.price-container-game-profile{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center !important;
+}
+
+
+.price-discount-game-profile {
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.price-values {
+    display: flex;
+    align-items: center;
+}
+
+.price-values p, .price-values b {
+    margin-right: 10px;
+    margin-bottom: 0;
+
+}
+
+.price-values p {
+    text-decoration: line-through;
+    color: grey;
+}
+.container {
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 100px;
+}
+.game-details {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-primary {
+    background-color: #007bff;
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+.btn-secondary {
+    background-color: #6c757d;
+    color: #ffffff;
+}
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+/* Description */
+.game-details p {
+    text-align: justify; /* Justify the text for a cleaner look */
+    margin-bottom: 20px; /* Add some space after paragraphs */
+    line-height: 1.6; /* Increase line height for better readability */
+    color: #333; /* Set text color */
+    font-size: 16px; /* Adjust font size */
+}
+
+/* Highlight important keywords */
+.game-details p strong {
+    color: #007bff; /* Set color for strong tags */
+    font-weight: bold; /* Ensure strong tags are bold */
+}
+/* Description */
+.description {
+    margin-top:20px;
+    margin-bottom: 20px; /* Add some space below the description */
+    padding: 20px; /* Add padding for better separation */
+    background-color: #f8f9fa; /* Light gray background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.description p {
+    margin: 0; /* Remove default paragraph margin */
+    font-size: 16px; /* Adjust font size */
+    line-height: 1.6; /* Increase line height for better readability */
+    color: #333; /* Set text color */
+}
+/* Details Box */
+.details-box {
+    margin-bottom: 20px; /* Add space between boxes */
+    padding: 20px; /* Add padding for better separation */
+    background-color: #f8f9fa; /* Light gray background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.details-box h4 {
+    margin-top: 0; /* Remove top margin for consistency */
+    margin-bottom: 10px; /* Add space below heading */
+    color: #007bff;
+}
+
+.details-box p {
+    margin-bottom: 10px; /* Add space below paragraphs */
+}
+
+.details-box ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+}
+
+.details-box ul li {
+    margin-bottom: 5px; /* Add space between list items */
+}
+
+

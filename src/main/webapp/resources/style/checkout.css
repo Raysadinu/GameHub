@@ -1,0 +1,159 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.game-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Adjust spacing between cards */
+    margin-top: 20px;
+}
+
+.payment-container {
+    width: 100%; /* Ensure the form takes up full width */
+    max-width: 400px; /* Adjust maximum width of the form */
+    margin-top: 20px;
+}
+
+/* Add your existing styles here */
+.text-center {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+.payment-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-check-label {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    margin-right: 5px;
+}
+
+.total-price {
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: right;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.input-group label {
+    margin-right: 10px;
+}
+
+.input-group input {
+    flex: 1;
+}
+
+.form-group.row .input-group {
+    flex: none;
+    width: 48%;
+}
+
+.form-group.row .input-group:first-child {
+    margin-right: 4%;
+}
+
+.game-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.game-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: calc(25% - 20px); /* Adjust the width based on the number of cards per row */
+    max-width: 250px; /* Adjust the maximum width of the card */
+}
+
+.game-picture {
+    width: 100%;
+    height: auto;
+}
+
+.price-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center !important;
+    margin-bottom: 10px;
+}
+.old-price, .new-price {
+    display: inline-block;
+}
+
+.price-values {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.price-discount {
+    background-color: blue;
+    color: white;
+    padding: 3px 8px; /* Adjust padding for better spacing */
+    border-radius: 5px;
+    font-size: 12px;
+    margin-right: 10px; /* Adjust margin for better alignment */
+    font-weight: bold; /* Make the discount text bold */
+}
+
+.old-price {
+    text-decoration: line-through; /* Add strikethrough effect */
+    color: #999; /* Adjust color for old price */
+}
+
+.new-price {
+    font-weight: bold; /* Make the new price bold */
+}
+
+.total-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+    text-align: center;
+}

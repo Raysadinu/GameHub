@@ -1,15 +1,54 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Raysa
-  Date: 5/14/2024
-  Time: 12:15 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="cd" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template pageTitle="Cards">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h4 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            padding: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .table td {
+            background-color: #fff;
+            color: #333;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+
     <div class="container text-center">
         <div>
             <div>
