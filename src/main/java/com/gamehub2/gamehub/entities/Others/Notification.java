@@ -8,34 +8,26 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Notification {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Basic
     private String message;
-
     @Basic
     private boolean seen;
-
     @Basic
     private LocalDateTime createdAt;
-
     @ManyToOne
     @JoinColumn(name = "recipient_username")
     private User recipient;
-
     public User getRecipient() {
         return recipient;
     }
     public void setRecipient(User recipient) {
         this.recipient = recipient;
     }
-
     @Enumerated(EnumType.STRING)
     private NotificationType type;
-
     public enum NotificationType {
         FOLLOW,
         REACTION_TO_POST,

@@ -1,0 +1,46 @@
+.navbar {
+    background-color: #19002a; /* Dark background color */
+
+}
+
+.navbar-brand {
+    color: #fff; /* Navbar brand text color */
+    font-size: 1.5rem; /* Font size */
+}
+
+.navbar-nav .nav-link {
+    color: #fff; /* Navbar link text color */
+    transition: color 0.2s; /* Smooth transition for color change */
+    position: relative; /* Position relative for pseudo-element */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #602eff; /* Navbar link text color on hover */
+}
+
+/* Adjust margin for dropdown items */
+.dropdown-menu {
+    margin-top: 4px; /* Adjust top margin for dropdown menu */
+}
+
+/* Style for dropdown toggle button */
+.dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.2s; /* Smooth transition for color change */
+}
+
+.dropdown-toggle:hover {
+    color:  #602eff; /* Dropdown toggle text color on hover */
+}
+
+/* Custom styles for the logo */
+.navbar .logo-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}

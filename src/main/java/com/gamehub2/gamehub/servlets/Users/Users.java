@@ -2,23 +2,16 @@ package com.gamehub2.gamehub.servlets.Users;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.common.Admins.AdminDto;
-import com.gamehub2.gamehub.common.Users.UserDto;
-import com.gamehub2.gamehub.ejb.Admins.AdminBean;
+import com.gamehub2.gamehub.dto.Users.UserDto;
 import com.gamehub2.gamehub.ejb.Users.UserBean;
-import com.gamehub2.gamehub.entities.Users.User;
 import com.gamehub2.gamehub.servlets.Games.Games;
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.HttpConstraint;
-import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import jakarta.inject.Inject;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 import java.util.logging.Logger;

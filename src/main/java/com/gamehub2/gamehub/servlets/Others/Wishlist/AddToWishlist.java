@@ -22,15 +22,9 @@ public class AddToWishlist extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Assume there is a method in WishlistBean to get wishlist ID by username
-
-          HttpSession session = request.getSession();
-          User user = (User) session.getAttribute("user");
-          String username=user.getUsername();
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String username = user.getUsername();
         Long wishlistId = wishlistBean.getWishlistIdByUsername(username);
 
         // Check if wishlistId is valid
@@ -39,19 +33,19 @@ public class AddToWishlist extends HttpServlet {
             Long gameId = Long.parseLong(request.getParameter("gameId"));
 
             try {
-                // Call the WishlistBean method to add the game to the wishlist
                 wishlistBean.addGameToWishlist(wishlistId, gameId);
-
-                // Redirect the user back to the wishlist page
                 response.sendRedirect(request.getContextPath() + "/Home");
             } catch (Exception ex) {
-                // Handle exceptions (e.g., game not found)
                 LOG.severe("Error adding game to wishlist: " + ex.getMessage());
-                // You can display an error message to the user or handle it as needed
+                // Set an attribute to display the error on the redirected page
+                session.setAttribute("errorMessage", "Error adding game to wishlist: " + ex.getMessage());
+                response.sendRedirect(request.getContextPath() + "/Home");
             }
         } else {
-            LOG.warning("Wishlist ID not found .");
-            // You can display an error message to the user or handle it as needed
+            LOG.warning("Wishlist ID not found.");
+            // Set an attribute to display the error on the redirected page
+            session.setAttribute("errorMessage", "Wishlist ID not found.");
+            response.sendRedirect(request.getContextPath() + "/Home");
         }
     }
 }

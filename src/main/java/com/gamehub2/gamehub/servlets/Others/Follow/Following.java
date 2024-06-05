@@ -2,7 +2,7 @@ package com.gamehub2.gamehub.servlets.Others.Follow;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.common.Others.FollowDto;
+import com.gamehub2.gamehub.dto.Others.FollowDto;
 import com.gamehub2.gamehub.ejb.Other.FollowBean;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;

@@ -1,8 +1,6 @@
 package com.gamehub2.gamehub.ejb.Other;
 
-import com.gamehub2.gamehub.common.Others.PostCommentDto;
-import com.gamehub2.gamehub.entities.Games.Comment;
-import com.gamehub2.gamehub.entities.Games.Game;
+import com.gamehub2.gamehub.dto.Others.PostCommentDto;
 import com.gamehub2.gamehub.entities.Others.Post;
 import com.gamehub2.gamehub.entities.Others.PostComment;
 import com.gamehub2.gamehub.entities.Users.User;
@@ -12,7 +10,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.gamehub2.gamehub.ejb.Other;
 
-import com.gamehub2.gamehub.common.Others.FollowDto;
+import com.gamehub2.gamehub.dto.Others.FollowDto;
 import com.gamehub2.gamehub.entities.Others.Follow;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.ejb.EJBException;

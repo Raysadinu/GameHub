@@ -1,22 +1,112 @@
+body{
+    background-color: #f4f4f4;
+}
+h2 {
+    color: #19002a; /* Text color */
+    font-family: Arial, sans-serif; /* Font family */
+    text-transform: uppercase; /* Uppercase text */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    background-color: #580ee3;
+    color: #fff;
+    border: none;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-btn:hover {
+    background-color: #3501a4;
+    color: #fff;
+}
+
+.card-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center !important;
+}
+
+.card-text {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #555;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .game-card {
     margin-bottom: 20px;
 }
+
 .wishlist-cart-buttons {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+
 }
-.wishlist-cart-buttons button {
-    margin-right: 5px;
+.wishlist-cart-buttons .heart-icon,
+.wishlist-cart-buttons .cart-icon,
+.wishlist-cart-buttons .in-library,
+.wishlist-cart-buttons .pending-payment {
+    font-size: 1.5rem;
+    margin: 0 10px;
+    padding: 10px;
+    border-radius: 50%;
+    transition: transform 0.2s, background-color 0.2s;
 }
+
+.wishlist-cart-buttons .heart-icon:hover,
+.wishlist-cart-buttons .cart-icon:hover {
+    color: #007bff;
+    background-color: #e9ecef;
+    transform: scale(1.1);
+}
+
+.wishlist-cart-buttons .fas.fa-heart.filled {
+    color: red;
+}
+
+.wishlist-cart-buttons .fas.fa-shopping-cart.filled {
+    color: green;
+}
+
 .center-content {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
 }
 .search-bar-container {
-    margin-right: 40px;
-    margin-top: 30px;
-    width: 1100px;
+    margin-top: 60px;
+    width: 1000px;
+    display: flex;
+    justify-content: center;
 }
+/* Add style for game items in search results */
+.game-item {
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s; /* Add transition effect */
+    cursor: pointer;
+}
+
+/* Apply hover effect */
+.game-item:hover {
+    background-color: #580ee3; /* Change background color on hover */
+    color: #fff; /* Change text color on hover */
+}
+
 .categories-container {
     flex: 1;
     display: flex;
@@ -38,46 +128,142 @@
 .dropdown {
     position: relative;
     display: inline-block;
+
 }
-.dropdown-toggle {
-    background-color: #f8f9fa;
+/* Style for dropdown toggle button */
+.dropdown-toggle-home {
+    background-color: #ffffff; /* Change background color to purple */
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
-    color: #495057;
+    color: #6c757d; /* Change text color to white */
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
     line-height: 1.5;
     cursor: pointer;
+    transition: background-color 0.2s, color 0.2s; /* Add transition effect */
 }
+
+/* Default dropdown menu styles */
 .dropdown-menu {
     display: none;
     position: absolute;
-    background-color: #fff;
+    background-color: #fff; /* Background color of dropdown menu */
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     padding: 0.5rem 0;
     z-index: 1000;
     min-width: 10rem;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 0.25rem;
+    color: #212529; /* Text color of dropdown items */
+}
+
+/* Style for dropdown toggle button when dropdown is hovered */
+.dropdown:hover .dropdown-toggle-home,
+.dropdown:focus .dropdown-toggle-home { /* Add focus state */
+    background-color: #3501a4; /* Change background color on hover to darker shade of purple */
+    color: #fff; /* Change text color on hover to white */
+}
+
+/* Style for dropdown menu when dropdown is hovered */
+.dropdown:hover .dropdown-menu,
+.dropdown:focus .dropdown-menu { /* Add focus state */
+    display: block; /* Show dropdown menu on hover */
 }
 .dropdown-item {
     display: flex;
     align-items: center;
     padding: 0.25rem 1.5rem;
     width: 100%;
-    color: #212529;
+    color: #212529; /* Text color of dropdown items */
     text-decoration: none;
-    background-color: transparent;
+    background-color: transparent; /* Background color of dropdown items */
     border: 0;
     cursor: pointer;
 }
+
 .dropdown-item:hover {
-    background-color: #f8f9fa;
+    background-color: #f8f9fa; /* Background color of dropdown items on hover */
 }
+
 .dropdown-item input {
     margin-right: 10px;
 }
+/* Add style for inputs */
+input[type="number"] {
+    padding: 5px; /* Adjust padding according to your design */
+    border: 1px solid #ced4da; /* Border color */
+    border-radius: 0.25rem; /* Border radius */
+    font-size: 1rem; /* Font size */
+    line-height: 1.5; /* Line height */
+    width: 90px; /* Width */
+}
+
+/* Add hover effect for inputs */
+input[type="number"]:hover {
+    background-color: #e9ecef; /* Background color on hover */
+}
+
+/* Add focus effect for inputs */
+input[type="number"]:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #80bdff; /* Border color on focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Box shadow on focus */
+}
+
+/* Add placeholder style for inputs */
+input[type="number"]::placeholder {
+    color: #6c757d; /* Placeholder text color */
+    text-align: center;
+}
+
+/* Adjust width of search inputs */
+.search-bar-container input[type="number"] {
+    width: 150px; /* Adjust width as needed */
+}
+
 .price-container {
     display: flex;
     align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center !important;
+}
+.price-discount {
+    background-color: blue;
+    color: white;
+    padding: 0 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-right: 15px;
+}
+.price-values {
+    display: flex;
+    align-items: center;
+
+}
+
+.price-values p, .price-values s {
+    margin-right: 10px;
+    margin-bottom: 0;
+
+}
+
+.price-values s {
+    text-decoration: line-through;
+    color: grey;
+}
+
+.game-picture{
+    height: 100%;
+    width: 100%;
+    border-radius: 7px;
+    aspect-ratio: 0.7;
+}
+.game-picture:hover{
+    object-fit: cover;
+    transform: scale(1.1);
+}
+
+.cart-icon{
+    color:darkblue;
 }

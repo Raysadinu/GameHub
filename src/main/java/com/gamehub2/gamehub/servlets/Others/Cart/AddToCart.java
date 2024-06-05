@@ -29,38 +29,37 @@ public class AddToCart extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Assume there is a method in WishlistBean to get wishlist ID by username
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        String username=user.getUsername();
+        String username = user.getUsername();
 
         Long cartId = cartBean.getCartIdByUsername(username);
 
         if (cartId != null) {
-
             Long gameId = Long.parseLong(request.getParameter("gameId"));
 
             try {
-
                 cartBean.addGameToCart(cartId, gameId);
 
 
                 response.sendRedirect(request.getContextPath() + "/Home");
+                return;
             } catch (Exception ex) {
-
                 LOG.severe("Error adding game to cart: " + ex.getMessage());
 
+                request.setAttribute("errorMessage", "Error adding game to cart.");
+                request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+                return;
             }
         } else {
-
             LOG.warning("Cart ID not found.");
-
+            request.setAttribute("errorMessage", "Cart ID not found.");
         }
+
+
+        request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
     }
+
 
 }

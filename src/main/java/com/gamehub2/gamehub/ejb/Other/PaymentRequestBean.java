@@ -1,6 +1,6 @@
 package com.gamehub2.gamehub.ejb.Other;
 
-import com.gamehub2.gamehub.common.Others.PaymentRequestDto;
+import com.gamehub2.gamehub.dto.Others.PaymentRequestDto;
 import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Admins.Admin;
 import com.gamehub2.gamehub.entities.Others.CardDetails;
@@ -130,4 +130,23 @@ public class PaymentRequestBean {
                 .getResultList();
         return !pendingPayments.isEmpty();
     }
+
+    public int getTimesPurchasedForGame(Long gameId) {
+        try {
+            // Query to count the number of payment requests for the specified game
+            Long count = entityManager.createQuery(
+                            "SELECT COUNT(p) FROM PaymentRequest p JOIN p.games g WHERE g.gameId = :gameId AND p.status = :status", Long.class)
+                    .setParameter("gameId", gameId)
+                    .setParameter("status", PaymentRequest.RequestStatus.ACCEPTED) // Consider only accepted payment requests
+                    .getSingleResult();
+            return count.intValue();
+        } catch (NoResultException ex) {
+            // If there are no payment requests for the game, return 0
+            return 0;
+        } catch (Exception ex) {
+            LOG.severe("Error in getTimesPurchasedForGame method: " + ex.getMessage());
+            throw new EJBException(ex);
+        }
+    }
+
 }

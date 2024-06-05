@@ -1,6 +1,6 @@
 package com.gamehub2.gamehub.ejb.SystemReq;
 
-import com.gamehub2.gamehub.common.SystemReq.ProcessorDto;
+import com.gamehub2.gamehub.dto.SystemReq.ProcessorDto;
 import com.gamehub2.gamehub.ejb.Games.GameBean;
 import com.gamehub2.gamehub.entities.SystemReq.Processor;
 import jakarta.ejb.EJBException;

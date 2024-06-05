@@ -10,13 +10,12 @@ public class GameScreenshot {
     @GeneratedValue
     @Column(unique = true)
     private Long id;
-
     @OneToOne
     @MapsId
-    @JoinColumn(name = "id" , referencedColumnName = "id")
+    @JoinColumn(name = "id" ,
+            referencedColumnName = "id")
     private Picture picture;
     @ManyToOne
-
     @JoinColumn(name = "gameId")
     private Game game;
 

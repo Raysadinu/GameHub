@@ -8,6 +8,7 @@
     <div class="container text-center" style="margin-top: 100px">
         <div>
             <c:forEach var="post" items="${postList}">
+
                 <c:choose>
                     <c:when test="${post.user.username == sessionScope.user.username}">
                         <a href="${pageContext.request.contextPath}/Profile">${post.user.username}</a>

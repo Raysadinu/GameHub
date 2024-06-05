@@ -9,10 +9,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)
     private Long categoryId;
-
     @Basic
     private String categoryName;
-
     @ManyToMany
     @JoinTable(
             name = "game_category",

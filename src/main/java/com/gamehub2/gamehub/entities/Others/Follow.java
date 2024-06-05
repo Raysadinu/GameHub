@@ -11,10 +11,8 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private LocalDate dateCreated;
-
     @ManyToOne
     private User user;
-
     @ManyToOne
     private User followed;
 

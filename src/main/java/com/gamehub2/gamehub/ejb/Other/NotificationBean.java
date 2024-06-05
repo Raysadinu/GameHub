@@ -1,9 +1,8 @@
 package com.gamehub2.gamehub.ejb.Other;
 
 
-import com.gamehub2.gamehub.common.Others.NotificationDto;
-import com.gamehub2.gamehub.common.Others.WishlistDto;
-import com.gamehub2.gamehub.entities.Games.Game;
+import com.gamehub2.gamehub.dto.Others.NotificationDto;
+import com.gamehub2.gamehub.dto.Others.WishlistDto;
 import com.gamehub2.gamehub.entities.Others.Notification;
 import com.gamehub2.gamehub.entities.Others.Post;
 import com.gamehub2.gamehub.entities.Users.User;

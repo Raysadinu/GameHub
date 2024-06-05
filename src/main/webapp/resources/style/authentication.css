@@ -1,0 +1,72 @@
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #aaa4b9; /* Light background color */
+}
+
+.center-image {
+    display: block;
+    margin: 0 auto;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #bbacc8; /* Lighter background color */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(15, 1, 39, 0.3);
+    text-align: center; /* Center align content */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #4e0182; /* Yellow text color */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #000000; /* Black text color */
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ded6e4; /* Light gray border */
+    border-radius: 3px;
+    box-sizing: border-box;
+    background-color: #f1edfc; /* Lighter input background */
+    color: #000000; /* Black text color */
+    margin: 0 auto 20px; /* Center the inputs and add 20px bottom margin */
+    display: block; /* Ensure inputs take full width */
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #580ee3; /* Blue button color */
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+button[type="submit"]:hover {
+    background-color:#3501A4FF; /* Darker blue on hover */
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.logo-container img {
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7)); /* Add drop shadow to logo */
+}

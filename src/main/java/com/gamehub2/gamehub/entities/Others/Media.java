@@ -8,17 +8,13 @@ public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String link;
-
     @OneToOne
-    @JoinColumn(name = "gameId", referencedColumnName = "gameId")
+    @JoinColumn(name = "gameId",
+            referencedColumnName = "gameId")
     private Game game;
-
     @Enumerated(EnumType.STRING)
     private Media.MediaType type;
-
-
     public enum MediaType {
         GAME_VIDEO
     }

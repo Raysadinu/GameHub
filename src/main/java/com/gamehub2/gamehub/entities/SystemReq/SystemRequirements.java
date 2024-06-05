@@ -12,7 +12,8 @@ public class SystemRequirements {
     private Long gameId;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "gameId", referencedColumnName = "gameId")
+    @JoinColumn(name = "gameId",
+            referencedColumnName = "gameId")
     private GameDetails gameDetails;
     @OneToOne
     private Memory memory;

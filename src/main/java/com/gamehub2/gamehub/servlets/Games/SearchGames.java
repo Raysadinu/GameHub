@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.gamehub2.gamehub.Utilities.Functionalities;
-import com.gamehub2.gamehub.common.Games.GameDto;
-import com.gamehub2.gamehub.common.Users.UserDetailsDto;
+import com.gamehub2.gamehub.dto.Games.GameDto;
+import com.gamehub2.gamehub.dto.Users.UserDetailsDto;
 import com.gamehub2.gamehub.ejb.Games.GameBean;
 import com.gamehub2.gamehub.ejb.Games.GamePGBean;
 import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;

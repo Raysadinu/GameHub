@@ -2,17 +2,14 @@ package com.gamehub2.gamehub.servlets.Games;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.common.Games.CategoryDto;
+import com.gamehub2.gamehub.dto.Games.CategoryDto;
 import com.gamehub2.gamehub.ejb.Games.CategoryBean;
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.HttpConstraint;
-import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

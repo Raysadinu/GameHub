@@ -1,6 +1,6 @@
 package com.gamehub2.gamehub.ejb.Other;
 
-import com.gamehub2.gamehub.common.Others.WishlistDto;
+import com.gamehub2.gamehub.dto.Others.WishlistDto;
 import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Games.PriceDetails;
 import com.gamehub2.gamehub.entities.Others.Wishlist;
@@ -174,6 +174,28 @@ public class WishlistBean {
             }
         }
         return false;
+    }
+    public int countGamesInWishlist(String username) {
+        LOG.info("\n** Entered countGamesInWishlist method with the username: " + username + "**\n");
+        try {
+            TypedQuery<Wishlist> query = entityManager.createQuery("SELECT w FROM Wishlist w WHERE w.user.username = :username", Wishlist.class);
+            query.setParameter("username", username);
+            Wishlist wishlist = query.getSingleResult();
+            if (wishlist != null) {
+                int gameCount = wishlist.getGames().size();
+                LOG.info("\n** Exiting countGamesInWishlist method with game count: " + gameCount + " **\n");
+                return gameCount;
+            } else {
+                LOG.warning("No wishlist found for username: " + username);
+                return 0; // No wishlist found for the given username
+            }
+        } catch (NoResultException ex) {
+            LOG.warning("No wishlist found for username: " + username);
+            return 0; // No wishlist found for the given username
+        } catch (Exception ex) {
+            LOG.severe("Error counting games in wishlist for username: " + username + ". Error: " + ex.getMessage());
+            throw new EJBException(ex);
+        }
     }
 }
 

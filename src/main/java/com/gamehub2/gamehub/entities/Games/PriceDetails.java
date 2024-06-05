@@ -10,7 +10,8 @@ public class PriceDetails {
     private Long gameId;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "gameId", referencedColumnName = "gameId")
+    @JoinColumn(name = "gameId",
+            referencedColumnName = "gameId")
     private Game game;
     @Basic
     private double price;

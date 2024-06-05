@@ -4,10 +4,10 @@ package com.gamehub2.gamehub.servlets;
 import java.io.IOException;
 
 import com.gamehub2.gamehub.Utilities.Functionalities;
-import com.gamehub2.gamehub.common.Games.CategoryDto;
-import com.gamehub2.gamehub.common.Games.GameDetailsDto;
-import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
-import com.gamehub2.gamehub.common.Users.UserDetailsDto;
+import com.gamehub2.gamehub.dto.Games.CategoryDto;
+import com.gamehub2.gamehub.dto.Games.GameDetailsDto;
+import com.gamehub2.gamehub.dto.Games.PriceDetailsDto;
+import com.gamehub2.gamehub.dto.Users.UserDetailsDto;
 import com.gamehub2.gamehub.ejb.Games.*;
 import com.gamehub2.gamehub.ejb.Other.PaymentRequestBean;
 import com.gamehub2.gamehub.ejb.Other.WishlistBean;

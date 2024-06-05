@@ -2,12 +2,9 @@ package com.gamehub2.gamehub.servlets.Others.Payment;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.common.Games.GameDetailsDto;
-import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
-import com.gamehub2.gamehub.common.Others.PaymentRequestDto;
-import com.gamehub2.gamehub.ejb.Games.GameBean;
+import com.gamehub2.gamehub.dto.Games.GameDetailsDto;
+import com.gamehub2.gamehub.dto.Others.PaymentRequestDto;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
-import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.PaymentRequestBean;
 import com.gamehub2.gamehub.entities.Games.Game;
 import jakarta.inject.Inject;
@@ -18,9 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 

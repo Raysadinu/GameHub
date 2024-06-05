@@ -17,16 +17,15 @@ public class PaymentRequest {
     @Column(unique = true)
     private  Long  paymentReqId;
     @ManyToMany
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @JoinColumn(name = "username",
+            referencedColumnName = "username")
     private List<Admin> admins;
-
     @ManyToMany
-    @JoinColumn(name = "gameId", referencedColumnName = "gameId")
+    @JoinColumn(name = "gameId",
+            referencedColumnName = "gameId")
     private List<Game> games;
-
     @ManyToOne(cascade = CascadeType.PERSIST)
     private CardDetails card;
-
     @Column(name = "totalPrice")
     private double totalPrice;
     private LocalDateTime paymentDate;

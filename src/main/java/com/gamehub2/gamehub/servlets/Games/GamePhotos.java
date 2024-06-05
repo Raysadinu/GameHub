@@ -2,7 +2,7 @@ package com.gamehub2.gamehub.servlets.Games;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.common.Others.PictureDto;
+import com.gamehub2.gamehub.dto.Others.PictureDto;
 import com.gamehub2.gamehub.ejb.Games.GameBean;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;

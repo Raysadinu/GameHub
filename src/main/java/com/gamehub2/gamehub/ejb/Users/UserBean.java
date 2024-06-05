@@ -1,6 +1,6 @@
 package com.gamehub2.gamehub.ejb.Users;
 
-import com.gamehub2.gamehub.common.Users.UserDto;
+import com.gamehub2.gamehub.dto.Users.UserDto;
 import com.gamehub2.gamehub.entities.Others.Cart;
 import com.gamehub2.gamehub.entities.Others.Follow;
 import com.gamehub2.gamehub.entities.Others.Library;

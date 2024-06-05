@@ -1,7 +1,7 @@
 package com.gamehub2.gamehub.Utilities;
 
-import com.gamehub2.gamehub.common.Games.GameDetailsDto;
-import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
+import com.gamehub2.gamehub.dto.Games.GameDetailsDto;
+import com.gamehub2.gamehub.dto.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.entities.Games.GamePG;
 import jakarta.servlet.http.Part;
 

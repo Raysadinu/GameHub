@@ -13,7 +13,8 @@ public class GameDetails {
     private Long gameId;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "gameId", referencedColumnName = "gameId")
+    @JoinColumn(name = "gameId",
+            referencedColumnName = "gameId")
     private Game game;
     @Basic
     private LocalDate releaseDate;

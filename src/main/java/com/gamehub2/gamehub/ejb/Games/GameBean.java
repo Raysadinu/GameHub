@@ -1,7 +1,7 @@
 package com.gamehub2.gamehub.ejb.Games;
 
-import com.gamehub2.gamehub.common.Games.GameDto;
-import com.gamehub2.gamehub.common.Others.PictureDto;
+import com.gamehub2.gamehub.dto.Games.GameDto;
+import com.gamehub2.gamehub.dto.Others.PictureDto;
 import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Games.GameDetails;
 import com.gamehub2.gamehub.entities.Games.GameScreenshot;

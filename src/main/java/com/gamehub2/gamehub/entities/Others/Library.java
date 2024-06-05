@@ -14,11 +14,13 @@ public class Library {
     private Long libraryId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @JoinColumn(name = "username",
+            referencedColumnName = "username")
     private User user;
 
     @ManyToMany
-    @JoinColumn(name = "gameId", referencedColumnName = "gameId")
+    @JoinColumn(name = "gameId",
+            referencedColumnName = "gameId")
     private List<Game> games;
 
     public Long getLibraryId() {

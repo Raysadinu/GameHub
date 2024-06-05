@@ -1,12 +1,11 @@
 package com.gamehub2.gamehub.ejb.Other;
 
-import com.gamehub2.gamehub.common.Others.CardDetailsDto;
+import com.gamehub2.gamehub.dto.Others.CardDetailsDto;
 import com.gamehub2.gamehub.entities.Others.CardDetails;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 

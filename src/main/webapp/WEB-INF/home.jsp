@@ -4,199 +4,206 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <t:home pageTitle="Store">
-
-
-    <c:if test="${userAge == -1}">
-        <p>Age: -1</p>
-        <a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditProfile?username=${user.username}">Add your birth date</a>
-    </c:if>
-
-    <div class="search-container">
-        <form id="searchForm" onsubmit="return false" method="get" action="${pageContext.request.contextPath}/SearchGames" class="center-content">
-            <div class="search-bar-container">
-                <label for="searchBar"></label>
-                <input type="text" name="keyword" id="searchBar" class="form-control" placeholder="Search games..." value="${param.keyword}">
-            </div>
-        </form>
-        <div class="col-md-12">
-            <div class="center-content">
-                <div id="gameSearchResults" style="display: flex; flex-direction: column;"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="categories-container">
-        <form method="get" action="${pageContext.request.contextPath}/Filter">
-            <div class="dropdown" style="padding-right: 20px">
-                <button class="dropdown-toggle" type="button" id="categoriesDropdown" aria-haspopup="true" aria-expanded="false">Categories</button>
-                <div class="dropdown-menu" aria-labelledby="categoriesDropdown" id="categoriesList">
-                    <c:forEach var="category" items="${categories}">
-                        <label class="dropdown-item">
-                            <input type="checkbox" name="categoryIds" value="${category.categoryId}" <c:if test="${selectedCategoryIds.contains(category.categoryId)}">checked</c:if> /> ${category.categoryName}
-                        </label>
-                    </c:forEach>
+    <c:choose>
+        <c:when test="${userAge == -1}">
+            <p>Please create your profile to access the store.</p>
+            <a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditProfile?username=${user.username}">Create Profile</a>
+        </c:when>
+        <c:otherwise>
+            <div class="search-container">
+                <form id="searchForm" onsubmit="return false" method="get" action="${pageContext.request.contextPath}/SearchGames" class="center-content">
+                    <div class="search-bar-container">
+                        <label for="searchBar"></label>
+                        <input type="text" name="keyword" id="searchBar" class="form-control" placeholder="Search games..." value="${param.keyword}">
+                    </div>
+                </form>
+                <div class="col-md-12">
+                    <div class="center-content">
+                        <div id="gameSearchResults" class="search-results"></div>
+                    </div>
                 </div>
             </div>
-            <div class="dropdown" style="padding-right: 20px">
-                <button class="dropdown-toggle" type="button" id="filterDropdown" aria-haspopup="true" aria-expanded="false">Price</button>
-                <div class="dropdown-menu" aria-labelledby="filterDropdown" id="filterMenu">
-                    <label class="dropdown-item">
-                        <input type="checkbox" name="freeOnly" id="freeCheckbox" <c:if test="${freeOnly}">checked</c:if> /> Free
-                    </label>
-                    <label class="dropdown-item">
-                        <input type="checkbox" name="discountedOnly" id="discountCheckbox" <c:if test="${discountedOnly}">checked</c:if> /> Discounted
-                    </label>
-                </div>
-            </div>
-            <div style="padding-right: 20px">
-                <label for="minPrice">Min Price:</label><br>
-                <input type="number" id="minPrice" name="minPrice" step="0.01" value="${minPrice != null ? minPrice : ''}" style="width: 80px;">
-            </div>
-            <div style="padding-right: 20px">
-                <label for="maxPrice">Max Price:</label><br>
-                <input type="number" id="maxPrice" name="maxPrice" step="0.01" value="${maxPrice != null ? maxPrice : ''}" style="width: 80px;">
-            </div>
-            <input type="hidden" name="games" value="${games}">
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </form>
-    </div>
 
-    <div class="game-container" id="gameContainer">
-        <div class="row">
-            <c:if test="${filtersActive}">
-                <h2>Filtered games</h2>
-                <div class="row">
-                    <c:forEach var="game" items="${games}">
-                        <div class="col-sm-3 game-card">
-                            <div class="card" data-game-id="${game.gameId}" data-game-name="${game.gameName}">
-                                <div class="card-body">
-                                    <a href="${pageContext.request.contextPath}/GameProfile?gameId=${game.gameId}">${game.gameName}</a>
-                                    <c:choose>
-                                        <c:when test="${gamePrices[game.gameId][0] == 0}">
-                                            <p>Free</p>
-                                        </c:when>
-                                        <c:when test="${gamePrices[game.gameId][1] > 0}">
-                                            <b class="price-discount"><fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</b>
-                                            <div class="price-values">
-                                                <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
-                                                <b>$<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></b>
-                                            </div>
-                                        </c:when>
-
-                                        <c:otherwise>
-                                            <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
-                                        </c:otherwise>
-                                    </c:choose>
-                                    <div class="wishlist-cart-buttons">
-                                        <c:choose>
-                                            <c:when test="${library.contains(game)}">
-                                                <button class="btn btn-primary" disabled>In Library</button>
-                                            </c:when>
-                                            <c:when test="${pendingPayment.contains(game)}">
-                                                <button class="btn btn-warning" disabled>Pending Payment</button>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:choose>
-                                                    <c:when test="${wishlist.contains(game)}">
-                                                        <button class="btn btn-success" disabled>On Wishlist</button>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <form action="${pageContext.request.contextPath}/AddToWishlist" method="post">
-                                                            <input type="hidden" name="gameId" value="${game.gameId}">
-                                                            <button type="submit" class="btn btn-secondary">Add to Wishlist</button>
-                                                        </form>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                                <c:choose>
-                                                    <c:when test="${cart.contains(game)}">
-                                                        <button class="btn btn-primary" disabled>Already in Cart</button>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <form action="${pageContext.request.contextPath}/AddToCart" method="post">
-                                                            <input type="hidden" name="gameId" value="${game.gameId}">
-                                                            <button type="submit" class="btn btn-primary">Add to Cart</button>
-                                                        </form>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="categories-container">
+                <form method="get" action="${pageContext.request.contextPath}/Filter">
+                    <div class="dropdown" style="padding-right: 20px">
+                        <button class="dropdown-toggle-home" type="button" id="categoriesDropdown" aria-haspopup="true" aria-expanded="false">Categories</button>
+                        <div class="dropdown-menu" aria-labelledby="categoriesDropdown" id="categoriesList">
+                            <c:forEach var="category" items="${categories}">
+                                <label class="dropdown-item">
+                                    <input type="checkbox" name="categoryIds" value="${category.categoryId}" <c:if test="${selectedCategoryIds.contains(category.categoryId)}">checked</c:if> /> ${category.categoryName}
+                                </label>
+                            </c:forEach>
                         </div>
-                    </c:forEach>
-                </div>
-            </c:if>
+                    </div>
+                    <div class="dropdown" style="padding-right: 20px">
+                        <button class="dropdown-toggle-home" type="button" id="filterDropdown" aria-haspopup="true" aria-expanded="false">Price</button>
+                        <div class="dropdown-menu" aria-labelledby="filterDropdown" id="filterMenu">
+                            <label class="dropdown-item">
+                                <input type="checkbox" name="freeOnly" id="freeCheckbox" <c:if test="${freeOnly}">checked</c:if> /> Free
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" name="discountedOnly" id="discountCheckbox" <c:if test="${discountedOnly}">checked</c:if> /> Discounted
+                            </label>
+                        </div>
+                    </div>
+                    <div style="padding-right: 20px">
+                        <label for="minPrice"></label><br>
+                        <input type="number" id="minPrice" name="minPrice" placeholder="min price" step="0.01" value="${minPrice != null ? minPrice : ''}" style="width: 95px;">
+                    </div>
+                    <div style="padding-right: 20px">
+                        <label for="maxPrice"></label><br>
+                        <input type="number" id="maxPrice" name="maxPrice" placeholder="max price" step="0.01" value="${maxPrice != null ? maxPrice : ''}" style="width: 95px;">
+                    </div>
+                    <input type="hidden" name="games" value="${games}">
+                    <button type="submit" class="filter-btn">Filter</button>
+                </form>
+            </div>
 
-            <c:if test="${userAge > 0}">
-                <c:if test="${!filtersActive}">
-                    <div class="row">
-                        <c:forEach var="game" items="${games}">
-                            <div class="col-sm-3 game-card">
-                                <div class="card" data-game-id="${game.gameId}" data-game-name="${game.gameName}">
-                                    <div class="card-body">
-                                        <a href="${pageContext.request.contextPath}/GameProfile?gameId=${game.gameId}">${game.gameName}</a>
-                                        <c:choose>
-                                            <c:when test="${gamePrices[game.gameId][0] == 0}">
-                                                <p>Free</p>
-                                            </c:when>
-                                            <c:when test="${gamePrices[game.gameId][1] > 0}">
-                                                <div class="price-container">
-                                                    <b class="price-discount"><fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</b>
-                                                    <div class="price-values">
-                                                        <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
-                                                        <b>$<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></b>
-                                                    </div>
-                                                </div>
-                                            </c:when>
-
-                                            <c:otherwise>
-                                                <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <div class="wishlist-cart-buttons">
+            <div class="game-container" id="gameContainer">
+                <div class="row">
+                    <c:if test="${filtersActive}">
+                        <h2>Filtered games</h2>
+                        <div class="row">
+                            <c:forEach var="game" items="${games}">
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-2 game-card">
+                                    <div class="card" data-game-id="${game.gameId}" data-game-name="${game.gameName}">
+                                        <div class="card-body">
+                                            <a href="${pageContext.request.contextPath}/GameProfile?gameId=${game.gameId}"><img src="${pageContext.request.contextPath}/GamePhotos?gameId=${game.gameId}" alt="Game Profile Picture" class="game-picture"></a>
+                                            <p class="card-text">${game.gameName}</p>
                                             <c:choose>
-                                                <c:when test="${library.contains(game)}">
-                                                    <button class="btn btn-primary" disabled>In Library</button>
+                                                <c:when test="${gamePrices[game.gameId][0] == 0}">
+                                                    <div class="price-container">
+                                                        <div class="price-values">
+                                                            <p>Free</p>
+                                                        </div>
+                                                    </div>
                                                 </c:when>
-                                                <c:when test="${pendingPayment.contains(game)}">
-                                                    <button class="btn btn-warning" disabled>Pending Payment</button>
+                                                <c:when test="${gamePrices[game.gameId][1] > 0}">
+                                                    <div class="price-container">
+                                                        <b class="price-discount"><fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</b>
+                                                        <div class="price-values">
+                                                            <s>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></s>
+                                                            <b>$<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></b>
+                                                        </div>
+                                                    </div>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <c:choose>
-                                                        <c:when test="${wishlist.contains(game)}">
-                                                            <button class="btn btn-success" disabled>On Wishlist</button>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <form action="${pageContext.request.contextPath}/AddToWishlist" method="post">
-                                                                <input type="hidden" name="gameId" value="${game.gameId}">
-                                                                <button type="submit" class="btn btn-secondary">Add to Wishlist</button>
-                                                            </form>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                    <c:choose>
-                                                        <c:when test="${cart.contains(game)}">
-                                                            <button class="btn btn-primary" disabled>Already in Cart</button>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <form action="${pageContext.request.contextPath}/AddToCart" method="post">
-                                                                <input type="hidden" name="gameId" value="${game.gameId}">
-                                                                <button type="submit" class="btn btn-primary">Add to Cart</button>
-                                                            </form>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                    <div class="price-container">
+                                                        <div class="price-values">
+                                                            <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
+                                                        </div>
+                                                    </div>
                                                 </c:otherwise>
                                             </c:choose>
+                                            <div class="wishlist-cart-buttons">
+                                                <c:choose>
+                                                    <c:when test="${library.contains(game)}">
+                                                        <i class="fas fa-bookmark in-library" title="In Library" style="color: #2da800;"></i>
+                                                    </c:when>
+                                                    <c:when test="${pendingPayment.contains(game)}">
+                                                        <i class="fas fa-file-invoice-dollar pending-payment" title="Pending Payment" style="color: #fd941c;"></i>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:choose>
+                                                            <c:when test="${wishlist.contains(game)}">
+                                                                <i class="fas fa-heart heart-icon filled" title="On Wishlist"></i>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <a href="${pageContext.request.contextPath}/AddToWishlist?gameId=${game.gameId}" title="Add to Wishlist"><i class="far fa-heart heart-icon"></i></a>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                        <c:choose>
+                                                            <c:when test="${cart.contains(game)}">
+                                                                <i class="fas fa-shopping-cart cart-icon filled" title="In Cart"></i>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <a href="${pageContext.request.contextPath}/AddToCart?gameId=${game.gameId}" title="Add to Cart"><i class="fas fa-cart-plus cart-icon"></i></a>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </c:forEach>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${userAge > 0}">
+                        <c:if test="${!filtersActive}">
+                            <div class="row">
+                                <c:forEach var="game" items="${games}">
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-2 game-card">
+                                        <div class="card" data-game-id="${game.gameId}" data-game-name="${game.gameName}">
+                                            <div class="card-body">
+                                                <a href="${pageContext.request.contextPath}/GameProfile?gameId=${game.gameId}"><img src="${pageContext.request.contextPath}/GamePhotos?gameId=${game.gameId}" alt="Game Profile Picture" class="game-picture"></a>
+                                                <p class="card-text">${game.gameName}</p>
+                                                <c:choose>
+                                                    <c:when test="${gamePrices[game.gameId][0] == 0}">
+                                                        <div class="price-container">
+                                                            <div class="price-values">
+                                                                <p>Free</p>
+                                                            </div>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:when test="${gamePrices[game.gameId][1] > 0}">
+                                                        <div class="price-container">
+                                                            <b class="price-discount"><fmt:formatNumber value="${gamePrices[game.gameId][2]}" pattern="##"/>%</b>
+                                                            <div class="price-values">
+                                                                <s>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></s>
+                                                                <b>$<fmt:formatNumber value="${gamePrices[game.gameId][1]}" pattern="##0.00"/></b>
+                                                            </div>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="price-container">
+                                                            <div class="price-values">
+                                                                <p>$<fmt:formatNumber value="${gamePrices[game.gameId][0]}" pattern="##0.00"/></p>
+                                                            </div>
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <div class="wishlist-cart-buttons">
+                                                    <c:choose>
+                                                        <c:when test="${library.contains(game)}">
+                                                            <i class="fas fa-bookmark in-library" title="In Library" style="color: #2da800;"></i>
+                                                        </c:when>
+                                                        <c:when test="${pendingPayment.contains(game)}">
+                                                            <i class="fas fa-file-invoice-dollar pending-payment" title="Pending Payment" style="color: #fd941c;"></i>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:choose>
+                                                                <c:when test="${wishlist.contains(game)}">
+                                                                    <i class="fas fa-heart heart-icon filled" title="On Wishlist"></i>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="${pageContext.request.contextPath}/AddToWishlist?gameId=${game.gameId}" title="Add to Wishlist"><i class="far fa-heart heart-icon"></i></a>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                            <c:choose>
+                                                                <c:when test="${cart.contains(game)}">
+                                                                    <i class="fas fa-shopping-cart cart-icon filled" title="In Cart"></i>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="${pageContext.request.contextPath}/AddToCart?gameId=${game.gameId}" title="Add to Cart"><i class="fas fa-cart-plus cart-icon"></i></a>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>
                             </div>
-                        </c:forEach>
-                    </div>
-                </c:if>
-            </c:if>
-        </div>
-    </div>
+                        </c:if>
+                    </c:if>
+                </div>
+            </div>
+        </c:otherwise>
+    </c:choose>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -243,6 +250,7 @@
                             var suggestionElement = document.createElement('div');
                             suggestionElement.textContent = game.gameName;
                             suggestionElement.dataset.gameId = game.gameId;
+                            suggestionElement.classList.add('game-item'); // Add game-item class
                             suggestionElement.addEventListener('click', function() {
                                 var gameId = this.dataset.gameId;
                                 if (gameId) {
@@ -261,5 +269,6 @@
                 document.getElementById('gameSearchResults').innerHTML = '';
             }
         });
+
     </script>
 </t:home>

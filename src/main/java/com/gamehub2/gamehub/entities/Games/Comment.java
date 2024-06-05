@@ -11,22 +11,17 @@ public class Comment {
     @Id
     @GeneratedValue
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "gameId")
     private Game game;
-
     @ManyToOne
     @JoinColumn(name = "username")
     private User user;
-
     @Column(columnDefinition = "TEXT")
     @Lob
     private String content;
-
-    private boolean recommended; // Indicates if the comment serves as a recommendation
-    private boolean notRecommended; // Indicates if the comment serves as a non-recommendation
-
+    private boolean recommended;
+    private boolean notRecommended;
     private LocalDate createdAt;
 
     public Long getId() {

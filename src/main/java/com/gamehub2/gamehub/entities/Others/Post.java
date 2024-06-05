@@ -15,28 +15,22 @@ public class Post {
     @GeneratedValue
     @Column(unique = true)
     private Long postId;
-
     @Basic
     @Lob
     private String description;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date postingDate;
-
     @OneToOne
     @JoinColumn(name = "gameId")
     private Game game;
     @ManyToOne
     @JoinColumn(name = "username")
     private User user;
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Picture> postPictures = new ArrayList<>();
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostComment> comments;
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostReaction> reactions;
 
 

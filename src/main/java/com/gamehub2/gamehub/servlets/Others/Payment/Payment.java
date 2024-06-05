@@ -2,7 +2,7 @@ package com.gamehub2.gamehub.servlets.Others.Payment;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.common.Others.CardDetailsDto;
+import com.gamehub2.gamehub.dto.Others.CardDetailsDto;
 import com.gamehub2.gamehub.ejb.Admins.AdminBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.CardDetailsBean;
@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Collections;

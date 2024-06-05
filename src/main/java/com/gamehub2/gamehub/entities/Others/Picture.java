@@ -10,22 +10,18 @@ public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Lob
     private byte[] imageData;
-
     private String imageName;
-
     private String imageFormat;
-
     @OneToOne
-    @JoinColumn(name = "gameId", referencedColumnName = "gameId")
+    @JoinColumn(name = "gameId",
+            referencedColumnName = "gameId")
     private Game game;
-
     @ManyToOne
-    @JoinColumn(name = "postId", referencedColumnName = "postId")
+    @JoinColumn(name = "postId",
+            referencedColumnName = "postId")
     private Post post;
-
     @Enumerated(EnumType.STRING)
     private PictureType type;
 

@@ -1,10 +1,7 @@
 package com.gamehub2.gamehub.ejb.Games;
 
-import com.gamehub2.gamehub.common.Games.GameScreenshotDto;
-import com.gamehub2.gamehub.common.Others.PictureDto;
-import com.gamehub2.gamehub.entities.Games.GameDetails;
+import com.gamehub2.gamehub.dto.Games.GameScreenshotDto;
 import com.gamehub2.gamehub.entities.Games.GameScreenshot;
-import com.gamehub2.gamehub.entities.Others.Picture;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;

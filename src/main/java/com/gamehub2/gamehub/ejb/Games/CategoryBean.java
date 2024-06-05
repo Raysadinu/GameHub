@@ -1,17 +1,15 @@
 package com.gamehub2.gamehub.ejb.Games;
 
-import com.gamehub2.gamehub.common.Games.CategoryDto;
+import com.gamehub2.gamehub.dto.Games.CategoryDto;
 import com.gamehub2.gamehub.entities.Games.Category;
 import com.gamehub2.gamehub.entities.Games.Game;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 

@@ -106,6 +106,7 @@
                     <h4>Comments:</h4>
                     <c:forEach var="comment" items="${comments}">
                         <div class="comment">
+
                             <c:if test="${not empty userPicturesMap[comment.user.username]}">
                                 <img class="profile-picture" src="data:image/${userPicturesMap[comment.user.username].imageFormat};base64,${userPicturesMap[comment.user.username].base64ImageData}" alt="User's Profile Picture">
                             </c:if>

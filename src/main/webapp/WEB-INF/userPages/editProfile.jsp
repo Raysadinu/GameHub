@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:template pageTitle="Edit Profile">
+
   <div class="container">
     <div class="row justify-content-center align-items-center">
       <div class="col-md-6 text-center">
@@ -16,12 +17,12 @@
           </div>
           <div class="row">
             <div class="form-group">
-              <label for="firstname">First Name</label>
-              <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name" value="${user.firstName}">
+              <label for="firstname">First Name *</label>
+              <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name" value="${user.firstName}" required>
             </div>
             <div class="form-group">
-              <label for="lastname">Last Name</label>
-              <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name" value="${user.lastName}">
+              <label for="lastname">Last Name *</label>
+              <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name" value="${user.lastName}" required>
             </div>
             <div class="form-group">
               <label for="nickname">Nickname</label>
@@ -38,12 +39,13 @@
               <input type="text" class="form-control" id="phone-number" name="phone-number" placeholder="Phone Number" value="${user.phoneNumber}">
             </div>
             <div class="form-group">
-              <label for="birthdate">Birth Date</label>
-              <input type="date" class="form-control" id="birthdate" name="birthdate" placeholder="Birth date" value="${user.birthDate}">
+              <label for="birthdate">Birth Date *</label>
+              <input type="date" class="form-control" id="birthdate" name="birthdate" placeholder="Birth date" value="${user.birthDate}" required ${empty user.birthDate ? '' : 'readonly'}>
             </div>
+
             <div class="form-group">
-              <label for="gender">Gender</label>
-              <select class="form-control" id="gender" name="gender">
+              <label for="gender">Gender *</label>
+              <select class="form-control" id="gender" name="gender" required>
                 <option value="Male" ${user.gender == 'Male' ? 'selected' : ''}>Male</option>
                 <option value="Female" ${user.gender == 'Female' ? 'selected' : ''}>Female</option>
                 <option value="NonBinary" ${user.gender == 'NonBinary' ? 'selected' : ''}>NonBinary</option>
@@ -74,5 +76,4 @@
     }
   }
   document.getElementById('profilePicture').addEventListener('change', setImageFormat);
-
 </script>

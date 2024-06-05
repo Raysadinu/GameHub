@@ -2,13 +2,10 @@ package com.gamehub2.gamehub.servlets.Games;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.common.Games.GameDto;
+import com.gamehub2.gamehub.dto.Games.GameDto;
 import com.gamehub2.gamehub.ejb.Games.GameBean;
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.HttpConstraint;
-import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

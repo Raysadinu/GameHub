@@ -1,18 +1,16 @@
 package com.gamehub2.gamehub.servlets.Others.Wishlist;
 
 import com.gamehub2.gamehub.Utilities.Functionalities;
-import com.gamehub2.gamehub.common.Games.GameDetailsDto;
-import com.gamehub2.gamehub.common.Games.GameDto;
-import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
-import com.gamehub2.gamehub.common.Others.WishlistDto;
+import com.gamehub2.gamehub.dto.Games.GameDetailsDto;
+import com.gamehub2.gamehub.dto.Games.GameDto;
+import com.gamehub2.gamehub.dto.Games.PriceDetailsDto;
+import com.gamehub2.gamehub.dto.Others.WishlistDto;
 import com.gamehub2.gamehub.ejb.Games.GameBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Games.PriceDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.CartBean;
 import com.gamehub2.gamehub.ejb.Other.PaymentRequestBean;
 import com.gamehub2.gamehub.ejb.Other.WishlistBean;
-import com.gamehub2.gamehub.ejb.Users.UserBean;
-import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -24,7 +22,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;

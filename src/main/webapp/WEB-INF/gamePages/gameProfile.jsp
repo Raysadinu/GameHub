@@ -1,4 +1,4 @@
-<%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page contentType="text/html;charset=Windows-1252" pageEncoding="UTF-8" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -109,11 +109,11 @@
                 <a class="btn btn-secondary" href="${pageContext.request.contextPath}/AddGameScreenshots?gameId=${game.gameId}">Add Screenshots</a>
             </div>
         </c:if>
-
+            <p>Times Purchased: ${timesPurchased}</p>
             <p>Publisher: ${game.publisher}</p>
             <p>Developer: ${game.developer}</p>
             <p>Release Date: ${game.releaseDate}</p>
-            <p>Description: ${game.description}</p>
+            <p>${game.description}</p>
 
             <c:if test="${not empty categories}">
                 <div>

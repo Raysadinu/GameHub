@@ -1,9 +1,8 @@
 package com.gamehub2.gamehub.ejb.Users;
 
 
-import com.gamehub2.gamehub.common.Users.UserDetailsDto;
+import com.gamehub2.gamehub.dto.Users.UserDetailsDto;
 import com.gamehub2.gamehub.entities.Others.Picture;
-import com.gamehub2.gamehub.entities.Users.User;
 import com.gamehub2.gamehub.entities.Users.UserDetails;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;

@@ -1,7 +1,7 @@
 package com.gamehub2.gamehub.ejb.Other;
 
-import com.gamehub2.gamehub.common.Others.PostDto;
-import com.gamehub2.gamehub.common.Others.PostReactionDto;
+import com.gamehub2.gamehub.dto.Others.PostDto;
+import com.gamehub2.gamehub.dto.Others.PostReactionDto;
 import com.gamehub2.gamehub.entities.Others.Post;
 import com.gamehub2.gamehub.entities.Others.PostReaction;
 import com.gamehub2.gamehub.entities.Users.User;

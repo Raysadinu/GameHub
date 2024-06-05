@@ -2,23 +2,19 @@ package com.gamehub2.gamehub.servlets.Others.Payment;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.common.Admins.AdminDto;
-import com.gamehub2.gamehub.common.Games.GameDetailsDto;
-import com.gamehub2.gamehub.common.Others.PaymentRequestDto;
+import com.gamehub2.gamehub.dto.Admins.AdminDto;
+import com.gamehub2.gamehub.dto.Games.GameDetailsDto;
+import com.gamehub2.gamehub.dto.Others.PaymentRequestDto;
 import com.gamehub2.gamehub.ejb.Admins.AdminBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
 import com.gamehub2.gamehub.ejb.Other.LibraryBean;
 import com.gamehub2.gamehub.ejb.Other.NotificationBean;
 import com.gamehub2.gamehub.ejb.Other.PaymentRequestBean;
-import com.gamehub2.gamehub.entities.Admins.Admin;
 import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Others.PaymentRequest;
 import com.gamehub2.gamehub.entities.Users.User;
-import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.HttpConstraint;
-import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

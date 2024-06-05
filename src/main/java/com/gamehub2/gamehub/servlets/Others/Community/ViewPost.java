@@ -1,22 +1,20 @@
 package com.gamehub2.gamehub.servlets.Others.Community;
 
-import com.gamehub2.gamehub.common.Others.PostCommentDto;
-import com.gamehub2.gamehub.common.Others.PostDto;
-import com.gamehub2.gamehub.common.Others.PostReactionDto;
-import com.gamehub2.gamehub.common.Users.UserDetailsDto;
+import com.gamehub2.gamehub.dto.Others.PostCommentDto;
+import com.gamehub2.gamehub.dto.Others.PostDto;
+import com.gamehub2.gamehub.dto.Others.PostReactionDto;
+import com.gamehub2.gamehub.dto.Users.UserDetailsDto;
 import com.gamehub2.gamehub.ejb.Other.PostBean;
 import com.gamehub2.gamehub.ejb.Other.PostCommentBean;
 import com.gamehub2.gamehub.ejb.Other.PostReactionBean;
 import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
 import com.gamehub2.gamehub.entities.Others.Picture;
-import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.HashMap;

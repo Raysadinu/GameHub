@@ -1,6 +1,6 @@
 package com.gamehub2.gamehub.ejb.Other;
 
-import com.gamehub2.gamehub.common.Others.MediaDto;
+import com.gamehub2.gamehub.dto.Others.MediaDto;
 import com.gamehub2.gamehub.ejb.Games.GameBean;
 import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Others.Media;
@@ -12,7 +12,7 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+
 @Stateless
 public class MediaBean {
     private static final Logger LOG = Logger.getLogger(GameBean.class.getName());

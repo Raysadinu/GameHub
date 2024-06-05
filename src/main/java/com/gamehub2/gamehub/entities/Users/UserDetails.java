@@ -12,9 +12,9 @@ public class UserDetails {
     private String username;
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @JoinColumn(name = "username",
+            referencedColumnName = "username")
     private User user;
-
     @Basic
     private String firstName;
     @Basic

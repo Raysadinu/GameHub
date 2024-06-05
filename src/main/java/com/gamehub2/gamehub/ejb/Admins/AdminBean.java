@@ -1,6 +1,6 @@
 package com.gamehub2.gamehub.ejb.Admins;
 
-import com.gamehub2.gamehub.common.Admins.AdminDto;
+import com.gamehub2.gamehub.dto.Admins.AdminDto;
 import com.gamehub2.gamehub.entities.Admins.Admin;
 import com.gamehub2.gamehub.entities.Others.PaymentRequest;
 import com.gamehub2.gamehub.entities.Users.User;

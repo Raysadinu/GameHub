@@ -11,7 +11,6 @@ public class GamePG {
     @GeneratedValue
     @Column(unique = true)
     private Long id;
-
     @Enumerated(EnumType.STRING)
     private PGType type;
 
@@ -23,7 +22,8 @@ public class GamePG {
         PEGI18
     }
     @OneToOne
-    @JoinColumn(name = "gameId", referencedColumnName = "gameId")
+    @JoinColumn(name = "gameId",
+            referencedColumnName = "gameId")
     private GameDetails gameDetails;
 
 

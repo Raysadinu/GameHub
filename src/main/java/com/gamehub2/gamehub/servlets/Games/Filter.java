@@ -1,12 +1,12 @@
 package com.gamehub2.gamehub.servlets.Games;
 
 import com.gamehub2.gamehub.Utilities.Functionalities;
-import com.gamehub2.gamehub.common.Games.GameDetailsDto;
-import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
-import com.gamehub2.gamehub.common.Users.UserDetailsDto;
+import com.gamehub2.gamehub.dto.Games.GameDetailsDto;
+import com.gamehub2.gamehub.dto.Games.PriceDetailsDto;
+import com.gamehub2.gamehub.dto.Users.UserDetailsDto;
 import com.gamehub2.gamehub.ejb.Games.*;
-import com.gamehub2.gamehub.common.Games.CategoryDto;
-import com.gamehub2.gamehub.common.Games.GameDto;
+import com.gamehub2.gamehub.dto.Games.CategoryDto;
+import com.gamehub2.gamehub.dto.Games.GameDto;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,7 +18,6 @@ import com.gamehub2.gamehub.ejb.Other.LibraryBean;
 import com.gamehub2.gamehub.ejb.Other.PaymentRequestBean;
 import com.gamehub2.gamehub.ejb.Other.WishlistBean;
 import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
-import com.gamehub2.gamehub.entities.Games.GameDetails;
 import com.gamehub2.gamehub.entities.Games.GamePG;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;

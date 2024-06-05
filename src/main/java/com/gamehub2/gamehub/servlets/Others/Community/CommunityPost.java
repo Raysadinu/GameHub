@@ -2,9 +2,8 @@ package com.gamehub2.gamehub.servlets.Others.Community;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.common.Others.PostDto;
+import com.gamehub2.gamehub.dto.Others.PostDto;
 import com.gamehub2.gamehub.ejb.Other.PostBean;
-import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
 import com.gamehub2.gamehub.entities.Users.User;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;

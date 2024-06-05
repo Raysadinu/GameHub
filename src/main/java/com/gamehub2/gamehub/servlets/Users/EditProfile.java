@@ -2,7 +2,7 @@ package com.gamehub2.gamehub.servlets.Users;
 
 import java.io.IOException;
 
-import com.gamehub2.gamehub.common.Users.UserDetailsDto;
+import com.gamehub2.gamehub.dto.Users.UserDetailsDto;
 import com.gamehub2.gamehub.ejb.Users.UserBean;
 import com.gamehub2.gamehub.ejb.Users.UserDetailsBean;
 import jakarta.inject.Inject;
@@ -12,8 +12,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.logging.Logger;
 

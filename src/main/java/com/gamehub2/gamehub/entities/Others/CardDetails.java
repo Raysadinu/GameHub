@@ -11,10 +11,10 @@ public class CardDetails {
     private Long cardId;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @JoinColumn(name = "username",
+            referencedColumnName = "username")
     private List<User> user;
-
-   @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card")
     private List<PaymentRequest> paymentRequests;
     @Basic
     private  String cardNumber;

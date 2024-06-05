@@ -1,6 +1,6 @@
 package com.gamehub2.gamehub.ejb.Games;
 
-import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
+import com.gamehub2.gamehub.dto.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.entities.Games.PriceDetails;
 import com.gamehub2.gamehub.servlets.Games.Games;
 import jakarta.ejb.EJBException;

@@ -16,27 +16,25 @@ public class Game {
     private Long gameId;
     @Basic
     private String gameName;
-
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     private PriceDetails priceDetails;
-    @ManyToMany(mappedBy = "games")
+    @ManyToMany(mappedBy = "games",cascade = CascadeType.ALL)
     private List<Wishlist> wishlists;
-    @ManyToMany(mappedBy = "games")
+    @ManyToMany(mappedBy = "games",cascade = CascadeType.ALL)
     private List<Cart> carts;
-    @ManyToMany(mappedBy = "games")
+    @ManyToMany(mappedBy = "games",cascade = CascadeType.ALL)
     private List<Library> libraries;
-    @ManyToMany(mappedBy = "games")
+    @ManyToMany(mappedBy = "games",cascade = CascadeType.ALL)
     private List<PaymentRequest> paymentRequests;
-    @ManyToMany(mappedBy = "games")
+    @ManyToMany(mappedBy = "games",cascade = CascadeType.ALL)
     private List<Category> categories;
-
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     private Picture pictures;
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<GameScreenshot> screenshots;
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     private Media videos;
-    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     private Post post;
 
 

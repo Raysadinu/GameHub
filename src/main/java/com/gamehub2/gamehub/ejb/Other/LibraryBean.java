@@ -1,11 +1,9 @@
 package com.gamehub2.gamehub.ejb.Other;
 
-import com.gamehub2.gamehub.common.Others.CartDto;
-import com.gamehub2.gamehub.common.Others.LibraryDto;
-import com.gamehub2.gamehub.common.Others.WishlistDto;
+import com.gamehub2.gamehub.dto.Others.LibraryDto;
+import com.gamehub2.gamehub.dto.Others.WishlistDto;
 import com.gamehub2.gamehub.entities.Games.Game;
 import com.gamehub2.gamehub.entities.Others.Library;
-import com.gamehub2.gamehub.entities.Others.Wishlist;
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;

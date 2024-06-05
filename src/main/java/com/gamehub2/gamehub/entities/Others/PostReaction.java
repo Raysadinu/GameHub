@@ -9,22 +9,17 @@ public class PostReaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Enumerated(EnumType.STRING)
     private ReactionType reactionType;
-
     @ManyToOne
     @JoinColumn(name = "username")
     private User user;
-
     @ManyToOne
     @JoinColumn(name = "postId")
     private Post post;
-
     public enum ReactionType {
         LIKE, FUN, HELPFUL, DISLIKE
     }
-
     public Long getId() {
         return id;
     }

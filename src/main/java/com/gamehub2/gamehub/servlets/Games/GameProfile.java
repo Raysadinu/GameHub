@@ -4,20 +4,17 @@ import java.io.IOException;
 
 
 import com.gamehub2.gamehub.Utilities.Functionalities;
-import com.gamehub2.gamehub.common.Games.*;
-import com.gamehub2.gamehub.common.Others.FollowDto;
-import com.gamehub2.gamehub.common.Others.MediaDto;
-import com.gamehub2.gamehub.common.Others.PictureDto;
-import com.gamehub2.gamehub.common.SystemReq.SystemRequirementsDto;
+import com.gamehub2.gamehub.dto.Games.*;
+import com.gamehub2.gamehub.dto.Others.MediaDto;
+import com.gamehub2.gamehub.dto.SystemReq.SystemRequirementsDto;
 import com.gamehub2.gamehub.ejb.Admins.AdminBean;
 import com.gamehub2.gamehub.ejb.Games.*;
 import com.gamehub2.gamehub.ejb.Other.*;
 
-import com.gamehub2.gamehub.common.Games.CategoryDto;
-import com.gamehub2.gamehub.common.Games.CommentDto;
-import com.gamehub2.gamehub.common.Games.GameDetailsDto;
-import com.gamehub2.gamehub.common.Games.PriceDetailsDto;
-import com.gamehub2.gamehub.ejb.Admins.AdminBean;
+import com.gamehub2.gamehub.dto.Games.CategoryDto;
+import com.gamehub2.gamehub.dto.Games.CommentDto;
+import com.gamehub2.gamehub.dto.Games.GameDetailsDto;
+import com.gamehub2.gamehub.dto.Games.PriceDetailsDto;
 import com.gamehub2.gamehub.ejb.Games.CategoryBean;
 import com.gamehub2.gamehub.ejb.Games.CommentBean;
 import com.gamehub2.gamehub.ejb.Games.GameDetailsBean;
@@ -128,12 +125,14 @@ public class GameProfile extends HttpServlet {
         MediaDto trailer = mediaBean.findMediaByGameId(gameId);
 
         List<SystemRequirementsDto> systemRequirements = systemRequirementsBean.findSystemReqByGameId(gameId);
+        int timesPurchased = paymentRequestBean.getTimesPurchasedForGame(gameId);
+
 
 
         if (thisGame != null) {
             LOG.info("Game details retrieved: " + thisGame.toString());
 
-
+            request.setAttribute("timesPurchased", timesPurchased);
             // Setting attributes to be accessed in JSP
             request.setAttribute("trailer", trailer);
             request.setAttribute("screenshots", screenshots);
