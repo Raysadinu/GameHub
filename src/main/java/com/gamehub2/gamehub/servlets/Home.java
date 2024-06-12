@@ -27,8 +27,6 @@ import jakarta.servlet.http.HttpSession;
 import java.util.*;
 import java.util.logging.Logger;
 
-
-
 @WebServlet(name = "Home", value = "/Home")
 
 public class Home extends HttpServlet {
@@ -60,7 +58,6 @@ public class Home extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-
         UserDetailsDto userDetailsDto = userDetailsBean.getUserDetailsByUsername(user.getUsername(), userDetailsBean.findAllUserDetails());
         int userAge;
         if(userDetailsDto.getBirthDate()!=null){
@@ -85,7 +82,7 @@ public class Home extends HttpServlet {
         List<CategoryDto> categories = categoryBean.findAllCategories();
         categories.sort((c1, c2) -> c1.getCategoryName().compareToIgnoreCase(c2.getCategoryName()));
 
-        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(games, priceList);
+        Map<Long, Double[]> gamePrices = Functionalities.gamePrices(games, priceList);
 
         for (GameDetailsDto game : games) {
             boolean inWishlist = wishlistBean.inWishlist(user.getUsername(), game.getGameId());

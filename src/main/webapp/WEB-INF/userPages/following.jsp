@@ -1,16 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
 <t:template pageTitle="Friends">
     <style>
-
         .search-suggestion {
             cursor: pointer;
             color: #333;
             transition: color 0.3s;
         }
-
-
         .search-suggestion:hover {
             color: #580ee3;
             font-weight: bold;
@@ -27,9 +25,9 @@
             <label for="searchBar"></label>
             <input type="text" name="keyword" id="searchBar" class="form-control" placeholder="Search users..." value="${param.keyword}">
         </form>
-       <div style="margin-bottom:25px ">
-           <div class="search-suggestion" id="searchSuggestions"></div>
-       </div>
+        <div style="margin-bottom:25px;">
+            <div class="search-suggestion" id="searchSuggestions"></div>
+        </div>
 
         <table class="table">
             <thead>
@@ -44,9 +42,11 @@
             <c:forEach var="following" items="${followings}" varStatus="loop">
                 <tr>
                     <td>${loop.index + 1}</td>
-                    <td><a href="${pageContext.request.contextPath}/OtherProfile?username=${following.followed.username}">
-                            ${following.followed.username}
-                    </a></td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/OtherProfile?username=${following.followed.username}">
+                                ${following.followed.username}
+                        </a>
+                    </td>
                     <td>${following.dateCreated}</td>
                     <td>
                         <form action="${pageContext.request.contextPath}/UnfollowUser" method="post">
@@ -60,6 +60,7 @@
             </tbody>
         </table>
     </div>
+
     <script>
         document.getElementById('searchBar').addEventListener('input', function() {
             var keyword = this.value.trim();
@@ -87,6 +88,4 @@
             }
         });
     </script>
-
-
 </t:template>

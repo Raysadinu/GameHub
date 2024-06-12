@@ -79,23 +79,21 @@ public class GameProfile extends HttpServlet {
         LOG.info("Request received for gameId: " + gameId);
         LOG.info("Entering doGet method of GameProfile servlet");
 
-        // Retrieving the user from the session
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        List<GameDetailsDto> gameDetails = new ArrayList<>();
+        List<GameDetailsDto> gameDetailsOnWishlist = new ArrayList<>();
+        List<GameDetailsDto> gameDetailsInCart = new ArrayList<>();
+        List<GameDetailsDto> gameDetailsInLibrary = new ArrayList<>();
+        List<GameDetailsDto> gameDetailsPendingPayment = new ArrayList<>();
 
-        // Checking if the user is an admin
         boolean isAdmin = adminBean.isAdmin(user.getUsername());
         request.setAttribute("isAdmin", isAdmin);
 
-
         List<GameDetailsDto> allGameDetails = gameDetailsBean.findAllGameDetails();
-
         GameDetailsDto thisGame = gameDetailsBean.getGameDetailsByGameId(gameId, allGameDetails);
-
         List<PriceDetailsDto> allPriceDetails = priceDetailsBean.findAllPriceDetails();
-
-        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(allGameDetails, allPriceDetails);
-
+        Map<Long, Double[]> gamePrices = Functionalities.gamePrices(allGameDetails, allPriceDetails);
         List<CategoryDto> categories = categoryBean.getCategoriesByGameId(gameId);
         categories.sort((c1, c2) -> c1.getCategoryName().compareToIgnoreCase(c2.getCategoryName()));
         List<CommentDto> comments = commentBean.getCommentsByGameId(gameId);
@@ -106,12 +104,11 @@ public class GameProfile extends HttpServlet {
                 userPicturesMap.put(comment.getUsername(), userDetails.getProfilePicture());
             }
         }
+        List<GameScreenshotDto> screenshots = gameScreenshotBean.findScreenshotByGameId(gameId);
+        MediaDto trailer = mediaBean.findMediaByGameId(gameId);
 
-        List<GameDetailsDto> gameDetails = new ArrayList<>();
-        List<GameDetailsDto> gameDetailsOnWishlist = new ArrayList<>();
-        List<GameDetailsDto> gameDetailsInCart = new ArrayList<>();
-        List<GameDetailsDto> gameDetailsInLibrary = new ArrayList<>();
-        List<GameDetailsDto> gameDetailsPendingPayment = new ArrayList<>();
+        List<SystemRequirementsDto> systemRequirements = systemRequirementsBean.findSystemReqByGameId(gameId);
+        int timesPurchased = paymentRequestBean.getTimesPurchasedForGame(gameId);
 
         for (GameDetailsDto game : allGameDetails) {
             boolean inWishlist = wishlistBean.inWishlist(user.getUsername(), game.getGameId());
@@ -132,14 +129,6 @@ public class GameProfile extends HttpServlet {
                 gameDetailsPendingPayment.add(game);
             }
         }
-
-        List<GameScreenshotDto> screenshots = gameScreenshotBean.findScreenshotByGameId(gameId);
-        MediaDto trailer = mediaBean.findMediaByGameId(gameId);
-
-        List<SystemRequirementsDto> systemRequirements = systemRequirementsBean.findSystemReqByGameId(gameId);
-        int timesPurchased = paymentRequestBean.getTimesPurchasedForGame(gameId);
-
-
 
         if (thisGame != null) {
             LOG.info("Game details retrieved: " + thisGame.toString());

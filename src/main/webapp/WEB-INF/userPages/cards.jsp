@@ -2,6 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="cd" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <t:template pageTitle="Cards">
     <style>
         .container {
@@ -66,7 +67,7 @@
                     <cd:forEach var="card" items="${cardDetails}" varStatus="loop">
                         <tr>
                             <td>${card.cardId}</td>
-                            <td>${card.cardNumber}</td>
+                            <td>**** **** **** ${fn:substring(card.cardNumber, fn:length(card.cardNumber) - 4, fn:length(card.cardNumber))}</td>
                             <td>${card.expirationDate}</td>
                             <td>${card.cardName}</td>
                         </tr>

@@ -26,17 +26,17 @@ public class DeleteComment extends HttpServlet {
         if (commentIdStr != null && !commentIdStr.isEmpty()) {
             try {
                 Long commentId = Long.parseLong(commentIdStr);
-                // Call the method in CommentBean to delete the comment
+
                 commentBean.deleteComment(commentId);
-                // Redirect back to the game profile page
+
                 response.sendRedirect(request.getContextPath() + "/GameProfile?gameId=" + request.getParameter("gameId"));
             } catch (NumberFormatException ex) {
                 LOG.severe("Invalid comment ID format: " + commentIdStr);
-                // Handle invalid comment ID format error
+
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else {
-            // Handle missing comment ID error
+
             LOG.severe("Comment ID not found in request parameters.");
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }

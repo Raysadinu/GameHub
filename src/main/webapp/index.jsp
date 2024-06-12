@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <t:generalTemplate pageTitle="Login">
     <a class="navbar-brand" href="#">
         <div class="logo-container">
@@ -30,3 +29,6 @@
             <p>Don't have an account? <a href="${pageContext.request.contextPath}/Register">Register here</a></p>
     </div>
 </t:generalTemplate>
+
+
+

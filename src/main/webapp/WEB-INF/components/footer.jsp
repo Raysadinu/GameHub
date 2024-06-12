@@ -17,7 +17,6 @@
 </style>
 <footer>
     <div class="footer-content">
-        <p>&copy; 2024 GameHub. All rights reserved.</p>
-       <!-- Adding the FAQ link -->
+        <p>&copy; 2024 GameHub. All rights reserved.  | <a href="${pageContext.request.contextPath}/FAQ">FAQ</a></p>
     </div>
 </footer>

@@ -23,13 +23,25 @@ public class DeletePost extends HttpServlet {
     @Inject
     PostBean postBean;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-        LOG.info("\n** Entered DeletePost.doGet method with the postId: "+request.getParameter("postId")+" to be deleted **\n");
-
-        postBean.deletePost(Long.parseLong(request.getParameter("postId")));
-        response.sendRedirect(request.getContextPath() + "/CommunityPost");
-
-        LOG.info("\n** Exited DeletePost.doGet method. **\n");
+        String postIdParam = request.getParameter("postId");
+        if (postIdParam != null) {
+            try {
+                long postId = Long.parseLong(postIdParam);
+                LOG.info("\n** Entered DeletePost.doPost method with the postId: " + postId + " to be deleted **\n");
+                postBean.deletePost(postId);
+                response.sendRedirect(request.getContextPath() + "/CommunityPost");
+                LOG.info("\n** Exited DeletePost.doPost method. **\n");
+            } catch (NumberFormatException e) {
+                LOG.severe("\nInvalid postId format: " + postIdParam + "\n");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid postId format.");
+            } catch (Exception e) {
+                LOG.severe("\nError occurred in DeletePost.doPost method: " + e.getMessage() + "\n");
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while deleting the post.");
+            }
+        } else {
+            LOG.warning("\nNo postId parameter provided in request.\n");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No postId parameter provided.");
+        }
     }
 }
+

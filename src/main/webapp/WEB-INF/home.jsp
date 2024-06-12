@@ -4,10 +4,59 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <t:home pageTitle="Store">
+    <style>
+
+        /* Additional style enhancements */
+        .profile-message {
+            max-width: 400px; /* Limit width for better readability */
+            padding: 20px; /* Add some padding */
+            background-color: #fff; /* White background */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+        }
+
+        .profile-message p {
+            margin-bottom: 20px;
+            font-size: 18px; /* Increase font size for better visibility */
+        }
+
+        .profile-message .btn {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #fff;
+            padding: 12px 24px; /* Increase padding for better clickability */
+            text-decoration: none;
+            font-size: 18px; /* Increase font size */
+            border-radius: 8px; /* Rounded corners */
+            display: inline-block;
+            transition: background-color 0.3s, color 0.3s; /* Add transition effect */
+        }
+
+        .profile-message .btn:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+            color: #fff;
+        }
+
+        /* Center the profile message */
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Center vertically on the viewport */
+            background-color: #f4f4f4; /* Background color */
+        }
+
+
+    </style>
     <c:choose>
         <c:when test="${userAge == -1}">
-            <p>Please create your profile to access the store.</p>
-            <a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditProfile?username=${user.username}">Create Profile</a>
+            <div class="profile-container">
+                <div class="profile-message">
+                    <p>Please create your profile to access the store.</p>
+                    <a class="btn btn-secondary" href="${pageContext.request.contextPath}/EditProfile?username=${user.username}">Create Profile</a>
+                </div>
+            </div>
         </c:when>
         <c:otherwise>
             <div class="search-container">

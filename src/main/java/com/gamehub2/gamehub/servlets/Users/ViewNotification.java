@@ -33,7 +33,6 @@ public class ViewNotification extends HttpServlet {
         if (thisNotification != null) {
             if (thisNotification.getType() == Notification.NotificationType.FOLLOW) {
                 notificationBean.markNotificationAsSeen(notificationId);
-                resp.sendRedirect(req.getContextPath() + "/Following");
             }
             if (thisNotification.getType() == Notification.NotificationType.REACTION_TO_POST ||
                     thisNotification.getType() == Notification.NotificationType.COMMENT_RECEIVED) {

@@ -40,7 +40,7 @@ public class Functionalities {
 
         return  validPG;
     }
-    public static Map<Long, Double[]> calculateGamePrices(List<GameDetailsDto> games, List<PriceDetailsDto> priceList) {
+    public static Map<Long, Double[]> gamePrices(List<GameDetailsDto> games, List<PriceDetailsDto> priceList) {
         Map<Long, Double[]> gamePrices = new HashMap<>();
 
         for (GameDetailsDto gameDetail : games) {

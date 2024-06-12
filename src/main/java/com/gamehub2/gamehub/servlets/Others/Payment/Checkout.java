@@ -50,7 +50,6 @@ public class Checkout extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-
         String page = request.getParameter("page");
 
         List<CardDetailsDto> allCard = cardDetailsBean.findAllCardDetails();
@@ -65,7 +64,6 @@ public class Checkout extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
@@ -74,10 +72,7 @@ public class Checkout extends HttpServlet {
         List<CardDetailsDto> allCard = cardDetailsBean.findAllCardDetails();
         List<CardDetailsDto> cardDetails =  cardDetailsBean.findCardByUsername(user.getUsername(), allCard);
 
-
-
         request.setAttribute("cardDetails", cardDetails);
-
 
         List<CartDto> allCarts = cartBean.findAllCarts();
         CartDto cart = cartBean.findCartByUsername(user.getUsername(), allCarts);
@@ -101,7 +96,7 @@ public class Checkout extends HttpServlet {
         List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
 
 
-        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(gameDetailsList, priceList);
+        Map<Long, Double[]> gamePrices = Functionalities.gamePrices(gameDetailsList, priceList);
 
         request.setAttribute("user",user);
         request.setAttribute("cart",cart);

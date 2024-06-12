@@ -99,16 +99,11 @@ public class WishlistBean {
 
     public void addGameToWishlist(Long wishlistId, Long gameId) {
         try {
-            // Retrieve the Wishlist and Game entities based on their IDs
             Wishlist wishlist = entityManager.find(Wishlist.class, wishlistId);
             Game game = entityManager.find(Game.class, gameId);
 
             if (wishlist != null && game != null) {
-                // Add the game to the wishlist
                 wishlist.getGames().add(game);
-
-
-                // Calculate the total price including discounts, if applicable
                 BigDecimal totalPrice = BigDecimal.ZERO;
                 for (Game gameInWishlist : wishlist.getGames()) {
                     PriceDetails priceDetails = gameInWishlist.getPriceDetails();
@@ -118,49 +113,35 @@ public class WishlistBean {
                         totalPrice = totalPrice.add(BigDecimal.valueOf(priceDetails.getPrice()));
                     }
                 }
-                // Update the total price in the wishlist
                 wishlist.setTotalPrice(totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-                // Save changes to the database
                 entityManager.persist(wishlist);
             } else {
-                // Handle case where wishlist or game is not found
                 throw new EJBException("Wishlist or game not found.");
             }
         } catch (Exception ex) {
-            // Handle exceptions (e.g., database errors)
             throw new EJBException("Error adding game to wishlist: " + ex.getMessage());
         }
     }
 
     public void deleteGameFromWishlist(Long wishlistId, Long gameId) {
         try {
-            // Retrieve the Wishlist and Game entities based on their IDs
             Wishlist wishlist = entityManager.find(Wishlist.class, wishlistId);
             Game game = entityManager.find(Game.class, gameId);
 
             if (wishlist != null && game != null) {
-                // Remove the game from the wishlist
                 wishlist.getGames().remove(game);
-                // Get the price details of the game
                 PriceDetails priceDetails = game.getPriceDetails();
 
-                // Subtract the price of the game from the total price of the wishlist
                 BigDecimal totalPrice = BigDecimal.valueOf(wishlist.getTotalPrice())
                         .subtract(BigDecimal.valueOf(priceDetails.getPrice()));
 
-                // Update the total price in the wishlist
                 wishlist.setTotalPrice(totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
 
-
-
-                // Save changes to the database
                 entityManager.persist(wishlist);
             } else {
-                // Handle case where wishlist or game is not found
                 throw new EJBException("Wishlist or game not found.");
             }
         } catch (Exception ex) {
-            // Handle exceptions (e.g., database errors)
             throw new EJBException("Error deleting game from wishlist: " + ex.getMessage());
         }
     }
@@ -175,27 +156,6 @@ public class WishlistBean {
         }
         return false;
     }
-    public int countGamesInWishlist(String username) {
-        LOG.info("\n** Entered countGamesInWishlist method with the username: " + username + "**\n");
-        try {
-            TypedQuery<Wishlist> query = entityManager.createQuery("SELECT w FROM Wishlist w WHERE w.user.username = :username", Wishlist.class);
-            query.setParameter("username", username);
-            Wishlist wishlist = query.getSingleResult();
-            if (wishlist != null) {
-                int gameCount = wishlist.getGames().size();
-                LOG.info("\n** Exiting countGamesInWishlist method with game count: " + gameCount + " **\n");
-                return gameCount;
-            } else {
-                LOG.warning("No wishlist found for username: " + username);
-                return 0; // No wishlist found for the given username
-            }
-        } catch (NoResultException ex) {
-            LOG.warning("No wishlist found for username: " + username);
-            return 0; // No wishlist found for the given username
-        } catch (Exception ex) {
-            LOG.severe("Error counting games in wishlist for username: " + username + ". Error: " + ex.getMessage());
-            throw new EJBException(ex);
-        }
-    }
+
 }
 

@@ -49,7 +49,7 @@
 
             <div class="form-group">
                 <label for="postPicture">Upload Picture:</label>
-                <input type="file" class="form-control" id="postPicture" name="postPicture" accept="image/*">
+                <input type="file" class="form-control" id="postPicture" name="postPicture" accept="image/*" multiple>
             </div>
 
             <div class="form-group">

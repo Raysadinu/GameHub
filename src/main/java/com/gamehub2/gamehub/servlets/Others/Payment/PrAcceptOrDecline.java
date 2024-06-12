@@ -73,7 +73,6 @@ public class PrAcceptOrDecline extends HttpServlet {
         for (AdminDto admin : administrators) {
             notificationBean.sendPaymentNotification(admin.getUsername(), "A payment request has been processed. Check the payment-requests page for details.");
         }
-
         List<PaymentRequestDto> allPaymentRequests = paymentRequestBean.findAllPaymentRequests();
         List<Game> gamesInPaymentRequest = new ArrayList<>();
         for (PaymentRequestDto paymentRequest : allPaymentRequests) {

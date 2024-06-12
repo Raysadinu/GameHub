@@ -202,7 +202,8 @@ public class NotificationBean {
     public NotificationDto findNotificationById(Long id) {
         LOG.info("\n Entered findNotificationById \n");
         Notification notification = entityManager.find(Notification.class, id);
-        NotificationDto notificationDto = new NotificationDto(notification.getId(),notification.getMessage(),notification.isSeen(),notification.getCreatedAt(),notification.getRecipient(),notification.getType(),notification.getPost());
+        NotificationDto notificationDto = new NotificationDto(notification.getId(),notification.getMessage(),
+                notification.isSeen(),notification.getCreatedAt(),notification.getRecipient(),notification.getType(),notification.getPost());
         LOG.info("\n Exited findNotificationById \n");
         return notificationDto;
 

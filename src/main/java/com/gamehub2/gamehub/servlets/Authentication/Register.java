@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "Register", value = "/Register")
 public class Register extends HttpServlet {
-
     private static final Logger LOG = Logger.getLogger(Register.class.getName());
     @Inject
     UserBean userBean;
@@ -29,13 +28,8 @@ public class Register extends HttpServlet {
     AuthenticationBean authenticationBean;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        LOG.info("\n Entered Register.doGet method \n");
-       
-        LOG.info("\n Exited Register.doGet method, redirecting to register.jsp \n");
         request.getRequestDispatcher("/WEB-INF/components/forms/register.jsp").forward(request, response);
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

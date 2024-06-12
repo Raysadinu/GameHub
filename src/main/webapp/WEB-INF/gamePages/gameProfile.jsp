@@ -103,6 +103,7 @@
                     </div>
                     <div class="details-box">
                         <h4>Game Details</h4>
+                        <p><strong>Purchased:</strong> ${timesPurchased}</p>
                         <p><strong>Publisher:</strong> ${game.publisher}</p>
                         <p><strong>Developer:</strong> ${game.developer}</p>
                         <p><strong>Release Date:</strong> ${game.releaseDate}</p>

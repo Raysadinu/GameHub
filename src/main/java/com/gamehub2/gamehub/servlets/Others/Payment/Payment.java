@@ -82,11 +82,8 @@ public class Payment extends HttpServlet {
         Pattern cardNumberPattern = Pattern.compile(cardNumberRegex);
         Pattern expirationDatePattern = Pattern.compile(expirationDateRegex);
 
-
         Matcher cardNumberMatcher = cardNumberPattern.matcher(cardNumber);
-
         Matcher expirationDateMatcher = expirationDatePattern.matcher(expirationDate);
-
 
         boolean isValidCardNumber = cardNumberMatcher.matches();
 
@@ -109,13 +106,12 @@ public class Payment extends HttpServlet {
                 e.printStackTrace();
             }
 
-
             if (cvv.length() == 3 && !isCardExpired) {
 
                 LOG.info("\n** Card is valid **\n");
 
                 if (saveCardDetails) {
-                    // Save the card details in the database
+
                     List<String> usernames = Collections.singletonList(user.getUsername());
                     cardDetailsBean.saveCardDetails(null, usernames, cardNumber, expirationDate, cardName);
                 }
@@ -128,12 +124,10 @@ public class Payment extends HttpServlet {
                 cartBean.clearCart(Long.parseLong(request.getParameter("cart")));
                 request.getRequestDispatcher("/WEB-INF/userPages/thank-you.jsp").forward(request, response);
             } else {
-                // If the card is not valid (CVV or expired card)
                 LOG.info("\n** Card is not valid (CVV or expired card)  **\n");
                 request.getRequestDispatcher("/Checkout?username=" + user.getUsername() + "&page=checkout").forward(request, response);
             }
         } else {
-            // If the card is not valid (cardNumber or expiration date doesn't have correct format)
             LOG.info("\n** Card is not valid (cardNumber or expiration date doesn't have correct format)  **\n");
             request.getRequestDispatcher("/Checkout?username=" + user.getUsername() + "&page=checkout").forward(request, response);
         }

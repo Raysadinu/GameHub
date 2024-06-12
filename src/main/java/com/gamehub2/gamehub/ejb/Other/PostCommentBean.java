@@ -65,14 +65,11 @@ public class PostCommentBean {
             if (post == null) {
                 throw new IllegalArgumentException("Post not found with ID: " + postId);
             }
-
             PostComment postComment = new PostComment();
             postComment.setUser(user);
             postComment.setPost(post);
             postComment.setContent(commentContent);
             postComment.setPostedAt(LocalDateTime.now());
-
-
             entityManager.persist(postComment);
 
             LOG.info("Exited addCommentToPost method");
@@ -81,4 +78,18 @@ public class PostCommentBean {
             throw new EJBException(ex);
         }
     }
+    public void deleteComment(Long commentId) {
+        try {
+            PostComment comment = entityManager.find(PostComment.class, commentId);
+            if (comment != null) {
+                entityManager.remove(comment);
+            } else {
+                throw new IllegalArgumentException("Comment not found with ID: " + commentId);
+            }
+        } catch (Exception ex) {
+            LOG.severe("Error in deleting post comment: " + ex.getMessage());
+            throw new EJBException(ex);
+        }
+    }
+
 }

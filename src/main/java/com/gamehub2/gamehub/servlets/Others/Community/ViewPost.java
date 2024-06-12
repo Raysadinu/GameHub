@@ -47,28 +47,30 @@ public class ViewPost extends HttpServlet {
         // Fetch the post, comments, and reactions
         PostDto post = postBean.findPostById(postId);
 
-        // Fetch author details
-
         List<PostCommentDto> allComments = postCommentBean.findAllCommentsForPost(postId);
         List<PostReactionDto> allReactions = postReactionBean.findAllReactionsForPost(postId);
         Map<String, Picture> userPicturesMap = new HashMap<>();
+
         for (PostReactionDto reaction : allReactions) {
-            UserDetailsDto userDetails = userDetailsBean.getUserDetailsByUsername(reaction.getUser().getUsername(),userDetailsBean.findAllUserDetails());
+            UserDetailsDto userDetails = userDetailsBean.getUserDetailsByUsername(reaction.getUser().getUsername(), userDetailsBean.findAllUserDetails());
             if (userDetails != null) {
                 userPicturesMap.put(reaction.getUser().getUsername(), userDetails.getProfilePicture());
             }
         }
         for (PostCommentDto comment : allComments) {
-            UserDetailsDto userDetails = userDetailsBean.getUserDetailsByUsername(comment.getUser().getUsername(),userDetailsBean.findAllUserDetails());
+            UserDetailsDto userDetails = userDetailsBean.getUserDetailsByUsername(comment.getUser().getUsername(), userDetailsBean.findAllUserDetails());
             if (userDetails != null) {
                 userPicturesMap.put(comment.getUser().getUsername(), userDetails.getProfilePicture());
             }
         }
-        UserDetailsDto userDetails = userDetailsBean.getUserDetailsByUsername(post.getUser().getUsername(),userDetailsBean.findAllUserDetails());
-        Picture userProfilePicture = userDetails != null ? userDetails.getProfilePicture() : null;
+        UserDetailsDto postUserDetails = userDetailsBean.getUserDetailsByUsername(post.getUser().getUsername(), userDetailsBean.findAllUserDetails());
+        if (postUserDetails != null) {
+            userPicturesMap.put(post.getUser().getUsername(), postUserDetails.getProfilePicture());
+        }
+
 
         request.setAttribute("post", post);
-        request.setAttribute("userProfilePicture", userProfilePicture);
+        request.setAttribute("userPictureMap", userPicturesMap);
         request.setAttribute("userPicturesMap", userPicturesMap);
         request.setAttribute("comments", allComments);
         request.setAttribute("reactions", allReactions);

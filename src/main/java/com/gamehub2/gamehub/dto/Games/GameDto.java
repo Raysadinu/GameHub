@@ -18,15 +18,12 @@ public class GameDto {
         this.categories = categories;
         this.priceDetails = priceDetails;
     }
-
     public GameDto(Long gameId, String gameName) {
         this.gameId = gameId;
         this.gameName = gameName;
     }
-
     public GameDto() {
     }
-
     public Long getGameId() {
         return gameId;
     }
@@ -37,10 +34,6 @@ public class GameDto {
 
     public List<Category> getCategories() {
         return categories;
-    }
-
-    public PriceDetails getPriceDetails() {
-        return priceDetails;
     }
 
     public void setGameId(Long gameId) {
@@ -55,8 +48,5 @@ public class GameDto {
         this.categories = categories;
     }
 
-    public void setPriceDetails(PriceDetails priceDetails) {
-        this.priceDetails = priceDetails;
-    }
 
 }

@@ -12,9 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Stateless
@@ -68,18 +66,6 @@ public class PostBean {
             LOG.severe("\nError in findPostsByUsername method! " + ex.getMessage() + "\n");
             throw ex;
         }
-    }
-    public List<PostDto> findFriendsPosts(List<String> userFriends, List<PostDto> allPosts) {
-        LOG.info("\n Entered findFriendsPosts method for the user: "+userFriends.size()+" \n");
-        List<PostDto> friendsPosts=new ArrayList<>();
-        for(PostDto postDto:allPosts){
-            if(userFriends.contains(postDto.getUser().getUsername())){
-                friendsPosts.add(postDto);
-            }
-        }
-        LOG.info("\n Exited findFriendsPosts method. \n");
-        return friendsPosts;
-
     }
     public PostDto findPostById(Long postId) {
 
@@ -146,7 +132,13 @@ public class PostBean {
         try {
             Post post = entityManager.find(Post.class, postId);
             if (post != null) {
-
+                List<Notification> notifications = entityManager.createQuery(
+                                "SELECT n FROM Notification n WHERE n.post.postId = :postId", Notification.class)
+                        .setParameter("postId", postId)
+                        .getResultList();
+                for (Notification notification : notifications) {
+                    entityManager.remove(notification);
+                }
                 for (Picture picture : post.getPostPictures()) {
                     entityManager.remove(picture);
                 }

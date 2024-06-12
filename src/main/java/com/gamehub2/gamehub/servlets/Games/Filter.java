@@ -33,24 +33,18 @@ import jakarta.servlet.http.HttpSession;
 public class Filter extends HttpServlet {
 
     private static final Logger LOG = Logger.getLogger(Filter.class.getName());
-
     @Inject
     CategoryBean categoryBean;
-
     @Inject
     GameBean gameBean;
-
     @Inject
     GameDetailsBean gameDetailsBean;
-
     @Inject
     PriceDetailsBean priceDetailsBean;
     @Inject
     WishlistBean wishlistBean;
-
     @Inject
     CartBean cartBean;
-
     @Inject
     LibraryBean libraryBean;
     @Inject
@@ -115,7 +109,7 @@ public class Filter extends HttpServlet {
 
 
         List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
-        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(gamesDetails, priceList);
+        Map<Long, Double[]> gamePrices = Functionalities.gamePrices(gamesDetails, priceList);
         // Filter games by price
         games = games.stream().filter(game -> {
             Double[] prices = gamePrices.get(game.getGameId());

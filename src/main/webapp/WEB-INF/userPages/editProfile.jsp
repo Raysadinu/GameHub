@@ -35,8 +35,8 @@
               <input type="text" class="form-control" id="location" name="location" placeholder="Location" value="${user.location}">
             </div>
             <div class="form-group">
-              <label for="phone-number">Phone number</label>
-              <input type="text" class="form-control" id="phone-number" name="phone-number" placeholder="Phone Number" value="${user.phoneNumber}">
+              <label for="phone-number">Phone number *</label>
+              <input type="text" class="form-control" id="phone-number" name="phone-number" placeholder="Phone Number" value="${user.phoneNumber}" required pattern="\d{10}" title="Phone number must be exactly 10 digits">
             </div>
             <div class="form-group">
               <label for="birthdate">Birth Date *</label>

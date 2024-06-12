@@ -84,7 +84,7 @@ public class Cart extends HttpServlet {
         List<PriceDetailsDto> priceList = priceDetailsBean.findAllPriceDetails();
 
 
-        Map<Long, Double[]> gamePrices = Functionalities.calculateGamePrices(gameDetailsList, priceList);
+        Map<Long, Double[]> gamePrices = Functionalities.gamePrices(gameDetailsList, priceList);
 
         request.setAttribute("user", user);
         request.setAttribute("cart",cart);

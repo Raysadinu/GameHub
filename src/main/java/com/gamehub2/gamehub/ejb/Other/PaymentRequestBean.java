@@ -85,7 +85,6 @@ public class PaymentRequestBean {
         pr.setUser(entityManager.find(User.class,username));
         pr.setStatus(PaymentRequest.RequestStatus.PENDING);
         pr.setAdmins(new ArrayList<Admin>());
-
         CardDetails c;
         try {
             c = entityManager.createQuery("SELECT c FROM CardDetails c WHERE c.cardNumber = :cardNumber", CardDetails.class)
@@ -98,7 +97,6 @@ public class PaymentRequestBean {
             c.setExpirationDate(expirationDate);
             entityManager.persist(c);
         }
-
         pr.setCard(c);
         List<Game> games = new ArrayList<Game>();
         for(Long Id : gamesIdInCart){

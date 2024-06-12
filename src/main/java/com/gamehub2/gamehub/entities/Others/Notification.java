@@ -20,12 +20,9 @@ public class Notification {
     @ManyToOne
     @JoinColumn(name = "recipient_username")
     private User recipient;
-    public User getRecipient() {
-        return recipient;
-    }
-    public void setRecipient(User recipient) {
-        this.recipient = recipient;
-    }
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
     @Enumerated(EnumType.STRING)
     private NotificationType type;
     public enum NotificationType {
@@ -34,12 +31,9 @@ public class Notification {
         COMMENT_RECEIVED,
         PAYMENT_STATUS,
         SALE
-
     }
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
+
 
     public Long getId() {
         return id;
@@ -76,5 +70,11 @@ public class Notification {
     }
     public void setPost(Post post) {
         this.post = post;
+    }
+    public User getRecipient() {
+        return recipient;
+    }
+    public void setRecipient(User recipient) {
+        this.recipient = recipient;
     }
 }

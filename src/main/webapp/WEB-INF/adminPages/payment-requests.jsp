@@ -103,7 +103,7 @@
                         </c:forEach>
                       </td>
                       <td rowspan="${rowspan}" class="card-number">
-                          ${paymentRequest.card.cardNumber}
+                        **** **** **** ${fn:substring(paymentRequest.card.cardNumber, fn:length(paymentRequest.card.cardNumber) - 4, fn:length(paymentRequest.card.cardNumber))}
                       </td>
                       <td rowspan="${rowspan}">
                           ${paymentRequest.card.expirationDate}
@@ -137,7 +137,7 @@
                         </c:forEach>
                       </td>
                       <td rowspan="${rowspan}" class="card-number">
-                          ${paymentRequest.card.cardNumber}
+                        **** **** **** ${fn:substring(paymentRequest.card.cardNumber, fn:length(paymentRequest.card.cardNumber) - 4, fn:length(paymentRequest.card.cardNumber))}
                       </td>
                       <td rowspan="${rowspan}">
                           ${paymentRequest.card.expirationDate}

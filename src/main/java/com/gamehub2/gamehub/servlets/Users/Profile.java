@@ -45,13 +45,7 @@ public class Profile extends HttpServlet {
         List<UserDetailsDto> allUserDetails = userDetailsBean.findAllUserDetails();
         UserDetailsDto thisUser = userDetailsBean.getUserDetailsByUsername(user.getUsername(), allUserDetails);
 
-
-
-
-
         request.setAttribute("user", thisUser);
-
-
 
         LOG.info("\n** Exited Profile.doGet ... **\n");
         request.getRequestDispatcher("/WEB-INF/userPages/profile.jsp").forward(request, response);

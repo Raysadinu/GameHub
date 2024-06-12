@@ -101,11 +101,9 @@ public class PostReactionBean {
         LOG.info("\n Entered removeOtherReactionsFromUser method \n");
 
         try {
-
             Post post = entityManager.find(Post.class, postId);
 
             if (post != null) {
-
                 List<PostReaction> reactions = post.getReactions();
 
                 Iterator<PostReaction> iterator = reactions.iterator();
@@ -116,7 +114,6 @@ public class PostReactionBean {
                         entityManager.remove(reaction);
                     }
                 }
-
                 entityManager.merge(post);
 
                 LOG.info("\n Successfully removed other reactions from user: " + username + " for post: " + postId + "\n");
